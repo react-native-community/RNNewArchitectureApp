@@ -13,15 +13,27 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.ReactPackageTurboModuleManagerDelegate;
 import com.facebook.react.TurboReactPackage;
+import com.facebook.react.bridge.JSIModulePackage;
+import com.facebook.react.bridge.JSIModuleProvider;
+import com.facebook.react.bridge.JSIModuleSpec;
+import com.facebook.react.bridge.JSIModuleType;
+import com.facebook.react.bridge.JavaScriptContextHolder;
 import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.bridge.UIManager;
 import com.facebook.react.config.ReactFeatureFlags;
+import com.facebook.react.fabric.ComponentFactory;
+import com.facebook.react.fabric.CoreComponentsRegistry;
+import com.facebook.react.fabric.EmptyReactNativeConfig;
+import com.facebook.react.fabric.FabricJSIModuleProvider;
 import com.facebook.react.module.model.ReactModuleInfo;
 import com.facebook.react.module.model.ReactModuleInfoProvider;
+import com.facebook.react.uimanager.ViewManagerRegistry;
 import com.facebook.soloader.SoLoader;
 import com.rnnewarchitectureapp.modules.MainApplicationTurboModuleManagerDelegate;
 import com.rnnewarchitectureapp.modules.NativeAnswerSolver;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -83,6 +95,44 @@ public class MainApplication extends Application implements ReactApplication {
         @Override
         protected ReactPackageTurboModuleManagerDelegate.Builder getReactPackageTurboModuleManagerDelegateBuilder() {
           return new MainApplicationTurboModuleManagerDelegate.Builder();
+        }
+
+        @Override
+        protected JSIModulePackage getJSIModulePackage() {
+          return new JSIModulePackage() {
+            @Override
+            public List<JSIModuleSpec> getJSIModules(
+                    final ReactApplicationContext reactApplicationContext,
+                    final JavaScriptContextHolder jsContext) {
+              final List<JSIModuleSpec> specs = new ArrayList<>();
+              specs.add(new JSIModuleSpec() {
+                @Override
+                public JSIModuleType getJSIModuleType() {
+                  return JSIModuleType.UIManager;
+                }
+
+                @Override
+                public JSIModuleProvider<UIManager> getJSIModuleProvider() {
+                  final ComponentFactory componentFactory = new ComponentFactory();
+                  CoreComponentsRegistry.register(componentFactory);
+                  
+                  final ReactInstanceManager reactInstanceManager = getReactInstanceManager();
+
+                  ViewManagerRegistry viewManagerRegistry =
+                          new ViewManagerRegistry(
+                                  reactInstanceManager.getOrCreateViewManagers(
+                                          reactApplicationContext));
+
+                  return new FabricJSIModuleProvider(
+                          reactApplicationContext,
+                          componentFactory,
+                          new EmptyReactNativeConfig(),
+                          viewManagerRegistry);
+                }
+              });
+              return specs;
+            }
+          };
         }
       };
 
