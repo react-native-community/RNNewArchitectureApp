@@ -145,7 +145,29 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+
+        externalNativeBuild {
+            ndkBuild {
+                arguments "APP_PLATFORM=android-21",
+                        "APP_STL=c++_shared",
+                        "NDK_TOOLCHAIN_VERSION=clang",
+                        "GENERATED_SRC_DIR=$buildDir/generated/source",
+                        "PROJECT_BUILD_DIR=$buildDir",
+                        "REACT_ANDROID_DIR=$rootDir/../node_modules/react-native/ReactAndroid",
+                        "REACT_ANDROID_BUILD_DIR=$rootDir/../node_modules/react-native/ReactAndroid/build"
+                cFlags "-Wall", "-Werror", "-fexceptions", "-frtti", "-DWITH_INSPECTOR=1"
+                cppFlags "-std=c++17"
+                targets "rnnewarchitectureapp_appmodules"
+            }
+        }
     }
+
+    externalNativeBuild {
+        ndkBuild {
+            path "$projectDir/src/main/jni/Android.mk"
+        }
+    }
+
     splits {
         abi {
             reset()
@@ -194,6 +216,20 @@ android {
             }
 
         }
+    }
+
+    def reactAndroidProjectDir = project(':ReactAndroid').projectDir
+    def packageReactNdkLibs = tasks.register("packageReactNdkLibs", Copy) {
+        dependsOn(":ReactAndroid:packageReactNdkLibsForBuck")
+        dependsOn("generateCodegenArtifactsFromSchema")
+        from("$reactAndroidProjectDir/src/main/jni/prebuilt/lib")
+        into("$buildDir/react-ndk/exported")
+    }
+
+    afterEvaluate {
+        preBuild.dependsOn(packageReactNdkLibs)
+        configureNdkBuildDebug.dependsOn(preBuild)
+        configureNdkBuildRelease.dependsOn(preBuild)
     }
 
     packagingOptions {
