@@ -87,6 +87,9 @@ apply from: "../../node_modules/react-native/react.gradle"
 react {
     reactRoot = rootProject.file("../node_modules/react-native/")
     codegenDir = rootProject.file("../node_modules/react-native-codegen/")
+    jsRootDir = rootProject.file("../js/")
+    libraryName = "answersolver"
+    codegenJavaPackageName = "com.rnnewarchitectureapp.codegen"
 }
 
 /**
