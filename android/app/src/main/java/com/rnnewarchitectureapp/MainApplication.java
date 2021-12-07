@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
@@ -11,10 +12,18 @@ import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.ReactPackageTurboModuleManagerDelegate;
+import com.facebook.react.TurboReactPackage;
+import com.facebook.react.bridge.NativeModule;
+import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.module.model.ReactModuleInfo;
+import com.facebook.react.module.model.ReactModuleInfoProvider;
 import com.facebook.soloader.SoLoader;
 import com.rnnewarchitectureapp.modules.MainApplicationTurboModuleManagerDelegate;
+import com.rnnewarchitectureapp.modules.NativeAnswerSolver;
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -27,10 +36,40 @@ public class MainApplication extends Application implements ReactApplication {
 
         @Override
         protected List<ReactPackage> getPackages() {
-          @SuppressWarnings("UnnecessaryLocalVariable")
           List<ReactPackage> packages = new PackageList(this).getPackages();
           // Packages that cannot be autolinked yet can be added manually here, for example:
           // packages.add(new MyReactNativePackage());
+          packages.add(new TurboReactPackage() {
+            @Nullable
+            @Override
+            public NativeModule getModule(String name, ReactApplicationContext reactContext) {
+              if (name.equals(NativeAnswerSolver.NAME)) {
+                return new NativeAnswerSolver(reactContext);
+              } else {
+                return null;
+              }
+            }
+
+            @Override
+            public ReactModuleInfoProvider getReactModuleInfoProvider() {
+              return () -> {
+                final Map<String, ReactModuleInfo> moduleInfos = new HashMap<>();
+                moduleInfos.put(
+                        NativeAnswerSolver.NAME,
+                        new ReactModuleInfo(
+                                NativeAnswerSolver.NAME,
+                                "NativeAnswerSolver",
+                                false, // canOverrideExistingModule
+                                false, // needsEagerInit
+                                true, // hasConstants
+                                false, // isCxxModule
+                                true // isTurboModule
+                        )
+                );
+                return moduleInfos;
+              };
+            }
+          });
           return packages;
         }
 
