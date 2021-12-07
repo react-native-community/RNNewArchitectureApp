@@ -28,12 +28,15 @@ import com.facebook.react.fabric.EmptyReactNativeConfig;
 import com.facebook.react.fabric.FabricJSIModuleProvider;
 import com.facebook.react.module.model.ReactModuleInfo;
 import com.facebook.react.module.model.ReactModuleInfoProvider;
+import com.facebook.react.uimanager.ViewManager;
 import com.facebook.react.uimanager.ViewManagerRegistry;
 import com.facebook.soloader.SoLoader;
+import com.rnnewarchitectureapp.components.AnswerViewerManager;
 import com.rnnewarchitectureapp.modules.MainApplicationTurboModuleManagerDelegate;
 import com.rnnewarchitectureapp.modules.NativeAnswerSolver;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -81,6 +84,22 @@ public class MainApplication extends Application implements ReactApplication {
                 );
                 return moduleInfos;
               };
+            }
+          });
+          packages.add(new ReactPackage() {
+            @NonNull
+            @Override
+            public List<NativeModule> createNativeModules(
+                    @NonNull ReactApplicationContext reactContext) {
+              return Collections.emptyList();
+            }
+
+            @NonNull
+            @Override
+            public List<ViewManager> createViewManagers(
+                    @NonNull ReactApplicationContext reactContext) {
+              // Your ViewManager is returned here.
+              return Collections.singletonList(new AnswerViewerManager());
             }
           });
           return packages;
