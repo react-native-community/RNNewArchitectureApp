@@ -1,4 +1,5 @@
 apply plugin: "com.android.application"
+apply plugin: "com.facebook.react"
 
 import com.android.build.OutputFile
 
@@ -82,6 +83,12 @@ project.ext.react = [
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
+
+react {
+    jsRootDir = rootProject.file("../js/")
+    libraryName = "answersolver"
+    codegenJavaPackageName = "com.rnnewarchitectureapp.codegen"
+}
 
 /**
  * Set this to true to create two separate APKs instead of one:
