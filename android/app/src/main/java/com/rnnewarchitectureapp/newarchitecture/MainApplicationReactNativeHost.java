@@ -2,28 +2,36 @@ package com.rnnewarchitectureapp.newarchitecture;
 
 import android.app.Application;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.ReactPackageTurboModuleManagerDelegate;
+import com.facebook.react.TurboReactPackage;
 import com.facebook.react.bridge.JSIModulePackage;
 import com.facebook.react.bridge.JSIModuleProvider;
 import com.facebook.react.bridge.JSIModuleSpec;
 import com.facebook.react.bridge.JSIModuleType;
 import com.facebook.react.bridge.JavaScriptContextHolder;
+import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.UIManager;
 import com.facebook.react.fabric.ComponentFactory;
 import com.facebook.react.fabric.CoreComponentsRegistry;
 import com.facebook.react.fabric.EmptyReactNativeConfig;
 import com.facebook.react.fabric.FabricJSIModuleProvider;
+import com.facebook.react.module.model.ReactModuleInfo;
+import com.facebook.react.module.model.ReactModuleInfoProvider;
 import com.facebook.react.uimanager.ViewManagerRegistry;
 import com.rnnewarchitectureapp.BuildConfig;
 import com.rnnewarchitectureapp.newarchitecture.components.MainComponentsRegistry;
 import com.rnnewarchitectureapp.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
+import com.rnnewarchitectureapp.newarchitecture.modules.NativeAnswerSolver;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A {@link ReactNativeHost} that helps you load everything needed for the New Architecture, both
@@ -51,6 +59,37 @@ public class MainApplicationReactNativeHost extends ReactNativeHost {
     //     packages.add(new TurboReactPackage() { ... });
     // If you have custom Fabric Components, their ViewManagers should also be loaded here
     // inside a ReactPackage.
+    packages.add(new TurboReactPackage() {
+      @Nullable
+      @Override
+      public NativeModule getModule(String name, ReactApplicationContext reactContext) {
+        if (name.equals(NativeAnswerSolver.NAME)) {
+          return new NativeAnswerSolver(reactContext);
+        } else {
+          return null;
+        }
+      }
+
+      @Override
+      public ReactModuleInfoProvider getReactModuleInfoProvider() {
+        return () -> {
+          final Map<String, ReactModuleInfo> moduleInfos = new HashMap<>();
+          moduleInfos.put(
+                  NativeAnswerSolver.NAME,
+                  new ReactModuleInfo(
+                          NativeAnswerSolver.NAME,
+                          "NativeAnswerSolver",
+                          false, // canOverrideExistingModule
+                          false, // needsEagerInit
+                          true, // hasConstants
+                          false, // isCxxModule
+                          true // isTurboModule
+                  )
+          );
+          return moduleInfos;
+        };
+      }
+    });
     return packages;
   }
 
