@@ -32,6 +32,7 @@ import com.facebook.react.uimanager.ViewManager;
 import com.facebook.react.uimanager.ViewManagerRegistry;
 import com.facebook.soloader.SoLoader;
 import com.rnnewarchitectureapp.components.AnswerViewerManager;
+import com.rnnewarchitectureapp.components.MainComponentsRegistry;
 import com.rnnewarchitectureapp.modules.MainApplicationTurboModuleManagerDelegate;
 import com.rnnewarchitectureapp.modules.NativeAnswerSolver;
 import java.lang.reflect.InvocationTargetException;
@@ -134,6 +135,7 @@ public class MainApplication extends Application implements ReactApplication {
                 public JSIModuleProvider<UIManager> getJSIModuleProvider() {
                   final ComponentFactory componentFactory = new ComponentFactory();
                   CoreComponentsRegistry.register(componentFactory);
+                  MainComponentsRegistry.register(componentFactory);
                   
                   final ReactInstanceManager reactInstanceManager = getReactInstanceManager();
 
