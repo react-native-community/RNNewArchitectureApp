@@ -10,6 +10,11 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@react-native-community/cli": "7.0.1",
+    "@react-native-community/cli-plugin-metro": "7.0.1",
+    "metro": "0.67.0",
+    "metro-cache": "0.67.0",
+    "metro-config": "0.67.0",
     "react": "17.0.2",
     "react-native": "0.0.0-20220201-2008-79975d146"
   },
