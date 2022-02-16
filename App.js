@@ -39,7 +39,7 @@ const NewModuleButton = () => {
 const App: () => Node = () => {
   return (
     <View style={{ flex: 1, flexDirection: "column", padding: 20 }}>
-      <MapView style={{ flex: 5 }} />
+      <MapView zoomEnabled={false} style={{ flex: 5 }} />
       <NewModuleButton style={{ flex: 1 }} />
     </View>
   );

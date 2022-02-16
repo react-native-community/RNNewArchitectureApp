@@ -17,4 +17,6 @@ RCT_EXPORT_MODULE(RNTMap)
   return [[MKMapView alloc] init];
 }
 
+RCT_EXPORT_VIEW_PROPERTY(zoomEnabled, BOOL)
+
 @end
