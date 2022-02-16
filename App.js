@@ -27,11 +27,11 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-const { CalendarModule } = NativeModules;
+import NativeCalendarModule from './js/NativeCalendarModule';
 
 const NewModuleButton = () => {
   const onPress = () => {
-    CalendarModule.createCalendarEvent('testName', 'testLocation');
+    NativeCalendarModule.createCalendarEvent('testName', 'testLocation');
   };
 
   return (
