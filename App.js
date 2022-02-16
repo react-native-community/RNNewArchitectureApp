@@ -7,6 +7,7 @@
  */
 
 import React from 'react';
+import { NativeModules, Button } from 'react-native';
 import type {Node} from 'react';
 import {
   SafeAreaView,
@@ -25,6 +26,22 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+
+const { CalendarModule } = NativeModules;
+
+const NewModuleButton = () => {
+  const onPress = () => {
+    CalendarModule.createCalendarEvent('testName', 'testLocation');
+  };
+
+  return (
+    <Button
+      title="Click to invoke your native module!"
+      color="#841584"
+      onPress={onPress}
+    />
+  );
+};
 
 const Section = ({children, title}): Node => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -66,6 +83,7 @@ const App: () => Node = () => {
         contentInsetAdjustmentBehavior="automatic"
         style={backgroundStyle}>
         <Header />
+	<NewModuleButton/>
         <View
           style={{
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
