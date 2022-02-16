@@ -9,6 +9,7 @@
 import React from 'react';
 import { NativeModules, Button } from 'react-native';
 import type {Node} from 'react';
+import MapView from './js/MapView.js';
 import {
   SafeAreaView,
   ScrollView,
@@ -84,6 +85,7 @@ const App: () => Node = () => {
         style={backgroundStyle}>
         <Header />
 	<NewModuleButton/>
+	<MapView style={{ flex: 1 }} />
         <View
           style={{
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
