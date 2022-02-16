@@ -11,6 +11,7 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		3222579127BD1DFD0097E65C /* RCTCalendarModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 3222578F27BD1DFD0097E65C /* RCTCalendarModule.m */; };
 		629D4CAC75924B27F9241F99 /* libPods-RNNewArchitectureApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 79DB507BF4512B09FCDD6758 /* libPods-RNNewArchitectureApp.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		D6DF53D72AED9A2349A0E5FB /* libPods-RNNewArchitectureApp-RNNewArchitectureAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 825D5D0C9D0BC7827AC70964 /* libPods-RNNewArchitectureApp-RNNewArchitectureAppTests.a */; };
@@ -36,6 +37,8 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = RNNewArchitectureApp/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = RNNewArchitectureApp/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = RNNewArchitectureApp/main.m; sourceTree = "<group>"; };
+		3222578F27BD1DFD0097E65C /* RCTCalendarModule.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = RCTCalendarModule.m; path = /Users/dmitryrykun/code/RNNewArchitectureApp/ios/RCTCalendarModule.m; sourceTree = "<absolute>"; };
+		3222579027BD1DFD0097E65C /* RCTCalendarModule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = RCTCalendarModule.h; path = /Users/dmitryrykun/code/RNNewArchitectureApp/ios/RCTCalendarModule.h; sourceTree = "<absolute>"; };
 		4617ED0B4CA13F430C16F785 /* Pods-RNNewArchitectureApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RNNewArchitectureApp.debug.xcconfig"; path = "Target Support Files/Pods-RNNewArchitectureApp/Pods-RNNewArchitectureApp.debug.xcconfig"; sourceTree = "<group>"; };
 		5DD0D1E3682DAA749E0ECF9E /* Pods-RNNewArchitectureApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RNNewArchitectureApp.release.xcconfig"; path = "Target Support Files/Pods-RNNewArchitectureApp/Pods-RNNewArchitectureApp.release.xcconfig"; sourceTree = "<group>"; };
 		61368C3398ED7B084C4F140D /* Pods-RNNewArchitectureApp-RNNewArchitectureAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RNNewArchitectureApp-RNNewArchitectureAppTests.debug.xcconfig"; path = "Target Support Files/Pods-RNNewArchitectureApp-RNNewArchitectureAppTests/Pods-RNNewArchitectureApp-RNNewArchitectureAppTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -86,6 +89,8 @@
 		13B07FAE1A68108700A75B9A /* RNNewArchitectureApp */ = {
 			isa = PBXGroup;
 			children = (
+				3222579027BD1DFD0097E65C /* RCTCalendarModule.h */,
+				3222578F27BD1DFD0097E65C /* RCTCalendarModule.m */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -145,7 +150,6 @@
 				61368C3398ED7B084C4F140D /* Pods-RNNewArchitectureApp-RNNewArchitectureAppTests.debug.xcconfig */,
 				CD52BA693A58FEAD97DE8E0C /* Pods-RNNewArchitectureApp-RNNewArchitectureAppTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -411,6 +415,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3222579127BD1DFD0097E65C /* RCTCalendarModule.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
