@@ -494,6 +494,7 @@
 			baseConfigurationReference = 4617ED0B4CA13F430C16F785 /* Pods-RNNewArchitectureApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_BITCODE = NO;
@@ -520,6 +521,7 @@
 			baseConfigurationReference = 5DD0D1E3682DAA749E0ECF9E /* Pods-RNNewArchitectureApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = RNNewArchitectureApp/Info.plist;
