@@ -20,7 +20,7 @@ import {
   View,
 } from 'react-native';
 
-import NativeCalendarModule from './js/NativeCalendarModule';
+import NativeCalendarModule from './CalendarModule/NativeCalendarModule';
 
 const NewModuleButton = () => {
   const onPress = () => {
