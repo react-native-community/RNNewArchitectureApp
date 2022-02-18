@@ -14,7 +14,7 @@ target 'RNNewArchitectureApp' do
 
   target 'RNNewArchitectureAppTests' do
     inherit! :complete
-    # Pods for testing
+    pod 'CalendarModule', :path => "../CalendarModule"
   end
 
   # Enables Flipper.
