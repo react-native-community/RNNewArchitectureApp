@@ -6,11 +6,11 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <React/RCTBridgeModule.h>
+#import <NativeCalendarModule/NativeCalendarModule.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface RCTCalendarModule : NSObject <RCTBridgeModule>
+@interface RCTCalendarModule : NSObject <NativeCalendarModuleSpec>
 @end
 
 
