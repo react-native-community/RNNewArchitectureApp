@@ -503,6 +503,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				OTHER_CFLAGS = "-DFOLLY_NO_CONFIG";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -529,6 +530,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				OTHER_CFLAGS = "-DFOLLY_NO_CONFIG";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
