@@ -16,7 +16,8 @@
     "metro-cache": "0.67.0",
     "metro-config": "0.67.0",
     "react": "17.0.2",
-    "react-native": "0.0.0-20220201-2008-79975d146"
+    "react-native": "0.0.0-20220201-2008-79975d146",
+    "react-native-codegen": "^0.0.13"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
