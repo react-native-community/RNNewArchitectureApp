@@ -9,7 +9,7 @@
 import React from 'react';
 import { NativeModules, Button } from 'react-native';
 import type {Node} from 'react';
-import MapView from './js/MapView.js';
+import MapView from './MapView/MapView.js';
 import {
   SafeAreaView,
   ScrollView,
