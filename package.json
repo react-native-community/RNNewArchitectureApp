@@ -38,6 +38,11 @@
         "name": "NativeCalendarModule",
         "type": "modules",
         "jsSrcsDir": "CalendarModule"
+      },
+      {
+        "name": "MapView",
+        "type": "components",
+        "jsSrcsDir": "MapView"
       }
     ]
   }
