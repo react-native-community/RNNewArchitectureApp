@@ -881,7 +881,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   boost: a7c83b31436843459a1961bfd74b96033dc77234
-  CalendarModule: 2f49ed9127596c935040427f299db5d057735504
+  CalendarModule: 36a7f2696eca62908eea92cadc824518bee8e006
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   DoubleConversion: 831926d9b8bf8166fd87886c4abab286c2422662
   FBLazyVector: 3bf365773cc024fa22e537478f4eab9c5c9a02c1
@@ -899,14 +899,14 @@ SPEC CHECKSUMS:
   glog: 476ee3e89abb49e07f822b48323c51c57124b572
   hermes-engine: 84e3af1ea01dd7351ac5d8689cbbea1f9903ffc3
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
-  MapView: c6dca934cf3505cc06feeffe6d3ff8fd6fa216bb
+  MapView: d940cf4e8e4945d3a063db38a75f9b2248a66d1c
   OpenSSL-Universal: ebc357f1e6bc71fa463ccb2fe676756aff50e88c
   RCT-Folly: 803a9cfd78114b2ec0f140cfa6fa2a6bafb2d685
   RCTRequired: d9a5f5587c21d638693d43435c7601266468de00
   RCTTypeSafety: e4ab3ea600c1d5193cdd51e5cb2d9f3533e52331
   React: b788f1e21be87f85707c73f7a71f9182fdfe07c8
   React-callinvoker: 86b4476550f2df68f3be2b5552bd4cfd9a0cdbc5
-  React-Codegen: 65b2bab3b0dd1b7b4c3d79f42053b44b5fbb9492
+  React-Codegen: a13758364c6255e257ad81a25eea177f07fbfcd9
   React-Core: d7b190b293eed513368fe7d2b152080af1c35d35
   React-CoreModules: c401cc82ac4cd943011dc0e853f87d69c0f50681
   React-cxxreact: 03a69ecdd2a2957e850efbcaf43887479f94476a

@@ -10,7 +10,7 @@
 
 @implementation RNTMapManager
 
-RCT_EXPORT_MODULE(RNTMap)
+RCT_EXPORT_MODULE(MapView)
 
 - (UIView *)view
 {
@@ -20,3 +20,7 @@ RCT_EXPORT_MODULE(RNTMap)
 RCT_EXPORT_VIEW_PROPERTY(zoomEnabled, BOOL)
 
 @end
+
+Class MapViewCls(void) {
+  return RNTMapManager.class;
+}

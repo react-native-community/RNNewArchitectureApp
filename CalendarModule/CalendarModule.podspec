@@ -28,5 +28,5 @@ Pod::Spec.new do |s|
   s.dependency "RCTTypeSafety"
   s.dependency "ReactCommon/turbomodule/core"
 
-  s.source_files    = "**/ios/RNNewArchitextureApp/NativeCalendarModule.{h,m,mm,swift}"
+  s.source_files    = "../ios/RNNewArchitextureApp/NativeCalendarModule.{h,m,mm,swift}"
 end

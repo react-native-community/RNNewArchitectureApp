@@ -40,7 +40,7 @@
         "jsSrcsDir": "CalendarModule"
       },
       {
-        "name": "MapView",
+        "name": "MapViewNativeComponent",
         "type": "components",
         "jsSrcsDir": "MapView"
       }
