@@ -1,6 +1,14 @@
-// MapView.js
+// @flow strict-local
 
-import { requireNativeComponent } from 'react-native';
+import type {ViewProps} from 'ViewPropTypes';
+import type {HostComponent} from 'react-native';
+import codegenNativeComponent from 'react-native/Libraries/Utilities/codegenNativeComponent';
 
-// requireNativeComponent automatically resolves 'RNTMap' to 'RNTMapManager'
-module.exports = requireNativeComponent('RNTMap');
+type NativeProps = $ReadOnly<{|
+  ...ViewProps,
+  zoomEnabled: boolean,
+|}>;
+
+export default (codegenNativeComponent<NativeProps>(
+  'MapView',
+): HostComponent<NativeProps>);
