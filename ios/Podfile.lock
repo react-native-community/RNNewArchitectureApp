@@ -906,7 +906,7 @@ SPEC CHECKSUMS:
   RCTTypeSafety: e4ab3ea600c1d5193cdd51e5cb2d9f3533e52331
   React: b788f1e21be87f85707c73f7a71f9182fdfe07c8
   React-callinvoker: 86b4476550f2df68f3be2b5552bd4cfd9a0cdbc5
-  React-Codegen: e22bd53be58d786766ad63f8e49850c50a4a3128
+  React-Codegen: 65b2bab3b0dd1b7b4c3d79f42053b44b5fbb9492
   React-Core: d7b190b293eed513368fe7d2b152080af1c35d35
   React-CoreModules: c401cc82ac4cd943011dc0e853f87d69c0f50681
   React-cxxreact: 03a69ecdd2a2957e850efbcaf43887479f94476a
