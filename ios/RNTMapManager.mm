@@ -20,7 +20,3 @@ RCT_EXPORT_MODULE(MapView)
 RCT_EXPORT_VIEW_PROPERTY(zoomEnabled, BOOL)
 
 @end
-
-Class MapViewCls(void) {
-  return RNTMapManager.class;
-}
