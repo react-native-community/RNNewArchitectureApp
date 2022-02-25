@@ -9,7 +9,10 @@
  */
 
 import React from 'react';
+import type {Node} from 'react';
+import NativeAnswerSolver from './js/NativeAnswerSolver';
 import {
+  Button,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -62,9 +65,15 @@ const App = () => {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
+  const onPress = () => {
+    const theAnswer = NativeAnswerSolver?.answerTheUltimateQuestion("What's the Answer to the Ultimate Question of Life, the Universe, and Everything") || ""
+    console.log('The answer is: ' + theAnswer);
+  };
+
   return (
     <SafeAreaView style={backgroundStyle}>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+      <Button title="Click to invoke your Turbo Module!" onPress={onPress} />
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={backgroundStyle}>
