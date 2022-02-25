@@ -3,6 +3,7 @@
 #include <CoreComponentsRegistry.h>
 #include <fbjni/fbjni.h>
 #include <react/renderer/componentregistry/ComponentDescriptorProviderRegistry.h>
+#include <react/renderer/components/answersolver/ComponentDescriptors.h>
 #include <react/renderer/components/rncore/ComponentDescriptors.h>
 
 namespace facebook {
@@ -17,8 +18,9 @@ MainComponentsRegistry::sharedProviderRegistry() {
   // Custom Fabric Components go here. You can register custom
   // components coming from your App or from 3rd party libraries here.
   //
-  // providerRegistry->add(concreteComponentDescriptorProvider<
-  //        AocViewerComponentDescriptor>());
+  providerRegistry->add(concreteComponentDescriptorProvider<
+         AnswerViewerComponentDescriptor>());
+
   return providerRegistry;
 }
 
