@@ -186,6 +186,8 @@ android {
             // preBuild.dependsOn("generateCodegenArtifactsFromSchema")
             preDebugBuild.dependsOn(packageReactNdkDebugLibs)
             preReleaseBuild.dependsOn(packageReactNdkReleaseLibs)
+            configureNdkBuildDebug.dependsOn(preDebugBuild)
+            configureNdkBuildRelease.dependsOn(preReleaseBuild)
         }
     }
 
