@@ -1,6 +1,6 @@
 # React Native New Architecture Sample
 
-This repo contains several branches that will help you understand how to setup your project for the **React Native New Architecture**. This should considered as a support material of [the official migration guide](https://github.com/facebook/react-native-website/pull/2879).
+This repo contains several branches that will help you understand how to setup your project for the **React Native New Architecture**. This should considered as a support material of [the official migration guide](https://reactnative.dev/docs/next/new-architecture-intro).
 
 Here you will find **runs of the migration guide** on empty projects. Every commit is **documented** and allows to follow over on every step. 
 
