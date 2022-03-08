@@ -6,8 +6,26 @@
 * Monterey 12.2.1
 * rbenv with ruby 2.7.0 (If you have trouble installing it, try with `RUBY_CFLAGS=“-w” rbenv install 2.7.0`)
 
-
 ## Steps (From most recent to least recent command)
+
+### [Export native method to JS (Native Side)]()
+Commands:
+1. Open `RCTCalendarModule.m`
+1. Add the import:
+    ```obj-c
+    #import <React/RCTLog.h>
+    ```
+1. Add the code:
+    ```obj-c
+    RCT_EXPORT_METHOD(createCalendarEvent:(NSString *)name location:(NSString *)location)
+    {
+        RCTLogInfo(@"Pretending to create an event %@ at %@", name, location);
+    }
+    ```
+1. `cmd+B` to build it
+1. `cmd+R` to run it
+
+
 
 ### [create RCTCalendar Native Module (Native side)]()
 Commands:
@@ -19,7 +37,7 @@ Commands:
 1. Paste the code:
    ```obj-c
    #import <React/RCTBridgeModule.h>
-     @interface RCTCalendarModule : NSObject <RCTBridgeModule>
+   @interface RCTCalendarModule : NSObject <RCTBridgeModule>
    @end
    ```
 1. `cmd+N` to create a new file
