@@ -11,7 +11,8 @@
   },
   "dependencies": {
     "react": "17.0.2",
-    "react-native": "0.0.0-20220307-2008-ae3d4f700"
+    "react-native": "0.0.0-20220307-2008-ae3d4f700",
+    "react-native-codegen": "^0.0.13"
   },
   "devDependencies": {
     "@babel/core": "^7.17.5",
@@ -26,18 +27,18 @@
   "jest": {
     "preset": "react-native"
   },
-    "codegenConfig": {
-        "libraries": [
-            {
-            "name": "CalendarModule",
-            "type": "modules",
-            "jsSrcsDir": "ios/RCTCalendarModule"
-            },
-            {
-            "name": "CalendarModule",
-            "type": "components",
-            "jsSrcsDir": "ios/RCTCalendarModule"
-            }
-        ]
-    }
+  "codegenConfig": {
+    "libraries": [
+      {
+        "name": "CalendarModule",
+        "type": "modules",
+        "jsSrcsDir": "ios/RCTCalendarModule"
+      },
+      {
+        "name": "CalendarModule",
+        "type": "components",
+        "jsSrcsDir": "ios/RCTCalendarModule"
+      }
+    ]
+  }
 }

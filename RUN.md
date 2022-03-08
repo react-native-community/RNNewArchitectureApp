@@ -8,6 +8,13 @@
 
 ## Steps (From most recent to least recent command)
 
+### [[TurboModules] Add codegen]()
+Steps
+1. `yarn add react-native-codegen`
+
+CI:
+1. `yarn add react-native-codegen`
+
 ### [[TurboModules] Enable Codegen in package.json]()
 Steps:
 1. Open `package.json`
