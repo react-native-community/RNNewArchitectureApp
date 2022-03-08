@@ -16,6 +16,8 @@
 
 RCT_EXPORT_MODULE(RNTMap)
 
+RCT_EXPORT_VIEW_PROPERTY(zoomEnabled, BOOL)
+
 - (UIView *)view
 {
   return [[MKMapView alloc] init];

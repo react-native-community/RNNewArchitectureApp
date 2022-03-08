@@ -29,7 +29,7 @@ const App = () => {
         title="Click to invoke your native module!"
         color="#841584"
         onPress={onPress}/>
-      <MapView style={{ width: "100%", height: "100%" }} />
+      <MapView zoomEnabled={false} style={{ width: "100%", height: "100%" }} />
     </SafeAreaView>
   );
 };

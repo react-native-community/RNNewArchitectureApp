@@ -8,6 +8,22 @@
 
 ## Steps (From most recent to least recent command)
 
+### [[Native Components] Expose a native property]()
+1. Open the `RNTMapManager.m` file
+2. Add the following line:
+    ```obj-c
+    RCT_EXPORT_VIEW_PROPERTY(zoomEnabled, BOOL)
+    ```
+3. Open the `App.js` file
+4. Use the property on the component:
+    ```js
+    <MapView zoomEnabled={false} style={{ width: "100%", height: "100%" }} />
+    ```
+5. Run `npx react-native run-ios`
+6. Try to pinch and zoom the map. Observe that you can't zoom.
+
+
+
 ### [[Native Components] Connect the MapManager in JS]()
 1. Create a new file `MapView.js`
 1. Paste the following snippet:
