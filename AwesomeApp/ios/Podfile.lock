@@ -73,6 +73,7 @@ PODS:
     - FlipperKit/FlipperKitNetworkPlugin
   - fmt (6.2.1)
   - glog (0.3.5)
+  - hermes-engine (0.11.0)
   - libevent (2.1.12)
   - OpenSSL-Universal (1.1.1100)
   - RCT-Folly (2021.06.28.00-v2):
@@ -86,6 +87,12 @@ PODS:
     - DoubleConversion
     - fmt (~> 6.2.1)
     - glog
+  - RCT-Folly/Futures (2021.06.28.00-v2):
+    - boost
+    - DoubleConversion
+    - fmt (~> 6.2.1)
+    - glog
+    - libevent
   - RCTRequired (0.0.0-20220307-2008-ae3d4f700)
   - RCTTypeSafety (0.0.0-20220307-2008-ae3d4f700):
     - FBLazyVector (= 0.0.0-20220307-2008-ae3d4f700)
@@ -261,6 +268,17 @@ PODS:
     - React-logger (= 0.0.0-20220307-2008-ae3d4f700)
     - React-perflogger (= 0.0.0-20220307-2008-ae3d4f700)
     - React-runtimeexecutor (= 0.0.0-20220307-2008-ae3d4f700)
+  - React-hermes (0.0.0-20220307-2008-ae3d4f700):
+    - DoubleConversion
+    - glog
+    - hermes-engine
+    - RCT-Folly (= 2021.06.28.00-v2)
+    - RCT-Folly/Futures (= 2021.06.28.00-v2)
+    - React-cxxreact (= 0.0.0-20220307-2008-ae3d4f700)
+    - React-jsi (= 0.0.0-20220307-2008-ae3d4f700)
+    - React-jsiexecutor (= 0.0.0-20220307-2008-ae3d4f700)
+    - React-jsinspector (= 0.0.0-20220307-2008-ae3d4f700)
+    - React-perflogger (= 0.0.0-20220307-2008-ae3d4f700)
   - React-jsi (0.0.0-20220307-2008-ae3d4f700):
     - boost (= 1.76.0)
     - DoubleConversion
@@ -379,6 +397,8 @@ DEPENDENCIES:
   - FlipperKit/FlipperKitUserDefaultsPlugin (= 0.125.0)
   - FlipperKit/SKIOSNetworkPlugin (= 0.125.0)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
+  - hermes-engine (~> 0.11.0)
+  - libevent (~> 2.1.12)
   - OpenSSL-Universal (= 1.1.1100)
   - RCT-Folly (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
@@ -391,6 +411,7 @@ DEPENDENCIES:
   - React-Core/RCTWebSocket (from `../node_modules/react-native/`)
   - React-CoreModules (from `../node_modules/react-native/React/CoreModules`)
   - React-cxxreact (from `../node_modules/react-native/ReactCommon/cxxreact`)
+  - React-hermes (from `../node_modules/react-native/ReactCommon/hermes`)
   - React-jsi (from `../node_modules/react-native/ReactCommon/jsi`)
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
@@ -422,6 +443,7 @@ SPEC REPOS:
     - Flipper-RSocket
     - FlipperKit
     - fmt
+    - hermes-engine
     - libevent
     - OpenSSL-Universal
     - SocketRocket
@@ -456,6 +478,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/React/CoreModules"
   React-cxxreact:
     :path: "../node_modules/react-native/ReactCommon/cxxreact"
+  React-hermes:
+    :path: "../node_modules/react-native/ReactCommon/hermes"
   React-jsi:
     :path: "../node_modules/react-native/ReactCommon/jsi"
   React-jsiexecutor:
@@ -508,6 +532,7 @@ SPEC CHECKSUMS:
   FlipperKit: cbdee19bdd4e7f05472a66ce290f1b729ba3cb86
   fmt: ff9d55029c625d3757ed641535fd4a75fedc7ce9
   glog: 476ee3e89abb49e07f822b48323c51c57124b572
+  hermes-engine: 84e3af1ea01dd7351ac5d8689cbbea1f9903ffc3
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
   OpenSSL-Universal: ebc357f1e6bc71fa463ccb2fe676756aff50e88c
   RCT-Folly: 4d8508a426467c48885f1151029bc15fa5d7b3b8
@@ -519,6 +544,7 @@ SPEC CHECKSUMS:
   React-Core: 29583edb73cbd65ef2413588e66e109499ca01c0
   React-CoreModules: 51f38e20e092300451441667d033ba0a84e85717
   React-cxxreact: 67f793005c46d6785cd704517892e1f15951bfa7
+  React-hermes: a7ca3517fffd5eafb1bc47c1eb5aeece8b13bd8b
   React-jsi: f8bbd07843bcf2924e16f5a0e7e94b0037f73cc1
   React-jsiexecutor: 79e4859eff63b3d4ab6e5723d55bfe687da66fdb
   React-jsinspector: c6471f5ff8aa7ec6b54ab84b3a0cad72bf4dc488
@@ -539,6 +565,6 @@ SPEC CHECKSUMS:
   Yoga: 7947897159c50c720d6fd000b7f01947593e3d6d
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 4600f0c80b748f278320ff247a797b39a1e101cd
+PODFILE CHECKSUM: 4547083aaa75fe15c09790ea59a1080918514a1a
 
 COCOAPODS: 1.11.2

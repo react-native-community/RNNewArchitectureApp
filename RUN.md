@@ -8,7 +8,19 @@
 
 ## Steps (From most recent to least recent command)
 
-### [[TurboModules] Add codegen]()
+### [[TurboModules] Enable Hermes]()
+Steps
+1. Open the `ios/podfile`
+1. Change `hermes_enabled` to `true`
+1. run `pod install`
+
+CI (on MacOS)
+1. `sed -i'.original' 's/flags\[:hermes_enabled\],/true,/' ios/Podfile`
+1. `rm 'ios/Podfile.original'`
+CI (on Linux)
+1. `sed -i 's/flags\[:hermes_enabled\],/true,/' ios/Podfile`
+
+### [[TurboModules] Add React Native Codegen]()
 Steps
 1. `yarn add react-native-codegen`
 
