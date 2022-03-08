@@ -47,9 +47,10 @@
 		5DCACB8F33CDC322A6C60F78 /* libPods-AwesomeApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AwesomeApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = AwesomeApp/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-AwesomeApp-AwesomeAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AwesomeApp-AwesomeAppTests.release.xcconfig"; path = "Target Support Files/Pods-AwesomeApp-AwesomeAppTests/Pods-AwesomeApp-AwesomeAppTests.release.xcconfig"; sourceTree = "<group>"; };
-		CD20678227D7837200676465 /* RCTCalendarModule.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = RCTCalendarModule.m; path = AwesomeApp/RCTCalendarModule.m; sourceTree = "<group>"; };
+		CD20678227D7837200676465 /* RCTCalendarModule.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RCTCalendarModule.m; sourceTree = "<group>"; };
 		CD20678527D7838800676465 /* RCTCalendarModule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RCTCalendarModule.h; sourceTree = "<group>"; };
 		CD20678627D79F0300676465 /* RNTMapManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = RNTMapManager.m; path = AwesomeApp/RNTMapManager.m; sourceTree = "<group>"; };
+		CD20678A27D7B20100676465 /* react-native-calendar-module.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = "react-native-calendar-module.podspec"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -99,8 +100,6 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
-				CD20678227D7837200676465 /* RCTCalendarModule.m */,
-				CD20678527D7838800676465 /* RCTCalendarModule.h */,
 				CD20678627D79F0300676465 /* RNTMapManager.m */,
 			);
 			name = AwesomeApp;
@@ -126,6 +125,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				CD20678927D7B19000676465 /* RCTCalendarModule */,
 				13B07FAE1A68108700A75B9A /* AwesomeApp */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* AwesomeAppTests */,
@@ -156,6 +156,16 @@
 				89C6BE57DB24E9ADA2F236DE /* Pods-AwesomeApp-AwesomeAppTests.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		CD20678927D7B19000676465 /* RCTCalendarModule */ = {
+			isa = PBXGroup;
+			children = (
+				CD20678227D7837200676465 /* RCTCalendarModule.m */,
+				CD20678527D7838800676465 /* RCTCalendarModule.h */,
+				CD20678A27D7B20100676465 /* react-native-calendar-module.podspec */,
+			);
+			path = RCTCalendarModule;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

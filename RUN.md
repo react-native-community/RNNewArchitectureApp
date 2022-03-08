@@ -8,6 +8,82 @@
 
 ## Steps (From most recent to least recent command)
 
+### [[TurboModules]Enable AutoLinking]()
+Steps:
+1. Create a new folder called `RCTCalendarModule`
+1. Move the `RCTCalendarModule.m` and the `RCTCalendarModule.h` to that folder
+1. Move the `NativeCalendarModule.js` file into the     `RCTCalendarModule` folder
+1. Create a `react-native-calendar-module.podspec` file, using the following content
+    ```ruby
+    folly_version = '2021.06.28.00-v2'
+    folly_compiler_flags = '-DFOLLY_NO_CONFIG -DFOLLY_MOBILE=1 -DFOLLY_USE_LIBCPP=1 -Wno-comma -Wno-shorten-64-to-32'
+
+    Pod::Spec.new do |s|
+        s.name         = 'RCTCalendarModule'
+        s.version      = '0.0.1'
+        s.summary      = 'Sample module for migration'
+        s.license      = 'MIT'
+        s.authors      = 'cipolleschi'
+        s.platforms    = { :ios => "9.0", :osx => "10.13" }
+        s.compiler_flags  = folly_compiler_flags
+
+        s.pod_target_xcconfig    = {
+            "HEADER_SEARCH_PATHS" => "\"$(PODS_ROOT)/boost\""
+        }
+
+        s.source       = { :git => "https://github.com/facebook/react-native.git",
+            :tag => spec.version.to_s
+        }
+        s.source_files  = "./**/*.{h,m,mm}"
+
+        s.dependency "React"
+        s.dependency "React-RCTFabric" # This is for fabric component
+        s.dependency "React-Codegen"
+        s.dependency "RCT-Folly", folly_version
+        s.dependency "RCTRequired"
+        s.dependency "RCTTypeSafety"
+        s.dependency "ReactCommon/turbomodule/core"
+    end
+    ```
+
+CI:
+1. `cd ios && mkdir RCTCalendarModule`
+1. `mv RCTCalendarModule.h  RCTCalendarModule/RCTCalendarModule.h`
+1. `mv RCTCalendarModule.m  RCTCalendarModule/RCTCalendarModule.m`
+1. `mv ../NativeCalendarModule.js ios/RCTCalendarModule/NativeCalendarModule.js`
+1. ```sh
+    echo "folly_version = '2021.06.28.00-v2'
+folly_compiler_flags = '-DFOLLY_NO_CONFIG -DFOLLY_MOBILE=1 -DFOLLY_USE_LIBCPP=1 -Wno-comma -Wno-shorten-64-to-32'
+
+Pod::Spec.new do |s|
+    s.name         = 'RCTCalendarModule'
+    s.version      = '0.0.1'
+    s.summary      = 'Sample module for migration'
+    s.license      = 'MIT'
+    s.authors      = 'Meta, Inc. and its affiliates'
+    s.platforms    = { :ios => "9.0", :osx => "10.13" }
+    s.compiler_flags  = folly_compiler_flags
+
+    s.pod_target_xcconfig    = {
+        \"HEADER_SEARCH_PATHS\" => \"\\\"\$(PODS_ROOT)/boost\\\"\"
+    }
+
+    s.source       = { :git => \"https://github.com/facebook/react-native.git\",
+        :tag => spec.version.to_s
+    }
+    s.source_files  = \"./**/*.{h,m,mm,swift}\"
+
+    s.dependency \"React\"
+    s.dependency \"React-RCTFabric\" # This is for fabric component
+    s.dependency \"React-Codegen\"
+    s.dependency \"RCT-Folly\", folly_version
+    s.dependency \"RCTRequired\"
+    s.dependency \"RCTTypeSafety\"
+    s.dependency \"ReactCommon/turbomodule/core\"
+end
+    " > RCTCalendarModule/react-native-calendar-module.podspec
+1. **Note:** We need to understad how to manipulate the xcodeproj when moving/adding files.
+
 ### [[TurboModules] Create CalendarModule spec]()
 Commands:
 1. Remove the old `NativeCalendarModule.js`
