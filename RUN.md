@@ -8,7 +8,48 @@
 
 ## Steps (From most recent to least recent command)
 
-### [[TurboModules]Enable AutoLinking]()
+### [[TurboModules] Enable Codegen in package.json]()
+Steps:
+1. Open `package.json`
+1. Add the following code:
+    ```json
+    ,
+    "codegenConfig": {
+        "libraries": [
+            {
+            "name": "CalendarModule",
+            "type": "modules",
+            "jsSrcsDir": "ios/RCTCalendarModule"
+            },
+            {
+            "name": "CalendarModule",
+            "type": "components",
+            "jsSrcsDir": "ios/RCTCalendarModule"
+            }
+        ]
+    }
+    ```
+
+CI:
+1. `initialPackage=$(sed \$d package.json)`
+2. ```sh
+    codeGen=',
+  "codegenConfig": {
+    "libraries": [
+      {
+        "name": "CalendarModule",
+        "type": "modules",
+        "jsSrcsDir": "ios/RCTCalendarModule"
+      }
+    ]
+  }
+}'
+    ```
+3. `echo $initialPackage$codeGen > package.json`
+
+
+
+### [[TurboModules] Enable AutoLinking]()
 Steps:
 1. Create a new folder called `RCTCalendarModule`
 1. Move the `RCTCalendarModule.m` and the `RCTCalendarModule.h` to that folder

@@ -26,18 +26,17 @@
   "jest": {
     "preset": "react-native"
   },
-    "codegenConfig": {
-        "libraries": [
-            {
-            "name": "CalendarModule",
-            "type": "modules",
-            "jsSrcsDir": "ios/RCTCalendarModule"
-            },
-            {
-            "name": "CalendarModule",
-            "type": "components",
-            "jsSrcsDir": "ios/RCTCalendarModule"
-            }
-        ]
-    }
-}
+  "codegenConfig": {
+    "libraries": [
+      {
+        "name": "YourTurboModuleSpec",
+        "type": "modules",
+        "jsSrcsDir": "Libraries"
+      },
+      {
+        "name": "YourComponentName",
+        "type": "components",
+        "jsSrcsDir": "Libraries"
+      }
+    ]
+  }
