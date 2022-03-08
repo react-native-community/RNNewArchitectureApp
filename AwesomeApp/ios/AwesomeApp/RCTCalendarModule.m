@@ -18,4 +18,14 @@ RCT_EXPORT_METHOD(createCalendarEvent:(NSString *)name location:(NSString *)loca
   RCTLogInfo(@"Pretending to create an event %@ at %@", name, location);
 }
 
+- (NSDictionary *)constantsToExport
+{
+  return @{ @"DEFAULT_EVENT_NAME": @"New Event" };
+}
+
++ (BOOL)requiresMainQueueSetup
+{
+  return NO;
+}
+
 @end

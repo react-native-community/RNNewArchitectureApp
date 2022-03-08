@@ -8,6 +8,8 @@ import {
 } from "react-native";
 import CalendarModule  from "./NativeCalendarModule"
 
+const { DEFAULT_EVENT_NAME } = CalendarModule.getConstants();
+
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
 
@@ -16,7 +18,7 @@ const App = () => {
   };
 
   const onPress = () => {
-    CalendarModule.createCalendarEvent('testName', 'testLocation');
+    CalendarModule.createCalendarEvent(DEFAULT_EVENT_NAME, 'testLocation');
   };
 
   return (

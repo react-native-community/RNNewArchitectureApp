@@ -8,6 +8,27 @@
 
 ## Steps (From most recent to least recent command)
 
+### [Exporting Constants]()
+1. Open the 'RCTCalendarModule.m'
+1. Add the following snippets:
+    ```objective-c
+    - (NSDictionary *)constantsToExport
+    {
+        return @{ @"DEFAULT_EVENT_NAME": @"New Event" };
+    }
+
+    + (BOOL)requiresMainQueueSetup
+    {
+        return NO;
+    }
+    ```
+1. Open the `App.js` file
+1. Add the definition: `const { DEFAULT_EVENT_NAME } = CalendarModule.getConstants();`
+1. Replace the `"testName"` with the `DEFAULT_EVENT_NAME`.
+1. Run `npx react-native run-ios`
+1. Click on the button
+1. Observe the message `Pretending to create an event New Event at testLocation` in the Chrome console. _Note:_ The name of the event has changed from `testName` to `New Event`.
+
 ### [Better Native Module Export]()
 1. Create a new `NativeCalendarModule.js` file
 1. Paset the following snippet:
