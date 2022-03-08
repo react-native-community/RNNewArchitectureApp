@@ -5,10 +5,8 @@ import {
   StatusBar,
   Button,
   useColorScheme,
-  NativeModules,
 } from "react-native";
-
-const { CalendarModule } = NativeModules;
+import CalendarModule  from "./NativeCalendarModule"
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';

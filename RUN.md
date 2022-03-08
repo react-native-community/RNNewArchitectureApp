@@ -8,6 +8,28 @@
 
 ## Steps (From most recent to least recent command)
 
+### [Better Native Module Export]()
+1. Create a new `NativeCalendarModule.js` file
+1. Paset the following snippet:
+    ```js
+    /**
+    * This exposes the native CalendarModule module as a JS module. This has a
+    * function 'createCalendarEvent' which takes the following parameters:
+
+    * 1. String name: A string representing the name of the event
+    * 2. String location: A string representing the location of the event
+    */
+    import { NativeModules } from 'react-native';
+    const { CalendarModule } = NativeModules;
+    export default CalendarModule;
+    ```
+1. Open the `App.js` file
+1. Remove `NativeModules,` from the list of imports
+1. Remove the `const { CalendarModule } = NativeModules;` line
+1. Add the import `import CalendarModule  from "./NativeCalendarModule"`. _Note:_ In this case, we don't need to use the curly brackets.
+1. Save (`cmd+S`) to trigger a reload
+1. Press the button and observe the message `Pretending to create an event testName at testLocation` appearing in the Chrome console.
+
 ### [Access the Native Module in JS]()
 Commands:
 1. Open `App.js` file
@@ -74,8 +96,6 @@ Commands:
     ```
 1. `cmd+B` to build it
 1. `cmd+R` to run it
-
-
 
 ### [create RCTCalendar Native Module (Native side)]()
 Commands:
