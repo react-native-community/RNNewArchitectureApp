@@ -8,7 +8,23 @@
 
 ## Steps (From most recent to least recent command)
 
-### [[Native Components]Create RNTMapManager (native side)]()
+### [[Native Components] Connect the MapManager in JS]()
+1. Create a new file `MapView.js`
+1. Paste the following snippet:
+    ```js
+    // MapView.js
+
+    import { requireNativeComponent } from 'react-native';
+
+    // requireNativeComponent automatically resolves 'RNTMap' to 'RNTMapManager'
+    module.exports = requireNativeComponent('RNTMap');
+    ```
+1. Open the `App.js`
+1. Add the following import: `import MapView from './MapView.js';`
+1. Add the following component in the `return` statement: `<MapView style={{ width: "100%", height: "100%" }} />`
+1. run `npx react-native run-ios`
+
+### [[Native Components] Create RNTMapManager (native side)]()
 1. Create a new Objective-C file, called it `RNTMapManager.m`
 2. Copy the following snippet:
     ```obj-c
@@ -33,7 +49,6 @@
     ```
 3. Run `cmd+B` to build it
 4. Run `cmd+R` to run it
-
 
 ### [Exporting Constants]()
 1. Open the 'RCTCalendarModule.m'

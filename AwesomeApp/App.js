@@ -7,6 +7,7 @@ import {
   useColorScheme,
 } from "react-native";
 import CalendarModule  from "./NativeCalendarModule"
+import MapView from './MapView';
 
 const { DEFAULT_EVENT_NAME } = CalendarModule.getConstants();
 
@@ -28,6 +29,7 @@ const App = () => {
         title="Click to invoke your native module!"
         color="#841584"
         onPress={onPress}/>
+      <MapView style={{ width: "100%", height: "100%" }} />
     </SafeAreaView>
   );
 };
