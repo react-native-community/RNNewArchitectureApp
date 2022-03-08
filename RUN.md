@@ -8,6 +8,33 @@
 
 ## Steps (From most recent to least recent command)
 
+### [[Native Components]Create RNTMapManager (native side)]()
+1. Create a new Objective-C file, called it `RNTMapManager.m`
+2. Copy the following snippet:
+    ```obj-c
+    // RNTMapManager.m
+    #import <MapKit/MapKit.h>
+
+    #import <React/RCTViewManager.h>
+
+    @interface RNTMapManager : RCTViewManager
+    @end
+
+    @implementation RNTMapManager
+
+    RCT_EXPORT_MODULE(RNTMap)
+
+    - (UIView *)view
+    {
+    return [[MKMapView alloc] init];
+    }
+
+    @end
+    ```
+3. Run `cmd+B` to build it
+4. Run `cmd+R` to run it
+
+
 ### [Exporting Constants]()
 1. Open the 'RCTCalendarModule.m'
 1. Add the following snippets:
