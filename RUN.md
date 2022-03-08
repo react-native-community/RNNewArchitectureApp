@@ -8,6 +8,49 @@
 
 ## Steps (From most recent to least recent command)
 
+### [[TurboModules] Create CalendarModule spec]()
+Commands:
+1. Remove the old `NativeCalendarModule.js`
+1. Create a new file named `NativeCalendarModule.js`
+2. Copy the following snippet:
+    ```js
+    'use strict';
+
+    import type {TurboModule} from 'react-native/Libraries/TurboModule/RCTExport';
+    import {TurboModuleRegistry} from 'react-native';
+
+    export interface Spec extends TurboModule {
+        +getConstants: () => {|
+            "DEFAULT_EVENT_NAME": "New Event"
+        |};
+
+        getString(id: string): Promise<string>;
+    }
+
+    export default (TurboModuleRegistry.get<Spec>('CalendarModule'): ?Spec);
+    ```
+
+
+#### CI:
+1. Remove Native Calendar Module: `rm NativeCalendarModule.js`
+1. Add Specs
+    """sh
+    echo "'use strict';
+
+import type {TurboModule} from 'react-native/Libraries/TurboModule/RCTExport';
+import {TurboModuleRegistry} from 'react-native';
+
+export interface Spec extends TurboModule {
+    +getConstants: () => {|
+        \"DEFAULT_EVENT_NAME\": \"New Event\"
+    |};
+
+    getString(id: string): Promise<string>;
+}
+
+export default (TurboModuleRegistry.get<Spec>('CalendarModule'): ?Spec);" > NativeCalendarModule.js
+    """
+
 ### SNAPSHOT
 This commit can be used to create a project template `react-native-objc-migration`. This can be used as starting point for a CI pipeline to test the migration from `NativeModule` and `NativeComponents` to `TurboModules` and `Fabric`.
 
