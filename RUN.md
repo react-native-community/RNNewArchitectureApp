@@ -8,6 +8,9 @@
 
 ## Steps (From most recent to least recent command)
 
+### SNAPSHOT
+This commit can be used to create a project template `react-native-objc-migration`. This can be used as starting point for a CI pipeline to test the migration from `NativeModule` and `NativeComponents` to `TurboModules` and `Fabric`.
+
 ### [[Native Components] Expose a native property]()
 1. Open the `RNTMapManager.m` file
 2. Add the following line:
@@ -206,10 +209,6 @@ Commands:
     ```
 1. `cmd+B` to build it
 1. `cmd+R` to run it
-
-**Note:**
-
-We can create a Template `react-native-objc-migration` with this project to create a pipeline to test the migration in CI.
 
 ### [react-native init](4c38d7e)
 Commands:
