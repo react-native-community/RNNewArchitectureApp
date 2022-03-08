@@ -8,6 +8,56 @@
 
 ## Steps (From most recent to least recent command)
 
+### [Access the Native Module in JS]()
+Commands:
+1. Open `App.js` file
+1. Delete the file content
+1. Paste the following snippet:
+    ```js
+    import React from 'react';
+    import type {Node} from 'react';
+    import {
+    SafeAreaView,
+    StatusBar,
+    Button,
+    useColorScheme,
+    NativeModules,
+    } from "react-native";
+
+    const { CalendarModule } = NativeModules;
+
+    const App = () => {
+    const isDarkMode = useColorScheme() === 'dark';
+
+    const backgroundStyle = {
+        backgroundColor: isDarkMode ? 'black' : 'white',
+    };
+
+    const onPress = () => {
+        CalendarModule.createCalendarEvent('testName', 'testLocation');
+    };
+
+    return (
+        <SafeAreaView style={backgroundStyle}>
+            <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+            <Button
+                title="Click to invoke your native module!"
+                color="#841584"
+                onPress={onPress}/>
+            </SafeAreaView>
+        );
+    };
+
+    export default App;
+    ```
+1. Run `cd .. && npx react-native run-ios`
+1. Observe the app launching
+1. Select the Simulator and press `cmd+D`
+1. Select `Debug on Chrome`
+1. Press `cmd+opt+I` to open the developer tools
+1. Select the simulator and refresh the App (`cmd+R` twice. The first time it will start recording the Simulator. Stop the recording and delete it).
+1. Tap on the button and observe the `Pretending to create an event testName at testLocation` message in the Chrome console.
+
 ### [Export native method to JS (Native Side)]()
 Commands:
 1. Open `RCTCalendarModule.m`
