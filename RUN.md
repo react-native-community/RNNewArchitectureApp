@@ -548,3 +548,13 @@ This is due to a version of the hermes-engine which hardcodes the `CLANG_CXX_LAN
 
 **ISSUES**
 * The app can't run
+
+### [[Fabric] Add Babel Plugin]()
+1. Open the `babel.config.js` file
+1. Add this code after the `plugins` section and before the `};`
+```js
+  presets: [
+    '@babel/plugin-proposal-class-properties',
+    './node_modules/react-native/packages/babel-plugin-codegen'
+  ],
+```
