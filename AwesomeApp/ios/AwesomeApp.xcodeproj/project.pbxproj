@@ -8,20 +8,21 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* AwesomeAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* AwesomeAppTests.m */; };
-		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
+		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
-		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		13B07FC11A68108700A75B9A /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.mm */; };
 		553E478199A2B49DF7593357 /* libPods-AwesomeApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 36DE1AF3055FC0B9C0C4CE45 /* libPods-AwesomeApp.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		BF9B2D0B92400EAFEE74AF6E /* libPods-AwesomeApp-AwesomeAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D2EFABED84AFFC56CF88052 /* libPods-AwesomeApp-AwesomeAppTests.a */; };
-		CD1064DA27D8F10C00C60FE3 /* RCTCalendarModule.m in Sources */ = {isa = PBXBuildFile; fileRef = CD1064D927D8F10C00C60FE3 /* RCTCalendarModule.m */; };
-		CD1064DB27D8F10C00C60FE3 /* RCTCalendarModule.m in Sources */ = {isa = PBXBuildFile; fileRef = CD1064D927D8F10C00C60FE3 /* RCTCalendarModule.m */; };
-		CD1064DE27D8F83700C60FE3 /* RCTViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CD1064DD27D8F83700C60FE3 /* RCTViewManager.m */; };
-		CD1064DF27D8F83700C60FE3 /* RCTViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CD1064DD27D8F83700C60FE3 /* RCTViewManager.m */; };
+		CD1064DA27D8F10C00C60FE3 /* RCTCalendarModule.mm in Sources */ = {isa = PBXBuildFile; fileRef = CD1064D927D8F10C00C60FE3 /* RCTCalendarModule.mm */; };
+		CD1064DB27D8F10C00C60FE3 /* RCTCalendarModule.mm in Sources */ = {isa = PBXBuildFile; fileRef = CD1064D927D8F10C00C60FE3 /* RCTCalendarModule.mm */; };
+		CD1064DE27D8F83700C60FE3 /* RCTViewManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = CD1064DD27D8F83700C60FE3 /* RCTViewManager.mm */; };
+		CD1064DF27D8F83700C60FE3 /* RCTViewManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = CD1064DD27D8F83700C60FE3 /* RCTViewManager.mm */; };
 		CD1064E127D8FB4100C60FE3 /* NativeCalendarModule.js in Resources */ = {isa = PBXBuildFile; fileRef = CD1064E027D8FB4100C60FE3 /* NativeCalendarModule.js */; };
 		CD1064E227D8FB4100C60FE3 /* NativeCalendarModule.js in Resources */ = {isa = PBXBuildFile; fileRef = CD1064E027D8FB4100C60FE3 /* NativeCalendarModule.js */; };
 		CD1064E427D8FC6200C60FE3 /* react-native-calendar-module.podspec in Resources */ = {isa = PBXBuildFile; fileRef = CD1064E327D8FC6200C60FE3 /* react-native-calendar-module.podspec */; };
 		CD1064E527D8FC6200C60FE3 /* react-native-calendar-module.podspec in Resources */ = {isa = PBXBuildFile; fileRef = CD1064E327D8FC6200C60FE3 /* react-native-calendar-module.podspec */; };
+		CD1064E727D903DA00C60FE3 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD1064E627D903DA00C60FE3 /* MapKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,10 +42,10 @@
 		00E356F21AD99517003FC87E /* AwesomeAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AwesomeAppTests.m; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* AwesomeApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AwesomeApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = AwesomeApp/AppDelegate.h; sourceTree = "<group>"; };
-		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = AwesomeApp/AppDelegate.m; sourceTree = "<group>"; };
+		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = AwesomeApp/AppDelegate.mm; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = AwesomeApp/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = AwesomeApp/Info.plist; sourceTree = "<group>"; };
-		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = AwesomeApp/main.m; sourceTree = "<group>"; };
+		13B07FB71A68108700A75B9A /* main.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = main.mm; path = AwesomeApp/main.mm; sourceTree = "<group>"; };
 		30D4FCA20EAC13651457FFE3 /* Pods-AwesomeApp-AwesomeAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AwesomeApp-AwesomeAppTests.release.xcconfig"; path = "Target Support Files/Pods-AwesomeApp-AwesomeAppTests/Pods-AwesomeApp-AwesomeAppTests.release.xcconfig"; sourceTree = "<group>"; };
 		36DE1AF3055FC0B9C0C4CE45 /* libPods-AwesomeApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AwesomeApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D2EFABED84AFFC56CF88052 /* libPods-AwesomeApp-AwesomeAppTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AwesomeApp-AwesomeAppTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -52,10 +53,11 @@
 		8AE08E772A1CA8B7432D2387 /* Pods-AwesomeApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AwesomeApp.release.xcconfig"; path = "Target Support Files/Pods-AwesomeApp/Pods-AwesomeApp.release.xcconfig"; sourceTree = "<group>"; };
 		A5E07916F2642040FBBDC7BC /* Pods-AwesomeApp-AwesomeAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AwesomeApp-AwesomeAppTests.debug.xcconfig"; path = "Target Support Files/Pods-AwesomeApp-AwesomeAppTests/Pods-AwesomeApp-AwesomeAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 		CD1064D827D8F0AC00C60FE3 /* RCTCalendarModule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RCTCalendarModule.h; sourceTree = "<group>"; };
-		CD1064D927D8F10C00C60FE3 /* RCTCalendarModule.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RCTCalendarModule.m; sourceTree = "<group>"; };
-		CD1064DD27D8F83700C60FE3 /* RCTViewManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RCTViewManager.m; sourceTree = "<group>"; };
+		CD1064D927D8F10C00C60FE3 /* RCTCalendarModule.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = RCTCalendarModule.mm; sourceTree = "<group>"; };
+		CD1064DD27D8F83700C60FE3 /* RCTViewManager.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = RCTViewManager.mm; sourceTree = "<group>"; };
 		CD1064E027D8FB4100C60FE3 /* NativeCalendarModule.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = NativeCalendarModule.js; sourceTree = "<group>"; };
 		CD1064E327D8FC6200C60FE3 /* react-native-calendar-module.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = "react-native-calendar-module.podspec"; sourceTree = "<group>"; };
+		CD1064E627D903DA00C60FE3 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -72,6 +74,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD1064E727D903DA00C60FE3 /* MapKit.framework in Frameworks */,
 				553E478199A2B49DF7593357 /* libPods-AwesomeApp.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -100,11 +103,11 @@
 			isa = PBXGroup;
 			children = (
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
-				13B07FB01A68108700A75B9A /* AppDelegate.m */,
+				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
-				13B07FB71A68108700A75B9A /* main.m */,
+				13B07FB71A68108700A75B9A /* main.mm */,
 			);
 			name = AwesomeApp;
 			sourceTree = "<group>";
@@ -112,6 +115,7 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CD1064E627D903DA00C60FE3 /* MapKit.framework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				36DE1AF3055FC0B9C0C4CE45 /* libPods-AwesomeApp.a */,
 				5D2EFABED84AFFC56CF88052 /* libPods-AwesomeApp-AwesomeAppTests.a */,
@@ -156,7 +160,7 @@
 			isa = PBXGroup;
 			children = (
 				CD1064D827D8F0AC00C60FE3 /* RCTCalendarModule.h */,
-				CD1064D927D8F10C00C60FE3 /* RCTCalendarModule.m */,
+				CD1064D927D8F10C00C60FE3 /* RCTCalendarModule.mm */,
 				CD1064E027D8FB4100C60FE3 /* NativeCalendarModule.js */,
 				CD1064E327D8FC6200C60FE3 /* react-native-calendar-module.podspec */,
 			);
@@ -166,7 +170,7 @@
 		CD1064DC27D8F7F100C60FE3 /* RCTMapView */ = {
 			isa = PBXGroup;
 			children = (
-				CD1064DD27D8F83700C60FE3 /* RCTViewManager.m */,
+				CD1064DD27D8F83700C60FE3 /* RCTViewManager.mm */,
 			);
 			path = RCTMapView;
 			sourceTree = "<group>";
@@ -441,8 +445,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				00E356F31AD99517003FC87E /* AwesomeAppTests.m in Sources */,
-				CD1064DB27D8F10C00C60FE3 /* RCTCalendarModule.m in Sources */,
-				CD1064DF27D8F83700C60FE3 /* RCTViewManager.m in Sources */,
+				CD1064DB27D8F10C00C60FE3 /* RCTCalendarModule.mm in Sources */,
+				CD1064DF27D8F83700C60FE3 /* RCTViewManager.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -450,10 +454,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CD1064DA27D8F10C00C60FE3 /* RCTCalendarModule.m in Sources */,
-				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
-				CD1064DE27D8F83700C60FE3 /* RCTViewManager.m in Sources */,
-				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				CD1064DA27D8F10C00C60FE3 /* RCTCalendarModule.mm in Sources */,
+				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
+				CD1064DE27D8F83700C60FE3 /* RCTViewManager.mm in Sources */,
+				13B07FC11A68108700A75B9A /* main.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

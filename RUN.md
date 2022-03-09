@@ -303,3 +303,23 @@ Let's continue with the Playbook to see if it get fixed with some of the next ch
 1. Search for the `CLANG_CXX_LANGUAGE_STANDARD` property
 1. Change it to `C++17`
 1. `cmd+b` -> success
+
+**ISSUE:**
+The build can't still run
+
+### [[Turbo Modules - App Support] Use Objective-C++ (iOS)]()
+1. Open the `AwesomeApp.xcworkspace` file
+1. Rename all the `.m` files in `.mm`. The files to be updated are:
+    * `RCTViewManager.m`
+    * `RCTCalendarModule.m`
+    * `AppDelegate.m`
+    * `main.m`
+1. `cmd+b` -> Fails: The MKMapView is not found.
+1. Select the `AwesomeApp` project in the project navigator
+1. Select the `AwesomeApp` target in the `Targets` pane
+1. Scroll down until we find the `Frameworks, Libraries, and Embedded Content`
+1. Click on the `+` and manually add the `MapKit.framework` framework
+1. `cmd+b` -> success
+
+**ISSUE:**
+The build can't still run
