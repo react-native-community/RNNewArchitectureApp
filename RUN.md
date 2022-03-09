@@ -486,3 +486,7 @@ The app still can't run
 
 **ISSUES**
 - The code in the websites suggests to use `JSCExecutorFactory` in the final factory, but this is an abstract object. It should be replaced by `HermesExecutorFactory`.
+
+### [[TurboModules] Enable TurboModule System]()
+1. Open `AppDelegate.mm`
+1. In the `application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions` method add the statement `RCTEnableTurboModule(YES);` before the bridge is created.
