@@ -499,3 +499,52 @@ The app still can't run
     * `:app_path => "#{Dir.pwd}/.."`
 4. run `pod install`
 5. run `cmd+b` -> success
+
+**ISSUES:**
+- When installing the pod, you'll see this lines:
+```sh
+[!] Can't merge user_target_xcconfig for pod targets: ["React-RCTFabric", "hermes-engine"]. Singular build setting CLANG_CXX_LANGUAGE_STANDARD has different values.
+
+[!] Can't merge user_target_xcconfig for pod targets: ["React-RCTFabric", "hermes-engine"]. Singular build setting CLANG_CXX_LANGUAGE_STANDARD has different values.
+
+[!] Can't merge user_target_xcconfig for pod targets: ["React-RCTFabric", "hermes-engine"]. Singular build setting CLANG_CXX_LANGUAGE_STANDARD has different values.
+
+[!] Can't merge user_target_xcconfig for pod targets: ["React-RCTFabric", "hermes-engine"]. Singular build setting CLANG_CXX_LANGUAGE_STANDARD has different values.
+```
+This is due to a version of the hermes-engine which hardcodes the `CLANG_CXX_LANGUAGE_STANDARD` to `C++14`
+- The app still cannot be run
+
+## [[Fabric] Update your root view]()
+1. Open the `AppDelegate.mm`
+1. Add the following imports:
+    ```objective-c
+    #import <React/RCTFabricSurfaceHostingProxyRootView.h>
+    #import <React/RCTSurfacePresenter.h>
+    #import <React/RCTSurfacePresenterBridgeAdapter.h>
+    #import <react/config/ReactNativeConfig.h>
+    ```
+1. Add the following properties in the `@interface` section
+    ```objective-c
+    RCTSurfacePresenterBridgeAdapter *_bridgeAdapter;
+    std::shared_ptr<const facebook::react::ReactNativeConfig> _reactNativeConfig;
+    facebook::react::ContextContainer::Shared _contextContainer;
+    ```
+1. Replace the line that starts with `UIView *rootView` with the following:
+    ```objective-c
+    _contextContainer->insert("ReactNativeConfig", _reactNativeConfig);
+
+    _bridgeAdapter = [[RCTSurfacePresenterBridgeAdapter alloc]
+            initWithBridge:bridge
+        contextContainer:_contextContainer];
+
+    bridge.surfacePresenter = _bridgeAdapter.surfacePresenter;
+
+    UIView *rootView =
+        [[RCTFabricSurfaceHostingProxyRootView alloc] initWithBridge:bridge
+                                                            moduleName:@"MyTestApp"
+                                                    initialProperties:nil];
+    ```
+1. `cmd+b` -> success
+
+**ISSUES**
+* The app can't run
