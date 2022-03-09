@@ -558,3 +558,9 @@ This is due to a version of the hermes-engine which hardcodes the `CLANG_CXX_LAN
     './node_modules/react-native/packages/babel-plugin-codegen'
   ],
 ```
+
+### [[Fabric] Pod install]
+1. `cd ios`
+1. `RCT_NEW_ARCH_ENABLED=1 pod install` -> completes with several warnings
+1. `cmd+B` -> success
+1. `cmd+R` -> still borken
