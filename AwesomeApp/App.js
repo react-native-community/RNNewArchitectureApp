@@ -12,7 +12,6 @@ import {
   SafeAreaView,
   StatusBar,
   useColorScheme,
-  NativeModules, // Import the native modules
   Button
 } from 'react-native';
 
@@ -20,8 +19,8 @@ import {
   Colors,
 } from 'react-native/Libraries/NewAppScreen';
 
-// Create an object with the calendar module
-const { CalendarModule } = NativeModules;
+import CalendarModule from './CalendarModule';
+
 const NewModuleButton: () => Node = () => {
   const onPress = () => {
     CalendarModule.createCalendarEvent('testName', `testLocation`);

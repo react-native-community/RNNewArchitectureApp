@@ -62,7 +62,7 @@ RCT_EXPORT_METHOD(createCalendarEvent:(NSString *)name location:(NSString *)loca
 1. `cmd+B` -> success
 1. `cmd+R` -> success
 
-### [[Native Modules] What You Have Built]()
+### [[Native Modules] Test what You Have Built]()
 
 1. Open the `App.js` file
 1. Replace its content with the following:
@@ -130,3 +130,27 @@ export default App;
 1. `opt+shift+I` to open the developer tools
 1. Reload the app in the simulator
 1. Tap on the button -> observe the `Pretending to create an event testName at testLocation` message on the screen
+
+### [[Native Modules] Better Native Module Export]()
+1. Create a new file `CalendarModule.js` at the same level of `App.js`
+1. Add this content
+    ```js
+    /**
+    * This exposes the native CalendarModule module as a JS module. This has a
+    * function 'createCalendarEvent' which takes the following parameters:
+
+    * 1. String name: A string representing the name of the event
+    * 2. String location: A string representing the location of the event
+    */
+    import { NativeModules } from 'react-native';
+    const { CalendarModule } = NativeModules;
+    export default CalendarModule;
+    ```
+1. Update the code in the `App.js` file:
+    1. Remove `  NativeModules, // Import the native modules`
+    1. Remove `// Create an object with the calendar module`
+    1. Remove `const { CalendarModule } = NativeModules;`
+    1. Add `import CalendarModule from './CalendarModule';`
+1. Reload the app in the simulator
+1. Press on the button
+1. Observe the same `Pretending to create an event testName at testLocation` message appearing in the console
