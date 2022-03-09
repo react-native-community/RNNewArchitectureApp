@@ -8,10 +8,14 @@
 
 ## Steps (From most recent to least recent command)
 
+## STOP HERE
+After all this work, we figured out that starting the project from the nighlty build will simplify a lot of the issue that users could incur into.
+We leave this branch as reference, but we will start a new branch where the project is initialized using a published version.
+
 ### [[TurboModules] Enable TurboModules system]()
 Steps:
-1. Open the `AppDelegate.mm` file in Xcode
-2.
+1. Open the `AppDelegate.mm` file in Xcode.
+2. Add the `RCTEnableTurboModule(YES);` statement as first line of the method `(BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions`.
 
 ### [[TurboModules] Install TurboModuleManager JavaScript Bindings]()
 Steps:
