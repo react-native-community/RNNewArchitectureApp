@@ -7,16 +7,31 @@
 * **Ruby:** rbenv with ruby 2.7.4 (If you have trouble installing it, try with `RUBY_CFLAGS=“-w” rbenv install 2.7.4`)
 * **Node:** v16.14.0
 
-## Steps
+## Final Considerations
 
-### [[Setup] react-native init]()
+> Final considerations are reported on top, as a sort of todo-list about things we can fix. The run log can be found after these.
+
+This run follows blindly the current playbook, starting from the live version of React Native and following a path that starts with the Native Modules and Native Components and ends up with Turbo Modules and Fabric.
+
+The playbook is, at the moment of writing, imprecise and with many details left out from it. In particular:
+
+- There are no fixes about **issues** that can happen.
+- It is not explained how the **codegen** works: when it is invoked, where the files are stored, how to trigger it, ...
+- There is no part where the playbook **connects** the TurboModule/Fabric component to the JS app
+- The final app **cannot be run**
+- There are some pieces of code that are **outdated**
+- The tooling presents some **warnings** that can be worrysome for some users.
+
+## Run Log
+
+### [[Setup] react-native init](https://github.com/cortinico/RNNewArchitectureApp/commit/f3d58f6b9b7fc28a3ac417356597ad09832beee7)
 Steps:
 1. `npx react-native init AwesomeApp` (when asked, install cocoapods using `gem`)
 1. `cd AwesomeApp`
 1. `npx react-native start`
 1. `npx react-native run-ios`
 
-### [[Setup] Change react native to nightly]()
+### [[Setup] Change react native to nightly](https://github.com/cortinico/RNNewArchitectureApp/commit/c1d1d973a176105747d334bfd73083dbc9a0e8e0)
 Steps:
 1. Open the `package.json`
 1. Change the react native version to `0.0.0-20220308-2009-c8067f1ff`
@@ -29,99 +44,99 @@ Steps:
 1. `cmd+B` -> success
 1. `cmd+R` -> see the app running
 
-### [[Native Modules] Create a native Module - iOS side]()
+### [[Native Modules] Create a native Module - iOS side](https://github.com/cortinico/RNNewArchitectureApp/commit/911728b72f98cd8bf0adf8767da6c8fcd83f0da6)
 1. In Xcode, create a new group `CalendarModule` at the same level of `AwesomeApp`
 1. Select the `CalendarModule` group and `cmd+N` to create a new file.
 1. Choose `Header File` and call it `RCTCalendarModule`
 1. Copy the following snippet in the file
-```obj-c
-#import <React/RCTBridgeModule.h>
-@interface RCTCalendarModule : NSObject <RCTBridgeModule>
-@end
-```
+    ```obj-c
+    #import <React/RCTBridgeModule.h>
+    @interface RCTCalendarModule : NSObject <RCTBridgeModule>
+    @end
+    ```
 1. Select the `CalendarModule` group and `cmd+N` to create a new file.
 1. Choose `Objective-C File` and call it `RCTCalendarModule`
 1. Set the membership to both `AwesomeApp` and `AwesomeAppTests`
 1. Replace the file content with the following code:
-```objective-c
-#import "RCTCalendarModule.h"
-#import <React/RCTLog.h>
+    ```objective-c
+    #import "RCTCalendarModule.h"
+    #import <React/RCTLog.h>
 
-@implementation RCTCalendarModule
+    @implementation RCTCalendarModule
 
-// To export a module named RCTCalendarModule
-RCT_EXPORT_MODULE();
+    // To export a module named RCTCalendarModule
+    RCT_EXPORT_MODULE();
 
-RCT_EXPORT_METHOD(createCalendarEvent:(NSString *)name location:(NSString *)location)
-{
-  RCTLogInfo(@"Pretending to create an event %@ at %@", name, location);
-}
+    RCT_EXPORT_METHOD(createCalendarEvent:(NSString *)name location:(NSString *)location)
+    {
+    RCTLogInfo(@"Pretending to create an event %@ at %@", name, location);
+    }
 
-@end
-```
+    @end
+    ```
 1. `cmd+B` -> success
 1. `cmd+R` -> success
 
-### [[Native Modules] Test what You Have Built]()
+### [[Native Modules] Test what You Have Built](https://github.com/cortinico/RNNewArchitectureApp/commit/df4e139e3a18c32dfe6dc71e99c076046f577550)
 
 1. Open the `App.js` file
 1. Replace its content with the following:
-```js
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
+    ```js
+    /**
+     * Sample React Native App
+     * https://github.com/facebook/react-native
+     *
+     * @format
+     * @flow strict-local
+     */
 
-import React from 'react';
-import type {Node} from 'react';
-import {
-  SafeAreaView,
-  StatusBar,
-  useColorScheme,
-  NativeModules, // Import the native modules
-  Button
-} from 'react-native';
+    import React from 'react';
+    import type {Node} from 'react';
+    import {
+    SafeAreaView,
+    StatusBar,
+    useColorScheme,
+    NativeModules, // Import the native modules
+    Button
+    } from 'react-native';
 
-import {
-  Colors,
-} from 'react-native/Libraries/NewAppScreen';
+    import {
+    Colors,
+    } from 'react-native/Libraries/NewAppScreen';
 
-// Create an object with the calendar module
-const { CalendarModule } = NativeModules;
-const NewModuleButton: () => Node = () => {
-  const onPress = () => {
-    CalendarModule.createCalendarEvent('testName', `testLocation`);
-  };
+    // Create an object with the calendar module
+    const { CalendarModule } = NativeModules;
+    const NewModuleButton: () => Node = () => {
+    const onPress = () => {
+        CalendarModule.createCalendarEvent('testName', `testLocation`);
+    };
 
-  return (
-    <Button
-      title="Click to invoke your native module!"
-      color="#841584"
-      onPress={onPress}
-    />
-  );
-};
+    return (
+        <Button
+        title="Click to invoke your native module!"
+        color="#841584"
+        onPress={onPress}
+        />
+    );
+    };
 
-const App: () => Node = () => {
-  const isDarkMode = useColorScheme() === 'dark';
+    const App: () => Node = () => {
+    const isDarkMode = useColorScheme() === 'dark';
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+    const backgroundStyle = {
+        backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+    };
 
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <NewModuleButton />
-    </SafeAreaView>
-  );
-};
+    return (
+        <SafeAreaView style={backgroundStyle}>
+        <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+        <NewModuleButton />
+        </SafeAreaView>
+    );
+    };
 
-export default App;
-```
+    export default App;
+    ```
 1. `npx react-native start`
 1. `npx react-native run-ios`
 1. Select the simulator.
@@ -131,7 +146,7 @@ export default App;
 1. Reload the app in the simulator
 1. Tap on the button -> observe the `Pretending to create an event testName at testLocation` message on the screen
 
-### [[Native Modules] Better Native Module Export]()
+### [[Native Modules] Better Native Module Export](https://github.com/cortinico/RNNewArchitectureApp/commit/3e9f993f3ca62b59bbbe23f339485873781aaa8f)
 1. Create a new file `CalendarModule.js` at the same level of `App.js`
 1. Add this content
     ```js
@@ -155,7 +170,7 @@ export default App;
 1. Press on the button
 1. Observe the same `Pretending to create an event testName at testLocation` message appearing in the console
 
-### [[Native Components] iOS Native UI Component]()
+### [[Native Components] iOS Native UI Component](https://github.com/cortinico/RNNewArchitectureApp/commit/facbf1ed52a1991db50bf83f816bcbe94b70d966)
 
 1. In Xcode, create a new group and call it `RCTMapView`
 1. `cmd+N`
@@ -187,7 +202,7 @@ export default App;
 1. `cmd+b` -> success
 1. `cmd+r` -> success
 
-### [[Native Components] Connect iOS component to JS]()
+### [[Native Components] Connect iOS component to JS](https://github.com/cortinico/RNNewArchitectureApp/commit/c0667a37169dac2dae25087e2deb607d4e0a1894)
 1. Create a new `MapView.js` file, at the same level of the `App.js` file
 1. Replace its content with:
     ```js
@@ -203,7 +218,7 @@ export default App;
 1. Update the `MapView` component with the `zoomEnabled={false}` attribute.
 1. Observe that the zoom is now disabled.
 
-### [[Library Prerequisites] Writing the JavaScript Spec]()
+### [[Library Prerequisites] Writing the JavaScript Spec](https://github.com/cortinico/RNNewArchitectureApp/commit/d4cf1e305a2337c91795675e797e4926306a51f1)
 1. In Xcode, select the calendar module
 1. Create a new file called `NativeCalendarModule.js`
 1. Replace its content with the following:
@@ -221,7 +236,7 @@ export default App;
     export default (TurboModuleRegistry.get<Spec>('CalendarModule'): ?Spec);
     ```
 
-### [[Library Prerequisites] Enable Autolinking - Add podspec file]()
+### [[Library Prerequisites] Enable Autolinking - Add podspec file](https://github.com/cortinico/RNNewArchitectureApp/commit/3a5b9b4745e9a14e87f2e4cba9136cb8ce63e706)
 1. In Xcode, select the calendar module group
 1. Create a new file called `react-native-calendar-module.podspec`
 1. Replace the content of the file with the following:
@@ -241,7 +256,7 @@ export default App;
     end
     ```
 
-### [[Turbo Modules - Library Support] Update podspecs for new Architecture]()
+### [[Turbo Modules - Library Support] Update podspecs for new Architecture](https://github.com/cortinico/RNNewArchitectureApp/commit/2e293dfb7bab57e046301a42e9e231195e1ef05d)
 1. Open the `ios/CalendarModule/react-native-calendar-module.podspec`
 1. Add the following lines before the `Pod::Spec.new` block:
     ```ruby
@@ -266,7 +281,7 @@ export default App;
     s.dependency "ReactCommon/turbomodule/core"
     ```
 
-### [[Turbo Modules - Library Support] Enable CodeGen in Package.json]()
+### [[Turbo Modules - Library Support] Enable CodeGen in Package.json](https://github.com/cortinico/RNNewArchitectureApp/commit/d597a6bd1a9f020c29d690deee1acb894e52f9b5)
 1. Open `package.json`
 1. Append the following code before the final `}`
     ```json
@@ -281,10 +296,10 @@ export default App;
           ]
         }
     ```
-### [[Turbo Modules - App Prerequisites] Install CodeGen]()
+### [[Turbo Modules - App Prerequisites] Install CodeGen](https://github.com/cortinico/RNNewArchitectureApp/commit/adad55db7d4ee030431bbd3313d113190bda4537)
 1. In the root of the project, run `yarn add react-native-codegen`
 
-### [[Turbo Modules - App Support] Enable Hermes (iOS)]()
+### [[Turbo Modules - App Support] Enable Hermes (iOS)](https://github.com/cortinico/RNNewArchitectureApp/commit/70a1881d00f6404cbc029535e86bc79af68d0cda)
 1. Open the `ios/Podfile`
 1. Switch the `hermes_enabled` from `false` to `true`
 1. Run `pod install`
@@ -295,7 +310,7 @@ export default App;
 When enabling Hermes, the app builds but fails at runtime. At start-up, we get a `EXC_BAD_ACCESS` error in the `Inspector::installLogHandler()` function, when executing the statement `auto console = jsi::Object(rt);`.
 Let's continue with the Playbook to see if it get fixed with some of the next changes.
 
-### [[Turbo Modules - App Support] Enable C++17 (iOS)]()
+### [[Turbo Modules - App Support] Enable C++17 (iOS)](https://github.com/cortinico/RNNewArchitectureApp/commit/a3726a441ac99c2e4e8cbe7617f4eb36e8727d8e)
 1. Open the `AwesomeApp.xcworkspace` file
 1. Select the project in the project navigator
 1. Select the `AwesomeApp` project, in the projects panel
@@ -307,7 +322,7 @@ Let's continue with the Playbook to see if it get fixed with some of the next ch
 **ISSUE:**
 The build can't still run
 
-### [[Turbo Modules - App Support] Use Objective-C++ (iOS)]()
+### [[Turbo Modules - App Support] Use Objective-C++ (iOS)](https://github.com/cortinico/RNNewArchitectureApp/commit/ce37d823c5828d8c28a60ce073bb1fd0300263e4)
 1. Open the `AwesomeApp.xcworkspace` file
 1. Rename all the `.m` files in `.mm`. The files to be updated are:
     * `RCTViewManager.m`
@@ -324,7 +339,7 @@ The build can't still run
 **ISSUE:**
 The build can't still run
 
-### [[Turbo Modules - App Support] Provide RCTCxxBridgeDelegate]()
+### [[Turbo Modules - App Support] Provide RCTCxxBridgeDelegate](https://github.com/cortinico/RNNewArchitectureApp/commit/e391a976340bc5fdcd3a647e5f27f33d813a1940)
 1. Open the `AppDelegate.mm` file
 1. Add the following imports:
     ```objective-c
@@ -367,7 +382,7 @@ When importing `<reacthermes/HermesExecutorFactory.h>`, we also need to enable f
 
 The build can't still run
 
-### [[Turbo Modules] Provide a TurboModuleManager Delegate]()
+### [[Turbo Modules] Provide a TurboModuleManager Delegate](https://github.com/cortinico/RNNewArchitectureApp/commit/3cf7c2ba3ef4c1d3f8a41e0a71ee8f93c975d179)
 1. Open the `AppDelegate.mm`
 1. Add the following imports:
     ```objective-c
@@ -434,7 +449,7 @@ The build can't still run
 **ISSUES**
 The app still can't run
 
-### [[Turbo Modules] Install TurboModuleManager JavaScript Bindings]()
+### [[Turbo Modules] Install TurboModuleManager JavaScript Bindings](https://github.com/cortinico/RNNewArchitectureApp/commit/d695bdf169251e6fc1580542a7df39a7dbf8863b)
 1. Open the `AppDelegate.mm`
 2. Update the code of the `jsExecutorFactoryForBridge` with the following:
     ```c++
@@ -487,11 +502,11 @@ The app still can't run
 **ISSUES**
 - The code in the websites suggests to use `JSCExecutorFactory` in the final factory, but this is an abstract object. It should be replaced by `HermesExecutorFactory`.
 
-### [[TurboModules] Enable TurboModule System]()
+### [[TurboModules] Enable TurboModule System](https://github.com/cortinico/RNNewArchitectureApp/commit/07dc22fda481080ea7908d5cc9bc840f92a61cbd)
 1. Open `AppDelegate.mm`
 1. In the `application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions` method add the statement `RCTEnableTurboModule(YES);` before the bridge is created.
 
-### [[Fabric] Enable Fabric in Podfile]()
+### [[Fabric] Enable Fabric in Podfile](https://github.com/cortinico/RNNewArchitectureApp/commit/7fa36f1435e471088fa521a7a3d367cd08acb5b7)
 1. Open `Podfile`
 2. Add this line `install! 'cocoapods', :deterministic_uuids => false` before the `platform` statement
 3. in the `use_react_native!(`, add the following parameters
@@ -502,19 +517,19 @@ The app still can't run
 
 **ISSUES:**
 - When installing the pod, you'll see this lines:
-```sh
-[!] Can't merge user_target_xcconfig for pod targets: ["React-RCTFabric", "hermes-engine"]. Singular build setting CLANG_CXX_LANGUAGE_STANDARD has different values.
+    ```sh
+    [!] Can't merge user_target_xcconfig for pod targets: ["React-RCTFabric", "hermes-engine"]. Singular build setting CLANG_CXX_LANGUAGE_STANDARD has different values.
 
-[!] Can't merge user_target_xcconfig for pod targets: ["React-RCTFabric", "hermes-engine"]. Singular build setting CLANG_CXX_LANGUAGE_STANDARD has different values.
+    [!] Can't merge user_target_xcconfig for pod targets: ["React-RCTFabric", "hermes-engine"]. Singular build setting CLANG_CXX_LANGUAGE_STANDARD has different values.
 
-[!] Can't merge user_target_xcconfig for pod targets: ["React-RCTFabric", "hermes-engine"]. Singular build setting CLANG_CXX_LANGUAGE_STANDARD has different values.
+    [!] Can't merge user_target_xcconfig for pod targets: ["React-RCTFabric", "hermes-engine"]. Singular build setting CLANG_CXX_LANGUAGE_STANDARD has different values.
 
-[!] Can't merge user_target_xcconfig for pod targets: ["React-RCTFabric", "hermes-engine"]. Singular build setting CLANG_CXX_LANGUAGE_STANDARD has different values.
-```
+    [!] Can't merge user_target_xcconfig for pod targets: ["React-RCTFabric", "hermes-engine"]. Singular build setting CLANG_CXX_LANGUAGE_STANDARD has different values.
+    ```
 This is due to a version of the hermes-engine which hardcodes the `CLANG_CXX_LANGUAGE_STANDARD` to `C++14`
 - The app still cannot be run
 
-## [[Fabric] Update your root view]()
+## [[Fabric] Update your root view](https://github.com/cortinico/RNNewArchitectureApp/commit/afc4f023b3c561fa76d547210edaf190db8a5fd6)
 1. Open the `AppDelegate.mm`
 1. Add the following imports:
     ```objective-c
@@ -549,18 +564,22 @@ This is due to a version of the hermes-engine which hardcodes the `CLANG_CXX_LAN
 **ISSUES**
 * The app can't run
 
-### [[Fabric] Add Babel Plugin]()
+### [[Fabric] Add Babel Plugin](https://github.com/cortinico/RNNewArchitectureApp/commit/650618ffe4e4d4b86967798708b093f6b5c072fd)
 1. Open the `babel.config.js` file
 1. Add this code after the `plugins` section and before the `};`
-```js
-  presets: [
-    '@babel/plugin-proposal-class-properties',
-    './node_modules/react-native/packages/babel-plugin-codegen'
-  ],
-```
+    ```js
+    presets: [
+        '@babel/plugin-proposal-class-properties',
+        './node_modules/react-native/packages/babel-plugin-codegen'
+    ],
+    ```
 
-### [[Fabric] Pod install]
+### [[Fabric] Pod install](https://github.com/cortinico/RNNewArchitectureApp/commit/f1f0d527ddcd44f164fd979c3f15b18ab4e961d4)
 1. `cd ios`
 1. `RCT_NEW_ARCH_ENABLED=1 pod install` -> completes with several warnings
 1. `cmd+B` -> success
 1. `cmd+R` -> still borken
+
+### [[Playbook ends] Final Considerations](#final-considerations)
+
+Click on the title to go back on top.
