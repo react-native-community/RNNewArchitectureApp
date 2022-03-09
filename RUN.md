@@ -186,3 +186,19 @@ export default App;
     ```
 1. `cmd+b` -> success
 1. `cmd+r` -> success
+
+### [[Native Components] Connect iOS component to JS]()
+1. Create a new `MapView.js` file, at the same level of the `App.js` file
+1. Replace its content with:
+    ```js
+    import { requireNativeComponent } from 'react-native';
+
+    // requireNativeComponent automatically resolves 'RNTMap' to 'RNTMapManager'
+    module.exports = requireNativeComponent('RNTMap');
+    ```
+1. Open the `App.js` file
+1. Add the `import MapView from './MapView.js';` statement
+1. Add the `<MapView style={{ width: "100%", height: "100%" }} />` statement below the `<NewModuleButton />`
+1. Save and see that a map appears in the simulator. You can pinch-to-zoom (to zoom, keep the `opt` key pressed), and drag it.
+1. Update the `MapView` component with the `zoomEnabled={false}` attribute.
+1. Observe that the zoom is now disabled.

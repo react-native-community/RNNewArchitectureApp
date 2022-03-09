@@ -20,6 +20,7 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 
 import CalendarModule from './CalendarModule';
+import MapView from './MapView.js';
 
 const NewModuleButton: () => Node = () => {
   const onPress = () => {
@@ -46,6 +47,7 @@ const App: () => Node = () => {
     <SafeAreaView style={backgroundStyle}>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
       <NewModuleButton />
+      <MapView zoomEnabled={false} style={{ width: "100%", height: "100%" }} />
     </SafeAreaView>
   );
 };
