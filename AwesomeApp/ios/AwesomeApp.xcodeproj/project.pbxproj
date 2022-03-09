@@ -20,6 +20,8 @@
 		CD1064DF27D8F83700C60FE3 /* RCTViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CD1064DD27D8F83700C60FE3 /* RCTViewManager.m */; };
 		CD1064E127D8FB4100C60FE3 /* NativeCalendarModule.js in Resources */ = {isa = PBXBuildFile; fileRef = CD1064E027D8FB4100C60FE3 /* NativeCalendarModule.js */; };
 		CD1064E227D8FB4100C60FE3 /* NativeCalendarModule.js in Resources */ = {isa = PBXBuildFile; fileRef = CD1064E027D8FB4100C60FE3 /* NativeCalendarModule.js */; };
+		CD1064E427D8FC6200C60FE3 /* react-native-calendar-module.podspec in Resources */ = {isa = PBXBuildFile; fileRef = CD1064E327D8FC6200C60FE3 /* react-native-calendar-module.podspec */; };
+		CD1064E527D8FC6200C60FE3 /* react-native-calendar-module.podspec in Resources */ = {isa = PBXBuildFile; fileRef = CD1064E327D8FC6200C60FE3 /* react-native-calendar-module.podspec */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +55,7 @@
 		CD1064D927D8F10C00C60FE3 /* RCTCalendarModule.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RCTCalendarModule.m; sourceTree = "<group>"; };
 		CD1064DD27D8F83700C60FE3 /* RCTViewManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RCTViewManager.m; sourceTree = "<group>"; };
 		CD1064E027D8FB4100C60FE3 /* NativeCalendarModule.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = NativeCalendarModule.js; sourceTree = "<group>"; };
+		CD1064E327D8FC6200C60FE3 /* react-native-calendar-module.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = "react-native-calendar-module.podspec"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -155,6 +158,7 @@
 				CD1064D827D8F0AC00C60FE3 /* RCTCalendarModule.h */,
 				CD1064D927D8F10C00C60FE3 /* RCTCalendarModule.m */,
 				CD1064E027D8FB4100C60FE3 /* NativeCalendarModule.js */,
+				CD1064E327D8FC6200C60FE3 /* react-native-calendar-module.podspec */,
 			);
 			path = CalendarModule;
 			sourceTree = "<group>";
@@ -266,6 +270,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CD1064E227D8FB4100C60FE3 /* NativeCalendarModule.js in Resources */,
+				CD1064E527D8FC6200C60FE3 /* react-native-calendar-module.podspec in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -274,6 +279,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
+				CD1064E427D8FC6200C60FE3 /* react-native-calendar-module.podspec in Resources */,
 				CD1064E127D8FB4100C60FE3 /* NativeCalendarModule.js in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 			);

@@ -220,3 +220,23 @@ export default App;
 
     export default (TurboModuleRegistry.get<Spec>('CalendarModule'): ?Spec);
     ```
+
+### [[Library Prerequisites] Enable Autolinking - Add podspec file]()
+1. In Xcode, select the calendar module group
+1. Create a new file called `react-native-calendar-module.podspec`
+1. Replace the content of the file with the following:
+    ```ruby
+    Pod::Spec.new do |s|
+    s.name            = "CalendarModule"
+    s.version         = "0.0.1"
+    s.summary         = "Calendar Module"
+    s.description     = "Calendar Module"
+    s.homepage        = "https://github.com/facebook/react-native.git"
+    s.license         = "MIT"
+    s.platforms       = { :ios => "11.0" }
+    s.author          = "Riccardo Cipolleschi"
+    s.source          = { :git => "https://github.com/facebook/react-native.git", :tag => "#{s.version}" }
+
+    s.source_files    = "./**/*.{h,m,mm,swift}"
+    end
+    ```
