@@ -433,3 +433,56 @@ The build can't still run
 1. `cmd+b` -> success
 **ISSUES**
 The app still can't run
+
+### [[Turbo Modules] Install TurboModuleManager JavaScript Bindings]()
+1. Open the `AppDelegate.mm`
+2. Update the code of the `jsExecutorFactoryForBridge` with the following:
+    ```c++
+    - (std::unique_ptr<facebook::react::JSExecutorFactory>)jsExecutorFactoryForBridge:(RCTBridge *)bridge
+    {
+    // Add these lines to create a TurboModuleManager
+    if (RCTTurboModuleEnabled()) {
+        _turboModuleManager =
+        [[RCTTurboModuleManager alloc] initWithBridge:bridge
+                                            delegate:self
+                                            jsInvoker:bridge.jsCallInvoker];
+
+        // Necessary to allow NativeModules to lookup TurboModules
+        [bridge setRCTTurboModuleRegistry:_turboModuleManager];
+
+        if (!RCTTurboModuleEagerInitEnabled()) {
+        /**
+        * Instantiating DevMenu has the side-effect of registering
+        * shortcuts for CMD + d, CMD + i,  and CMD + n via RCTDevMenu.
+        * Therefore, when TurboModules are enabled, we must manually create this
+        * NativeModule.
+        */
+        [_turboModuleManager moduleForName:"DevMenu"];
+        }
+    }
+
+    // Add this line...
+    __weak __typeof(self) weakSelf = self;
+
+    return std::make_unique<facebook::react::HermesExecutorFactory>(
+        facebook::react::RCTJSIExecutorRuntimeInstaller(
+            [weakSelf, bridge](facebook::jsi::Runtime &runtime) {
+                if (!bridge) {
+                    return;
+                }
+
+                // And add these lines to install the bindings...
+                __typeof(self) strongSelf = weakSelf;
+                if (strongSelf) {
+                    facebook::react::RuntimeExecutor syncRuntimeExecutor =
+                    [&](std::function<void(facebook::jsi::Runtime & runtime_)> &&callback) { callback(runtime); };
+                    [strongSelf->_turboModuleManager installJSBindingWithRuntimeExecutor:syncRuntimeExecutor];
+                }
+            }
+        )
+    );
+    ```
+1. `cmd+b` -> success
+
+**ISSUES**
+- The code in the websites suggests to use `JSCExecutorFactory` in the final factory, but this is an abstract object. It should be replaced by `HermesExecutorFactory`.

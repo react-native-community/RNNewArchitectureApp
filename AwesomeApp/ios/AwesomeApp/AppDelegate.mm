@@ -56,9 +56,9 @@ static void InitializeFlipper(UIApplication *application) {
                                             initialProperties:nil];
 
   if (@available(iOS 13.0, *)) {
-      rootView.backgroundColor = [UIColor systemBackgroundColor];
+    rootView.backgroundColor = [UIColor systemBackgroundColor];
   } else {
-      rootView.backgroundColor = [UIColor whiteColor];
+    rootView.backgroundColor = [UIColor whiteColor];
   }
 
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
@@ -82,11 +82,46 @@ static void InitializeFlipper(UIApplication *application) {
 
 - (std::unique_ptr<facebook::react::JSExecutorFactory>)jsExecutorFactoryForBridge:(RCTBridge *)bridge
 {
-  return std::make_unique<facebook::react::HermesExecutorFactory>(facebook::react::RCTJSIExecutorRuntimeInstaller([bridge](facebook::jsi::Runtime &runtime) {
-      if (!bridge) {
-        return;
-      }
-    })
+  // Add these lines to create a TurboModuleManager
+  if (RCTTurboModuleEnabled()) {
+    _turboModuleManager =
+    [[RCTTurboModuleManager alloc] initWithBridge:bridge
+                                         delegate:self
+                                        jsInvoker:bridge.jsCallInvoker];
+
+    // Necessary to allow NativeModules to lookup TurboModules
+    [bridge setRCTTurboModuleRegistry:_turboModuleManager];
+
+    if (!RCTTurboModuleEagerInitEnabled()) {
+      /**
+       * Instantiating DevMenu has the side-effect of registering
+       * shortcuts for CMD + d, CMD + i,  and CMD + n via RCTDevMenu.
+       * Therefore, when TurboModules are enabled, we must manually create this
+       * NativeModule.
+       */
+      [_turboModuleManager moduleForName:"DevMenu"];
+    }
+  }
+
+  // Add this line...
+  __weak __typeof(self) weakSelf = self;
+
+  return std::make_unique<facebook::react::HermesExecutorFactory>(
+      facebook::react::RCTJSIExecutorRuntimeInstaller(
+          [weakSelf, bridge](facebook::jsi::Runtime &runtime) {
+              if (!bridge) {
+                return;
+              }
+
+              // And add these lines to install the bindings...
+              __typeof(self) strongSelf = weakSelf;
+              if (strongSelf) {
+                facebook::react::RuntimeExecutor syncRuntimeExecutor =
+                [&](std::function<void(facebook::jsi::Runtime & runtime_)> &&callback) { callback(runtime); };
+                [strongSelf->_turboModuleManager installJSBindingWithRuntimeExecutor:syncRuntimeExecutor];
+              }
+          }
+      )
   );
 }
 
@@ -98,8 +133,8 @@ static void InitializeFlipper(UIApplication *application) {
 }
 
 - (std::shared_ptr<facebook::react::TurboModule>)
-    getTurboModule:(const std::string &)name
-         jsInvoker:(std::shared_ptr<facebook::react::CallInvoker>)jsInvoker {
+getTurboModule:(const std::string &)name
+jsInvoker:(std::shared_ptr<facebook::react::CallInvoker>)jsInvoker {
   return nullptr;
 }
 
@@ -108,22 +143,22 @@ static void InitializeFlipper(UIApplication *application) {
   // Set up the default RCTImageLoader and RCTNetworking modules.
   if (moduleClass == RCTImageLoader.class) {
     return [[moduleClass alloc] initWithRedirectDelegate:nil
-        loadersProvider:^NSArray<id<RCTImageURLLoader>> *(RCTModuleRegistry * moduleRegistry) {
-          return @ [[RCTLocalAssetImageLoader new]];
-        }
-        decodersProvider:^NSArray<id<RCTImageDataDecoder>> *(RCTModuleRegistry * moduleRegistry) {
-          return @ [[RCTGIFImageDecoder new]];
-        }];
+                                         loadersProvider:^NSArray<id<RCTImageURLLoader>> *(RCTModuleRegistry * moduleRegistry) {
+      return @ [[RCTLocalAssetImageLoader new]];
+    }
+                                        decodersProvider:^NSArray<id<RCTImageDataDecoder>> *(RCTModuleRegistry * moduleRegistry) {
+      return @ [[RCTGIFImageDecoder new]];
+    }];
   } else if (moduleClass == RCTNetworking.class) {
-     return [[moduleClass alloc]
-        initWithHandlersProvider:^NSArray<id<RCTURLRequestHandler>> *(
-            RCTModuleRegistry *moduleRegistry) {
-          return @[
-            [RCTHTTPRequestHandler new],
-            [RCTDataRequestHandler new],
-            [RCTFileRequestHandler new],
-          ];
-        }];
+    return [[moduleClass alloc]
+            initWithHandlersProvider:^NSArray<id<RCTURLRequestHandler>> *(
+                                                                          RCTModuleRegistry *moduleRegistry) {
+                                                                            return @[
+                                                                              [RCTHTTPRequestHandler new],
+                                                                              [RCTDataRequestHandler new],
+                                                                              [RCTFileRequestHandler new],
+                                                                            ];
+                                                                          }];
   }
   // No custom initializer here.
   return [moduleClass new];
