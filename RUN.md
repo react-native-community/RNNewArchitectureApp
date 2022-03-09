@@ -8,6 +8,17 @@
 
 ## Steps (From most recent to least recent command)
 
+### [[TurboModules] Provide RCTCxxBridgeDelegate]()
+Steps:
+1. Open the `ios/AwesomeApp.xcworkspace` file
+2. Open the `AppDelegate.mm`
+3. If the headers are not there, include the following headers:
+    ```objective-c
+#import <reacthermes/HermesExecutorFactory.h>
+#import <React/RCTCxxBridgeDelegate.h>
+#import <React/RCTJSIExecutorRuntimeInstaller.h>
+    ```
+
 ### [[TurboModules] Use Objective-C++]()
 Steps:
 1. Open the `ios/AwesomeApp.xcworkspace` file
