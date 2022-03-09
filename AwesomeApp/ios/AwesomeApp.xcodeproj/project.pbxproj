@@ -18,6 +18,8 @@
 		CD1064DB27D8F10C00C60FE3 /* RCTCalendarModule.m in Sources */ = {isa = PBXBuildFile; fileRef = CD1064D927D8F10C00C60FE3 /* RCTCalendarModule.m */; };
 		CD1064DE27D8F83700C60FE3 /* RCTViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CD1064DD27D8F83700C60FE3 /* RCTViewManager.m */; };
 		CD1064DF27D8F83700C60FE3 /* RCTViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CD1064DD27D8F83700C60FE3 /* RCTViewManager.m */; };
+		CD1064E127D8FB4100C60FE3 /* NativeCalendarModule.js in Resources */ = {isa = PBXBuildFile; fileRef = CD1064E027D8FB4100C60FE3 /* NativeCalendarModule.js */; };
+		CD1064E227D8FB4100C60FE3 /* NativeCalendarModule.js in Resources */ = {isa = PBXBuildFile; fileRef = CD1064E027D8FB4100C60FE3 /* NativeCalendarModule.js */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +52,7 @@
 		CD1064D827D8F0AC00C60FE3 /* RCTCalendarModule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RCTCalendarModule.h; sourceTree = "<group>"; };
 		CD1064D927D8F10C00C60FE3 /* RCTCalendarModule.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RCTCalendarModule.m; sourceTree = "<group>"; };
 		CD1064DD27D8F83700C60FE3 /* RCTViewManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RCTViewManager.m; sourceTree = "<group>"; };
+		CD1064E027D8FB4100C60FE3 /* NativeCalendarModule.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = NativeCalendarModule.js; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -151,6 +154,7 @@
 			children = (
 				CD1064D827D8F0AC00C60FE3 /* RCTCalendarModule.h */,
 				CD1064D927D8F10C00C60FE3 /* RCTCalendarModule.m */,
+				CD1064E027D8FB4100C60FE3 /* NativeCalendarModule.js */,
 			);
 			path = CalendarModule;
 			sourceTree = "<group>";
@@ -261,6 +265,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD1064E227D8FB4100C60FE3 /* NativeCalendarModule.js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -269,6 +274,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
+				CD1064E127D8FB4100C60FE3 /* NativeCalendarModule.js in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

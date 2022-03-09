@@ -202,3 +202,21 @@ export default App;
 1. Save and see that a map appears in the simulator. You can pinch-to-zoom (to zoom, keep the `opt` key pressed), and drag it.
 1. Update the `MapView` component with the `zoomEnabled={false}` attribute.
 1. Observe that the zoom is now disabled.
+
+### [[Library Prerequisites] Writing the JavaScript Spec]()
+1. In Xcode, select the calendar module
+1. Create a new file called `NativeCalendarModule.js`
+1. Replace its content with the following:
+    ```js
+    // @flow strict-local
+
+    import type {TurboModule} from 'react-native/Libraries/TurboModule/RCTExport';
+    import {TurboModuleRegistry} from 'react-native';
+
+    export interface Spec extends TurboModule {
+    // your module methods go here, for example:
+    createCalendarEvent(name: string, location: string): void;
+    }
+
+    export default (TurboModuleRegistry.get<Spec>('CalendarModule'): ?Spec);
+    ```
