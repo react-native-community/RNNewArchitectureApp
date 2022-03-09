@@ -8,7 +8,12 @@
 
 ## Steps (From most recent to least recent command)
 
-### [[TurboModules]Install TurboModuleManager JavaScript Bindings]()
+### [[TurboModules] Enable TurboModules system]()
+Steps:
+1. Open the `AppDelegate.mm` file in Xcode
+2.
+
+### [[TurboModules] Install TurboModuleManager JavaScript Bindings]()
 Steps:
 1. Open the `AppDelegate.mm` file in Xcode
 2. Add the `jsExecutorFactoryForBridge:(RCTBridge *)bridge` method
