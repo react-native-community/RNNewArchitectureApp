@@ -323,3 +323,46 @@ The build can't still run
 
 **ISSUE:**
 The build can't still run
+
+### [[Turbo Modules - App Support] Provide RCTCxxBridgeDelegate]()
+1. Open the `AppDelegate.mm` file
+1. Add the following imports:
+    ```objective-c
+    #import <reacthermes/HermesExecutorFactory.h>
+    #import <React/RCTCxxBridgeDelegate.h>
+    #import <React/RCTJSIExecutorRuntimeInstaller.h>
+    ```
+1. Add the following protocol conformance:
+    ```objective-c
+    @interface AppDelegate () <RCTCxxBridgeDelegate> {
+
+    }
+    @end
+    ```
+1. Add the following method implementation:
+    ```objective-c
+    #pragma mark - RCTCxxBridgeDelegate
+
+    - (std::unique_ptr<facebook::react::JSExecutorFactory>)jsExecutorFactoryForBridge:(RCTBridge *)bridge
+    {
+    return std::make_unique<facebook::react::HermesExecutorFactory>(facebook::react::RCTJSIExecutorRuntimeInstaller([bridge](facebook::jsi::Runtime &runtime) {
+        if (!bridge) {
+            return;
+        }
+        })
+    );
+    }
+    ```
+1. `cmd+b` -> failure. The app fails due to `'folly/folly-config.h' file not found`
+**ISSUES**
+When importing `<reacthermes/HermesExecutorFactory.h>`, we also need to enable folly. To do so:
+1. Select the `AwesomeApp` project in the Project Navigator
+1. Select the `AwesomeApp` target in the Target panel
+1. Select the `Build Settings` tab
+1. Search for `Compiler Flags`
+1. Double click on the `Other C++ Flags/Debug`
+1. Add the following flags `-DFOLLY_NO_CONFIG -DFOLLY_MOBILE=1 -DFOLLY_USE_LIBCPP=1 -Wno-comma -Wno-shorten-64-to-32`
+1. Repeat for the `Other C++ Flags/Release` flags
+1. `cmd+b` -> The app builds successfully
+
+The build can't still run
