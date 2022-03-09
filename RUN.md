@@ -28,3 +28,36 @@ Steps:
 1. replace `return [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];` with `return [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index"];`
 1. `cmd+B` -> success
 1. `cmd+R` -> see the app running
+
+### [[Native Modules] Create a native Module - iOS side]()
+1. In Xcode, create a new group `CalendarModule` at the same level of `AwesomeApp`
+1. Select the `CalendarModule` group and `cmd+N` to create a new file.
+1. Choose `Header File` and call it `RCTCalendarModule`
+1. Copy the following snippet in the file
+```obj-c
+#import <React/RCTBridgeModule.h>
+@interface RCTCalendarModule : NSObject <RCTBridgeModule>
+@end
+```
+1. Select the `CalendarModule` group and `cmd+N` to create a new file.
+1. Choose `Objective-C File` and call it `RCTCalendarModule`
+1. Set the membership to both `AwesomeApp` and `AwesomeAppTests`
+1. Replace the file content with the following code:
+```objective-c
+#import "RCTCalendarModule.h"
+#import <React/RCTLog.h>
+
+@implementation RCTCalendarModule
+
+// To export a module named RCTCalendarModule
+RCT_EXPORT_MODULE();
+
+RCT_EXPORT_METHOD(createCalendarEvent:(NSString *)name location:(NSString *)location)
+{
+  RCTLogInfo(@"Pretending to create an event %@ at %@", name, location);
+}
+
+@end
+```
+1. `cmd+B` -> success
+1. `cmd+R` -> success
