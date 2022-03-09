@@ -5549,7 +5549,7 @@ react-native-gradle-plugin@^0.0.5:
   dependencies:
     react-native-codegen "*"
 
-react-native@0.0.0-20220308-2008:
+react-native@0.0.0-20220308-2009-c8067f1ff:
   version "0.0.0-20220308-2009-c8067f1ff"
   resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.0.0-20220308-2009-c8067f1ff.tgz#b56300bab53e69214386a173d97b8b8af03c77c7"
   integrity sha512-NTXbxkJy43T/fGKP2zaniim3x1pv0IjW0T7ZfNUBcjIcnWut6FZ/iCxuu1sUM0IqyPAZkOrJ97moiPt4YqNpnw==

@@ -11,7 +11,8 @@
   },
   "dependencies": {
     "react": "17.0.2",
-    "react-native": "0.0.0-20220308-2009-c8067f1ff"
+    "react-native": "0.0.0-20220308-2009-c8067f1ff",
+    "react-native-codegen": "^0.0.13"
   },
   "devDependencies": {
     "@babel/core": "^7.17.5",
@@ -27,11 +28,11 @@
     "preset": "react-native"
   },
   "codegenConfig": {
-  "libraries": [
+    "libraries": [
       {
-      "name": "CalendarModule",
-      "type": "modules",
-      "jsSrcsDir": "ios/CalendarModule"
+        "name": "CalendarModule",
+        "type": "modules",
+        "jsSrcsDir": "ios/CalendarModule"
       }
     ]
   }

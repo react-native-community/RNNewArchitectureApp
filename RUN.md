@@ -281,3 +281,5 @@ export default App;
           ]
         }
     ```
+### [[Turbo Modules - App Prerequisites] Install CodeGen]()
+1. In the root of the project, run `yarn add react-native-codegen`
