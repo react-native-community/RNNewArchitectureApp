@@ -283,3 +283,14 @@ export default App;
     ```
 ### [[Turbo Modules - App Prerequisites] Install CodeGen]()
 1. In the root of the project, run `yarn add react-native-codegen`
+
+### [[Turbo Modules - Library Support] Enable Hermes (iOS)]()
+1. Open the `ios/Podfile`
+1. Switch the `hermes_enabled` from `false` to `true`
+1. Run `pod install`
+1. Open `AwesomeApp.xcworkspace`
+1. `cmd+b` -> success
+
+**ISSUE:**
+When enabling Hermes, the app builds but fails at runtime. At start-up, we get a `EXC_BAD_ACCESS` error in the `Inspector::installLogHandler()` function, when executing the statement `auto console = jsi::Object(rt);`.
+Let's continue with the Playbook to see if it get fixed with some of the next changes.
