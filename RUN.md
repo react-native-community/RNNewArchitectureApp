@@ -265,3 +265,19 @@ export default App;
     s.dependency "RCTTypeSafety"
     s.dependency "ReactCommon/turbomodule/core"
     ```
+
+### [[Turbo Modules - Library Support] Enable CodeGen in Package.json]()
+1. Open `package.json`
+1. Append the following code before the final `}`
+    ```json
+        ,
+        "codegenConfig": {
+        "libraries": [
+            {
+            "name": "CalendarModule",
+            "type": "modules",
+            "jsSrcsDir": "ios/CalendarModule"
+            }
+          ]
+        }
+    ```

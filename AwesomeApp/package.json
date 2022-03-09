@@ -25,5 +25,14 @@
   },
   "jest": {
     "preset": "react-native"
+  },
+  "codegenConfig": {
+  "libraries": [
+      {
+      "name": "CalendarModule",
+      "type": "modules",
+      "jsSrcsDir": "ios/CalendarModule"
+      }
+    ]
   }
 }
