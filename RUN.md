@@ -61,3 +61,72 @@ RCT_EXPORT_METHOD(createCalendarEvent:(NSString *)name location:(NSString *)loca
 ```
 1. `cmd+B` -> success
 1. `cmd+R` -> success
+
+### [[Native Modules] What You Have Built]()
+
+1. Open the `App.js` file
+1. Replace its content with the following:
+```js
+/**
+ * Sample React Native App
+ * https://github.com/facebook/react-native
+ *
+ * @format
+ * @flow strict-local
+ */
+
+import React from 'react';
+import type {Node} from 'react';
+import {
+  SafeAreaView,
+  StatusBar,
+  useColorScheme,
+  NativeModules, // Import the native modules
+  Button
+} from 'react-native';
+
+import {
+  Colors,
+} from 'react-native/Libraries/NewAppScreen';
+
+// Create an object with the calendar module
+const { CalendarModule } = NativeModules;
+const NewModuleButton: () => Node = () => {
+  const onPress = () => {
+    CalendarModule.createCalendarEvent('testName', `testLocation`);
+  };
+
+  return (
+    <Button
+      title="Click to invoke your native module!"
+      color="#841584"
+      onPress={onPress}
+    />
+  );
+};
+
+const App: () => Node = () => {
+  const isDarkMode = useColorScheme() === 'dark';
+
+  const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+  };
+
+  return (
+    <SafeAreaView style={backgroundStyle}>
+      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+      <NewModuleButton />
+    </SafeAreaView>
+  );
+};
+
+export default App;
+```
+1. `npx react-native start`
+1. `npx react-native run-ios`
+1. Select the simulator.
+1. `cmd+d`
+1. Select `Debug on Chrome` (this should open a Chrome webpage)
+1. `opt+shift+I` to open the developer tools
+1. Reload the app in the simulator
+1. Tap on the button -> observe the `Pretending to create an event testName at testLocation` message on the screen
