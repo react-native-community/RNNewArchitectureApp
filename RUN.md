@@ -8,6 +8,50 @@
 
 ## Steps (From most recent to least recent command)
 
+### [[TurboModules] Provide TurboModulesManagerDelegate]()
+Steps:
+1. Open the `AppDelegate.mm` file in Xcode
+2. If not already there, add the following imports:
+    ```objective-c
+    #import <ReactCommon/RCTTurboModuleManager.h>
+    #import <React/CoreModulesPlugins.h>
+    ```
+3. Make sure that the `AppDelegate` conforms to the `RCTTurboModuleManagerDelegate` by adding a protocol conformance in a category
+    ```objective-c
+    @interface AppDelegate () <RCTTurboModuleManagerDelegate> {
+    RCTTurboModuleManager *_turboModuleManager;
+    }
+    @end
+    ```
+4. Implement the `getModuleClassFromName:` method
+    ```objective-c
+    @implementation AppDelegate
+    // ...
+    - (Class)getModuleClassFromName:(const char *)name
+    {
+    return RCTCoreModulesClassProvider(name);
+    }
+    // ...
+    @end
+    ```
+5. Implement the `getTurboModule:jsInvoker:` method
+    ```objective-c
+    - (std::shared_ptr<facebook::react::TurboModule>)getTurboModule:(const std::string &)name
+                                                        jsInvoker:(std::shared_ptr<facebook::react::CallInvoker>)jsInvoker
+    {
+    return nullptr;
+    }
+    ```
+6. Implement the `getModuleInstanceFromClass:moduleClass:` method
+    ```objective-c
+    - (id<RCTTurboModule>)getModuleInstanceFromClass:(Class)moduleClass
+    {
+    return RCTAppSetupDefaultModuleFromClass(moduleClass);
+    }
+    ```
+
+_Note:_ The nightly build will perform these steps for you, but the code if guarded by a `#if RCT_NEW_ARCH_ENABLED` compilation pragma.
+
 ### [[TurboModules] Provide RCTCxxBridgeDelegate]()
 Steps:
 1. Open the `ios/AwesomeApp.xcworkspace` file
@@ -18,6 +62,28 @@ Steps:
 #import <React/RCTCxxBridgeDelegate.h>
 #import <React/RCTJSIExecutorRuntimeInstaller.h>
     ```
+4. Make sure to add the protocol conformance to `RCTCxxBridgeDelegate` by adding the following snippet
+    ```objective-c
+    @interface AppDelegate () <RCTCxxBridgeDelegate> {
+    // ...
+    }
+    @end
+
+    @implementation
+    - (std::unique_ptr<facebook::react::JSExecutorFactory>)jsExecutorFactoryForBridge:(RCTBridge *)bridge
+    {
+    return std::make_unique<facebook::react::HermesExecutorFactory>(facebook::react::RCTJSIExecutorRuntimeInstaller([bridge](facebook::jsi::Runtime &runtime) {
+        if (!bridge) {
+            return;
+        }
+        })
+    );
+    }
+    @end
+    ```
+5. Run `cmd+B` to check that it builds
+
+_Note:_ The nightly build will perform these steps for you, but the code if guarded by a `#if RCT_NEW_ARCH_ENABLED` compilation pragma. The only required step is to add the `#import <reacthermes/HermesExecutorFactory.h>` and the `#import <React/RCTJSIExecutorRuntimeInstaller.h>` imports.
 
 ### [[TurboModules] Use Objective-C++]()
 Steps:
