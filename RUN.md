@@ -8,6 +8,22 @@
 
 ## Steps (From most recent to least recent command)
 
+### [[TurboModules]Install TurboModuleManager JavaScript Bindings]()
+Steps:
+1. Open the `AppDelegate.mm` file in Xcode
+2. Add the `jsExecutorFactoryForBridge:(RCTBridge *)bridge` method
+    ```objective-c
+    - (std::unique_ptr<facebook::react::JSExecutorFactory>)jsExecutorFactoryForBridge:(RCTBridge *)bridge
+    {
+    _turboModuleManager = [[RCTTurboModuleManager alloc] initWithBridge:bridge
+                                                                delegate:self
+                                                                jsInvoker:bridge.jsCallInvoker];
+    return RCTAppSetupDefaultJsExecutorFactory(bridge, _turboModuleManager);
+    }
+    ```
+_Note:_ The nightly build will perform these steps for you, but the code if guarded by a `#if RCT_NEW_ARCH_ENABLED` compilation pragma.
+
+
 ### [[TurboModules] Provide TurboModulesManagerDelegate]()
 Steps:
 1. Open the `AppDelegate.mm` file in Xcode
