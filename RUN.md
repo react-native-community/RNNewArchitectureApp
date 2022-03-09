@@ -154,3 +154,35 @@ export default App;
 1. Reload the app in the simulator
 1. Press on the button
 1. Observe the same `Pretending to create an event testName at testLocation` message appearing in the console
+
+### [[Native Components] iOS Native UI Component]()
+
+1. In Xcode, create a new group and call it `RCTMapView`
+1. `cmd+N`
+1. Select `Objective-C File`
+1. Call it `RCTViewManager`
+1. Set the membership to both `AwesomeApp` and `AwesomeAppTest`
+1. Replace the content of the newly created file with:
+    ```obj-c
+    #import <MapKit/MapKit.h>
+
+    #import <React/RCTViewManager.h>
+
+    @interface RNTMapManager : RCTViewManager
+    @end
+
+    @implementation RNTMapManager
+
+    RCT_EXPORT_MODULE(RNTMap)
+
+    RCT_EXPORT_VIEW_PROPERTY(zoomEnabled, BOOL)
+
+    - (UIView *)view
+    {
+    return [[MKMapView alloc] init];
+    }
+
+    @end
+    ```
+1. `cmd+b` -> success
+1. `cmd+r` -> success
