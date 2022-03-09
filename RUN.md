@@ -8,6 +8,21 @@
 
 ## Steps (From most recent to least recent command)
 
+### [[TurboModules] Add C++17 support]()
+Steps
+1. Open Xcode and select AwesomeApp
+1. Select AwesomeApp from the `Project` section (**not the target one**)
+1. Select build settings
+1. Search for `CLANG_CXX_LANGUAGE_STANDARD`
+1. Make sure that it states `c++17`
+
+CI (on MacOS)
+1. `sed -i'.original' 's/CLANG_CXX_LANGUAGE_STANDARD = \".*\";/CLANG_CXX_LANGUAGE_STANDARD = \"c++17\";/' ios/AwesomeApp.xcodeproj/project.pbxproj`
+1. `rm AwesomeApp.xcodeproj/project.pbxproj.original`
+
+CI (on Linux)
+1. `sed -i 's/CLANG_CXX_LANGUAGE_STANDARD = \".*\";/CLANG_CXX_LANGUAGE_STANDARD = \"c++17\";' ios/AwesomeApp.xcodeproj/project.pbxproj`
+
 ### [[TurboModules] Enable Hermes]()
 Steps
 1. Open the `ios/podfile`
