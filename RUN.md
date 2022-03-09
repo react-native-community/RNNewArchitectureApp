@@ -490,3 +490,12 @@ The app still can't run
 ### [[TurboModules] Enable TurboModule System]()
 1. Open `AppDelegate.mm`
 1. In the `application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions` method add the statement `RCTEnableTurboModule(YES);` before the bridge is created.
+
+### [[Fabric] Enable Fabric in Podfile]()
+1. Open `Podfile`
+2. Add this line `install! 'cocoapods', :deterministic_uuids => false` before the `platform` statement
+3. in the `use_react_native!(`, add the following parameters
+    * `:fabric_enabled => true,`
+    * `:app_path => "#{Dir.pwd}/.."`
+4. run `pod install`
+5. run `cmd+b` -> success
