@@ -366,3 +366,70 @@ When importing `<reacthermes/HermesExecutorFactory.h>`, we also need to enable f
 1. `cmd+b` -> The app builds successfully
 
 The build can't still run
+
+### [[Turbo Modules] Provide a TurboModuleManager Delegate]()
+1. Open the `AppDelegate.mm`
+1. Add the following imports:
+    ```objective-c
+    #import <ReactCommon/RCTTurboModuleManager.h>
+    #import <React/CoreModulesPlugins.h>
+
+    #import <React/RCTDataRequestHandler.h>
+    #import <React/RCTHTTPRequestHandler.h>
+    #import <React/RCTFileRequestHandler.h>
+    #import <React/RCTNetworking.h>
+    #import <React/RCTImageLoader.h>
+    #import <React/RCTGIFImageDecoder.h>
+    #import <React/RCTLocalAssetImageLoader.h>
+    ```
+1. Update the AppDelegate interface with the following code:
+    ```objective-c
+    @interface AppDelegate () <RCTCxxBridgeDelegate, RCTTurboModuleManagerDelegate> {
+    RCTTurboModuleManager *_turboModuleManager;
+    }
+    @end
+    ```
+1. Add the implementation of the `RCTTurboModuleManagerDelegate` methods:
+    ```objective-c
+    #pragma mark RCTTurboModuleManagerDelegate
+
+    - (Class)getModuleClassFromName:(const char *)name
+    {
+    return RCTCoreModulesClassProvider(name);
+    }
+
+    - (std::shared_ptr<facebook::react::TurboModule>)
+        getTurboModule:(const std::string &)name
+            jsInvoker:(std::shared_ptr<facebook::react::CallInvoker>)jsInvoker {
+    return nullptr;
+    }
+
+    - (id<RCTTurboModule>)getModuleInstanceFromClass:(Class)moduleClass
+    {
+    // Set up the default RCTImageLoader and RCTNetworking modules.
+    if (moduleClass == RCTImageLoader.class) {
+        return [[moduleClass alloc] initWithRedirectDelegate:nil
+            loadersProvider:^NSArray<id<RCTImageURLLoader>> *(RCTModuleRegistry * moduleRegistry) {
+            return @ [[RCTLocalAssetImageLoader new]];
+            }
+            decodersProvider:^NSArray<id<RCTImageDataDecoder>> *(RCTModuleRegistry * moduleRegistry) {
+            return @ [[RCTGIFImageDecoder new]];
+            }];
+    } else if (moduleClass == RCTNetworking.class) {
+        return [[moduleClass alloc]
+            initWithHandlersProvider:^NSArray<id<RCTURLRequestHandler>> *(
+                RCTModuleRegistry *moduleRegistry) {
+            return @[
+                [RCTHTTPRequestHandler new],
+                [RCTDataRequestHandler new],
+                [RCTFileRequestHandler new],
+            ];
+            }];
+    }
+    // No custom initializer here.
+    return [moduleClass new];
+    }
+    ```
+1. `cmd+b` -> success
+**ISSUES**
+The app still can't run
