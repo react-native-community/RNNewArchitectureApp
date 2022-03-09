@@ -8,6 +8,33 @@
 
 ## Steps (From most recent to least recent command)
 
+### [[TurboModules] Use Objective-C++]()
+Steps:
+1. Open the `ios/AwesomeApp.xcworkspace` file
+2. Rename every file with the `.m` extension in the `.mm` extension. _Note:_ By doing this from Xcode, the Xcodeproj will be updated accordingly.
+3. Run `cmd+B` to try and build it. It will end up in an error
+4. In Xcode, select the `AwesomeApp` project in the project navigator
+5. Select the `AwesomeApp` target in the `Target` pane
+6. Select the general tab
+7. Scroll down until the `Framework, Libraries, and Embedded Content` appears
+8. Press on the `+` button and manually add the `MapKit.framework` framework
+9. Run `cmd+B` and see the project builds
+
+
+CI:
+1. `cd ios`
+2. ```sh
+    folders=("AwesomeApp" "RCTCalendarModule" "AwesomeAppTests")
+    for folder in $folders
+    do
+        cd $folder
+        for f in *.m
+            mv $f $f"m"
+        cd ..
+    done
+    ```
+3. _Note:_ Need to understand how to manipulate the xcodeproj safely.
+
 ### [[TurboModules] Add C++17 support]()
 Steps
 1. Open Xcode and select AwesomeApp
