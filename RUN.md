@@ -199,3 +199,19 @@ Steps:
     }));
 ```
 * `cmd+r`
+
+### [[Turbo Modules] Enable TurboModule System]()
+
+Steps:
+* Open `AwesomeApp.xcworkspace`
+* Open `AwesomeApp/AppDelegate.mm`
+* Add the `RCTEnableTurboModule(YES);` as first line of the `(BOOL)application:didFinishLaunchingWithOptions:` method
+* `cmd+r`
+
+#### Issues
+The app will run, but RN will fail with the following error:
+```
+Native Component 'SafeAreaView' that calls codegenNativeComponent was not code generated at build time.
+```
+That's because the SafeAreaView specs are a little different at the moment.
+To fix the issue, let's cleanup the `App.js` code by removing the `SafeAreaView` and the `StatusBar`
