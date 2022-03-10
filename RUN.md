@@ -215,3 +215,54 @@ Native Component 'SafeAreaView' that calls codegenNativeComponent was not code g
 ```
 That's because the SafeAreaView specs are a little different at the moment.
 To fix the issue, let's cleanup the `App.js` code by removing the `SafeAreaView` and the `StatusBar`
+
+### [[Fabric] Enable Fabric in Podfile]()
+Steps:
+* Open `AwesomeApp/Podfile`
+* Before the `:enable_hermes => true` line, add the following lines:
+    * `:app_path => "#{Dir.pwd}/..",`
+    * `:fabric_enabled => true,`
+* Run `BUILD_FROM_GIT=1 RCT_NEW_ARCH_ENABLED=1 pod install`
+* Open `AwesomeApp.xcworkspace`
+* `cmd+r`
+
+**ISSUES**
+If you get a RN error about `ImageLoader`, you can solve it by:
+* Open the `AwesomeApp.xcworkspace`
+* Open the `AppDelegate.mm`
+* Before the `#import <ReactCommon/RCTTurboModuleManager.h>`, add the following imports:
+```objective-c
+#import <React/RCTDataRequestHandler.h>
+#import <React/RCTHTTPRequestHandler.h>
+#import <React/RCTFileRequestHandler.h>
+#import <React/RCTNetworking.h>
+#import <React/RCTImageLoader.h>
+#import <React/RCTGIFImageDecoder.h>
+#import <React/RCTLocalAssetImageLoader.h>
+```
+* Update the body of the `getModuleInstanceFromClass` method with the following code:
+```c++
+if (moduleClass == RCTImageLoader.class) {
+    return [[moduleClass alloc] initWithRedirectDelegate:nil
+        loadersProvider:^NSArray<id<RCTImageURLLoader>> *(RCTModuleRegistry * moduleRegistry) {
+          return @ [[RCTLocalAssetImageLoader new]];
+        }
+        decodersProvider:^NSArray<id<RCTImageDataDecoder>> *(RCTModuleRegistry * moduleRegistry) {
+          return @ [[RCTGIFImageDecoder new]];
+        }];
+  } else if (moduleClass == RCTNetworking.class) {
+     return [[moduleClass alloc]
+        initWithHandlersProvider:^NSArray<id<RCTURLRequestHandler>> *(
+            RCTModuleRegistry *moduleRegistry) {
+          return @[
+            [RCTHTTPRequestHandler new],
+            [RCTDataRequestHandler new],
+            [RCTFileRequestHandler new],
+          ];
+        }];
+  }
+  return [moduleClass new];
+```
+* `cmd+r`
+
+The error is caused by a module used by the app to load images that requires some custom parameter at init time to work properly.
