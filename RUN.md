@@ -55,3 +55,13 @@ For the moment, follow these steps to work around it:
 4. `BUILD_FROM_GIT=1 pod install`
 5. Open `AwesomeApp.xcworkspace`
 6. `cmd+r`
+
+### [[Setup] Enable C++17]()
+Steps:
+* Open `AwesomeApp.xcworkspace`
+* Select the `AwesomeApp`project in the project navigator
+* Select the `AwesomeApp` project in the `Projects` panel
+* Select the `Build Settings` tab
+* Search for `CLANG_CXX_LANGUAGE_STANDARD`
+* Select the `C++17` option
+* `cmd+r`
