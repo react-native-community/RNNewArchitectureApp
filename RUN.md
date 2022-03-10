@@ -471,3 +471,75 @@ Steps:
   return std::make_shared<facebook::react::NativeCalendarModuleSpecJSI>(params);
 }
 ```
+* `cmd+b`
+* `cmd+r`
+
+### [[Turbo Modules] Test the Calendar Module in JS]()
+Steps:
+* Replace the content of the `App.js` file with the following:
+```js
+/**
+ * Sample React Native App
+ * https://github.com/facebook/react-native
+ *
+ * @format
+ * @flow strict-local
+ */
+
+import React from 'react';
+import type {Node} from 'react';
+import {
+  SafeAreaView,
+  StatusBar,
+  useColorScheme,
+  Button,
+} from 'react-native';
+
+import {
+  Colors,
+} from 'react-native/Libraries/NewAppScreen';
+
+import CalendarModule from './ios/AwesomeApp/CalendarModule/js/NativeCalendarModule';
+
+const App: () => Node = () => {
+  const isDarkMode = useColorScheme() === 'dark';
+
+  const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+  };
+
+  return (
+    <SafeAreaView style={backgroundStyle}>
+      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+      <Button
+        title="Click to invoke your native module!"
+        color="#841584"
+        onPress={() => {
+          CalendarModule.createCalendarEvent('foo', 'bar');
+        }}/>
+    </SafeAreaView>
+  );
+};
+
+export default App;
+```
+* Update the babel config using the right codegen plugin:
+```json
+  'plugins': [
+    '@babel/plugin-proposal-class-properties',
+    './node_modules/babel-plugin-codegen'
+  ]
+```
+* Install the plugin with `yarn add babel-plugin-codegen`
+* Fix the TurboModule spec interface using this code:
+```js
+export interface Spec extends TurboModule {
+    createCalendarEvent(name: string, location: string): void;
+}
+```
+* Run `BUILD_FROM_GIT=1 RCT_NEW_ARCH_ENABLED=1 pod install`
+* Run `npx react-native start`
+* Run `npx react-native run-ios`
+* Open the `AwesomeApp.xcworkspace`
+* Set a breakpoint on line 11 of the `RCTCalendarModule.mm` file (the `RCTLogInfo` line)
+* Tap on the Button on the screen and observe the app stopping at the breakpoint.

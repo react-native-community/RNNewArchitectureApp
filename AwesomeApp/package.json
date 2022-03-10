@@ -10,6 +10,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "babel-plugin-codegen": "^4.1.5",
     "react": "17.0.2",
     "react-native": "20220309-2009-538636440",
     "react-native-codegen": "^0.0.13"
