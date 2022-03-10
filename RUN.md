@@ -33,3 +33,25 @@ Steps:
 * `cd ios && pod install`
 * `npx react-native start`
 * `npx react-native run-ios`
+
+### [[Setup] Enable Hermes]()
+Steps:
+* Open the `Podfile`
+* Change `:hermes_enabled` to `true`
+* `cd ios && pod install`
+* open `AwesomeApp.xcworkspace`
+* `cmd+r` -> the app builds but when it runs, it crashes.
+
+#### ISSUES
+The issue is due to a temporary incompatibility between Hermes and ReactNative. The team is working on that.
+For the moment, follow these steps to work around it:
+1. Open the `AwesomeApp/node_modules/react-native/scripts/react_native_pods.rb`
+2. Go to line  116 and add the following two lines
+    ```ruby
+    elsif ENV['BUILD_FROM_GIT'] == '1'
+      pod 'hermes-engine', :git => "https://github.com/facebook/hermes.git"
+    ```
+3. `brew install cmake ninja` -> these are tools used to build hermes
+4. `BUILD_FROM_GIT=1 pod install`
+5. Open `AwesomeApp.xcworkspace`
+6. `cmd+r`
