@@ -425,3 +425,30 @@ Pod::Spec.new do |s|
   s.dependency "ReactCommon/turbomodule/core"
 end
 ```
+
+### [[Turbo Modules] Enable codegen in `package.json`]()
+Steps:
+* Open the `package.json` file
+* At the end of the file, before the las `}` add the following snippet:
+```json
+,
+  "codegenConfig": {
+    "libraries": [
+      {
+        "name": "CalendarModule",
+        "type": "modules",
+        "jsSrcsDir": "ios/AwesomeApp/CalendarModule/js"
+      }
+    ]
+  }
+```
+* Generate the code by running `BUILD_FROM_GIT=1 RCT_NEW_ARCH_ENABLED=1 pod install`. If successful, you should see some lines like these:
+```
+#...
+[Codegen] >>>>> Processing CalendarModule
+[Codegen] Generated schema: /var/folders/b7/5gvyd0914t15w42kwy1k_l600000gn/T/CalendarModuleeSio3t/schema.json
+[Codegen] Generated artifacts: /path/to/RNNewArchitectureApp/AwesomeApp/ios/build/generated/ios/CalendarModule
+#...
+```
+* `cmd+b`
+* `cmd+r`
