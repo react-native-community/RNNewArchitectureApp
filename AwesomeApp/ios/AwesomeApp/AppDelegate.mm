@@ -19,6 +19,11 @@
 #import <ReactCommon/RCTTurboModuleManager.h>
 #import <React/CoreModulesPlugins.h>
 
+#import <React/RCTFabricSurfaceHostingProxyRootView.h>
+#import <React/RCTSurfacePresenter.h>
+#import <React/RCTSurfacePresenterBridgeAdapter.h>
+#import <react/config/ReactNativeConfig.h>
+
 #ifdef FB_SONARKIT_ENABLED
 #import <FlipperKit/FlipperClient.h>
 #import <FlipperKitLayoutPlugin/FlipperKitLayoutPlugin.h>
@@ -40,6 +45,9 @@ static void InitializeFlipper(UIApplication *application) {
 
 @interface AppDelegate () <RCTCxxBridgeDelegate, RCTTurboModuleManagerDelegate> {
   RCTTurboModuleManager *_turboModuleManager;
+  RCTSurfacePresenterBridgeAdapter *_bridgeAdapter;
+  std::shared_ptr<const facebook::react::ReactNativeConfig> _reactNativeConfig;
+  facebook::react::ContextContainer::Shared _contextContainer;
 }
 @end
 
@@ -53,9 +61,21 @@ static void InitializeFlipper(UIApplication *application) {
 #endif
 
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
-  RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
-                                                   moduleName:@"AwesomeApp"
-                                            initialProperties:nil];
+  _contextContainer = std::make_shared<facebook::react::ContextContainer const>();
+  _reactNativeConfig = std::make_shared<facebook::react::EmptyReactNativeConfig const>();
+
+  _contextContainer->insert("ReactNativeConfig", _reactNativeConfig);
+
+  _bridgeAdapter = [[RCTSurfacePresenterBridgeAdapter alloc]
+        initWithBridge:bridge
+      contextContainer:_contextContainer];
+
+  bridge.surfacePresenter = _bridgeAdapter.surfacePresenter;
+
+  UIView *rootView =
+      [[RCTFabricSurfaceHostingProxyRootView alloc] initWithBridge:bridge
+                                                          moduleName:@"AwesomeApp"
+                                                   initialProperties:nil];
 
   if (@available(iOS 13.0, *)) {
       rootView.backgroundColor = [UIColor systemBackgroundColor];
