@@ -152,3 +152,50 @@ Steps:
   return [moduleClass new];
 }
 ```
+
+### [[Turbo Modules] Install TurboModuleManager JavaScript Bindings]()
+Steps:
+* Open `AwesomeApp.xcworkspace`
+* Open `AwesomeApp/AppDelegate.mm`
+* Update the `jsExecutorFactoryForBridge:(RCTBridge *)bridge` method body with the following code:
+```c++
+  // Add these lines to create a TurboModuleManager
+  if (RCTTurboModuleEnabled()) {
+    _turboModuleManager =
+        [[RCTTurboModuleManager alloc] initWithBridge:bridge
+                                             delegate:self
+                                            jsInvoker:bridge.jsCallInvoker];
+
+    // Necessary to allow NativeModules to lookup TurboModules
+    [bridge setRCTTurboModuleRegistry:_turboModuleManager];
+
+    if (!RCTTurboModuleEagerInitEnabled()) {
+      /**
+       * Instantiating DevMenu has the side-effect of registering
+       * shortcuts for CMD + d, CMD + i,  and CMD + n via RCTDevMenu.
+       * Therefore, when TurboModules are enabled, we must manually create this
+       * NativeModule.
+       */
+       [_turboModuleManager moduleForName:"DevMenu"];
+    }
+  }
+
+  // Add this line...
+  __weak __typeof(self) weakSelf = self;
+
+  return std::make_unique<facebook::react::HermesExecutorFactory>(
+    facebook::react::RCTJSIExecutorRuntimeInstaller([weakSelf, bridge](facebook::jsi::Runtime &runtime) {
+      if (!bridge) {
+        return;
+      }
+
+      // And add these lines to install the bindings...
+      __typeof(self) strongSelf = weakSelf;
+      if (strongSelf) {
+        facebook::react::RuntimeExecutor syncRuntimeExecutor =
+            [&](std::function<void(facebook::jsi::Runtime & runtime_)> &&callback) { callback(runtime); };
+        [strongSelf->_turboModuleManager installJSBindingWithRuntimeExecutor:syncRuntimeExecutor];
+      }
+    }));
+```
+* `cmd+r`
