@@ -304,3 +304,15 @@ facebook::react::ContextContainer::Shared _contextContainer;
 ```
 * `cmd+b`
 * `cmd+r`
+
+### [[Fabric] Add Babel plugin and reinstall pods]()
+Steps:
+* Open the `babel.config.js`
+* Add this snippet after the `preset` property:
+```js
+plugins: [
+    '@babel/plugin-proposal-class-properties',
+    './node_modules/react-native/packages/babel-plugin-codegen'
+]
+```
+* Run `BUILD_FROM_GIT=1 RCT_NEW_ARCH_ENABLED=1 pod install`
