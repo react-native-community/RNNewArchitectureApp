@@ -8,16 +8,35 @@
 * **Ruby**: rbenv with ruby 2.7.4 (If you have trouble installing it, try with RUBY_CFLAGS=“-w” rbenv install 2.7.4)
 * **Node**: v16.14.0
 
+## Guide and Checkpoint
+
+This Run creates a new project with ReactNative and migrates it to the new architecture. Then, it creates a Turbo Module and a Fabric Component and it integrates them with the app.
+
+There are a few commits that, if checked out, are interesting points to start with.
+* [Initial Project](https://github.com/cortinico/RNNewArchitectureApp/commit/192c35d76b750c3eeeaa04c9c8caa61c2153a8ad)
+* [Working New Architecture Project](https://github.com/cortinico/RNNewArchitectureApp/commit/f0ff35c9f25671f85ae5c64316d0f90c553a9e80)
+* [Project with a Turbo Module]()
+* [Project with a Fabric Component]()
+
+
+## Issues
+
+The following is the list of issues found while executing the migration with their resolution or workaround.
+* [React Native and Hermes incopatibility](#hermes)
+* [Folly compiler flags](#folly)
+* [Components not properly generated](#components) -> to check whether this is a real issue)
+* [RCTImageLoader failure](#rctimageloader)
+
 ## Steps
 
-### [[Setup] react-native init]()
+### [[Setup] react-native init](https://github.com/cortinico/RNNewArchitectureApp/commit/192c35d76b750c3eeeaa04c9c8caa61c2153a8ad)
 Steps:
 * `npx react-native init AwesomeApp`
 * `cd AwesomeApp`
 * `npx react-native start`
 * `npx react-native run-ios`
 
-### [[Setup] Set the nightly build]()
+### [[Setup] Set the nightly build](https://github.com/cortinico/RNNewArchitectureApp/commit/285d69bea7b7cdcc53ce2429539ea25249a0537c)
 Steps:
 * Open the `AwesomeApp/package.json`
 * Update the `react-native` version to `20220309-2009-538636440`
@@ -27,14 +46,14 @@ Steps:
 * `npx react-native start`
 * `npx react-native run-ios`
 
-### [[Setup] Install CodeGen]()
+### [[Setup] Install CodeGen](https://github.com/cortinico/RNNewArchitectureApp/commit/559ddfffd2a16f92e3b05696d9e2048d3893742b)
 Steps:
 * `yarn add react-native-codegen`
 * `cd ios && pod install`
 * `npx react-native start`
 * `npx react-native run-ios`
 
-### [[Setup] Enable Hermes]()
+### [[Setup] Enable Hermes](https://github.com/cortinico/RNNewArchitectureApp/commit/75f14baf8507c0afa47d5d07901b6d34c4adacf4)
 Steps:
 * Open the `Podfile`
 * Change `:hermes_enabled` to `true`
@@ -42,7 +61,7 @@ Steps:
 * open `AwesomeApp.xcworkspace`
 * `cmd+r` -> the app builds but when it runs, it crashes.
 
-#### ISSUES
+#### <a name="hermes">ISSUE</a>
 The issue is due to a temporary incompatibility between Hermes and ReactNative. The team is working on that.
 For the moment, follow these steps to work around it:
 1. Open the `AwesomeApp/node_modules/react-native/scripts/react_native_pods.rb`
@@ -56,7 +75,7 @@ For the moment, follow these steps to work around it:
 5. Open `AwesomeApp.xcworkspace`
 6. `cmd+r`
 
-### [[Setup] Enable C++17]()
+### [[Setup] Enable C++17](https://github.com/cortinico/RNNewArchitectureApp/commit/76b9d27367cd838b7a07fae9a719ae3820b362cf)
 Steps:
 * Open `AwesomeApp.xcworkspace`
 * Select the `AwesomeApp`project in the project navigator
@@ -66,7 +85,7 @@ Steps:
 * Select the `C++17` option
 * `cmd+r`
 
-### [[Setup] Update the code to use Objective-C++]()
+### [[Setup] Update the code to use Objective-C++](https://github.com/cortinico/RNNewArchitectureApp/commit/6f986914744cbb29b454f45d469f43202dd965a3)
 Steps:
 * Open `AwesomeApp.xcworkspace`
 * Rename the `AwesomeApp/main.m` to `AwesomeApp/main.mm`
@@ -75,7 +94,7 @@ Steps:
 
 **Note:** Doing this from Xcode will also update the Xcodeproject file
 
-### [[Setup] Provide a RCTCxxBridgeDelegate]()
+### [[Setup] Provide a RCTCxxBridgeDelegate](https://github.com/cortinico/RNNewArchitectureApp/commit/9c9dbe25f0fa6592e0683f15496eb61dd765686a)
 Steps:
 * Open `AwesomeApp.xcworkspace`
 * Open `AwesomeApp/AppDelegate.mm`
@@ -106,7 +125,10 @@ Steps:
   );
 }
 ```
-* `cmd+b` -> The build will fail with the error `'folly/folly-config.h' file not found`. `Folly` requires some additional compiler flags.
+* `cmd+b` -> The build will fail with the error `'folly/folly-config.h' file not found`.
+
+#### <a name="folly">ISSUE</a>
+`Folly` requires some additional compiler flags.
 * Select the `AwesomeApp` project in the project navigator
 * Select the `AwesomeApp` target in the `Targets` section
 * Select the `Build Settings` tab
@@ -116,7 +138,7 @@ Steps:
 * `cmd+b`
 * `cmd+r`
 
-### [[Turbo Modules] Provide a TurboModuleManager Delegate]()
+### [[Turbo Modules] Provide a TurboModuleManager Delegate](https://github.com/cortinico/RNNewArchitectureApp/commit/c81c3b9865a9879d584d2c164cc56bc449da8a4a)
 Steps:
 * Open `AwesomeApp.xcworkspace`
 * Open `AwesomeApp/AppDelegate.mm`
@@ -153,7 +175,7 @@ Steps:
 }
 ```
 
-### [[Turbo Modules] Install TurboModuleManager JavaScript Bindings]()
+### [[Turbo Modules] Install TurboModuleManager JavaScript Bindings](https://github.com/cortinico/RNNewArchitectureApp/commit/efbcefe216138a566e9c96b2c0b170f85982b9d1)
 Steps:
 * Open `AwesomeApp.xcworkspace`
 * Open `AwesomeApp/AppDelegate.mm`
@@ -200,7 +222,7 @@ Steps:
 ```
 * `cmd+r`
 
-### [[Turbo Modules] Enable TurboModule System]()
+### [[Turbo Modules] Enable TurboModule System](https://github.com/cortinico/RNNewArchitectureApp/commit/5f955a197e3a7a457c8f2e7a372183941ad3c797)
 
 Steps:
 * Open `AwesomeApp.xcworkspace`
@@ -208,7 +230,7 @@ Steps:
 * Add the `RCTEnableTurboModule(YES);` as first line of the `(BOOL)application:didFinishLaunchingWithOptions:` method
 * `cmd+r`
 
-#### Issues
+#### <a name="components">ISSUE</a>
 The app will run, but RN will fail with the following error:
 ```
 Native Component 'SafeAreaView' that calls codegenNativeComponent was not code generated at build time.
@@ -216,7 +238,7 @@ Native Component 'SafeAreaView' that calls codegenNativeComponent was not code g
 That's because the SafeAreaView specs are a little different at the moment.
 To fix the issue, let's cleanup the `App.js` code by removing the `SafeAreaView` and the `StatusBar`
 
-### [[Fabric] Enable Fabric in Podfile]()
+### [[Fabric] Enable Fabric in Podfile](https://github.com/cortinico/RNNewArchitectureApp/commit/75ce04c631c8054903c729383e3afb8fbb1eb96a)
 Steps:
 * Open `AwesomeApp/Podfile`
 * Before the `:enable_hermes => true` line, add the following lines:
@@ -226,7 +248,7 @@ Steps:
 * Open `AwesomeApp.xcworkspace`
 * `cmd+r`
 
-**ISSUES**
+#### <a name="rctimageloader">ISSUE</a>
 If you get a RN error about `ImageLoader`, you can solve it by:
 * Open the `AwesomeApp.xcworkspace`
 * Open the `AppDelegate.mm`
@@ -267,7 +289,7 @@ if (moduleClass == RCTImageLoader.class) {
 
 The error is caused by a module used by the app to load images that requires some custom parameter at init time to work properly.
 
-### [[Fabric] Update your RootView]()
+### [[Fabric] Update your RootView](https://github.com/cortinico/RNNewArchitectureApp/commit/11a9bdd069f0f6e19779867c7b169693bc3352d4)
 Steps:
 * Open the `AwesomeApp.xcworkspace`
 * Open the `AppDelegate.mm`
@@ -305,7 +327,7 @@ facebook::react::ContextContainer::Shared _contextContainer;
 * `cmd+b`
 * `cmd+r`
 
-### [[Fabric] Add Babel plugin and reinstall pods]()
+### [[Fabric] Add Babel plugin and reinstall pods](https://github.com/cortinico/RNNewArchitectureApp/commit/f0ff35c9f25671f85ae5c64316d0f90c553a9e80)
 Steps:
 * Open the `babel.config.js`
 * Add this snippet after the `preset` property:
