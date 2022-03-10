@@ -370,3 +370,23 @@ RCT_EXPORT_METHOD(createCalendarEvent:(NSString *)name location:(NSString *)loca
 ```
 * `cmd+b`
 * `cmd+r`
+
+### [[Turbo Modules] Define JS Specs]()
+Steps:
+* In the `AwesomeApp/CalendarModule` group, create a `js` folder
+* Create a `NativeCalendarModule.js` file
+* Add the following code:
+```js
+'use strict';
+
+import type {TurboModule} from 'react-native/Libraries/TurboModule/RCTExport';
+import {TurboModuleRegistry} from 'react-native';
+
+export interface Spec extends TurboModule {
+  +getConstants: () => {||};
+
+  +createCalendarEvent(name: string, location: string): void;
+}
+
+export default (TurboModuleRegistry.get<Spec>('CalendarModule'): ?Spec);
+```
