@@ -65,3 +65,12 @@ Steps:
 * Search for `CLANG_CXX_LANGUAGE_STANDARD`
 * Select the `C++17` option
 * `cmd+r`
+
+### [[Setup] Update the code to use Objective-C++]()
+Steps:
+* Open `AwesomeApp.xcworkspace`
+* Rename the `AwesomeApp/main.m` to `AwesomeApp/main.mm`
+* Rename the `AwesomeApp/AppDelegate.m` to `AwesomeApp/AppDelegate.mm`
+* `cmd+r`
+
+**Note:** Doing this from Xcode will also update the Xcodeproject file
