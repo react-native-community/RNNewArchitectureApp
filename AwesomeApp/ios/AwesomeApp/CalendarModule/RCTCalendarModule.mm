@@ -11,4 +11,9 @@ RCT_EXPORT_METHOD(createCalendarEvent:(NSString *)name location:(NSString *)loca
     RCTLogInfo(@"Pretending to create an event %@ at %@", name, location);
 }
 
+- (std::shared_ptr<facebook::react::TurboModule>)getTurboModule:(const facebook::react::ObjCTurboModule::InitParams &)params
+{
+  return std::make_shared<facebook::react::NativeCalendarModuleSpecJSI>(params);
+}
+
 @end

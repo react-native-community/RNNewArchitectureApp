@@ -8,8 +8,8 @@
 #ifndef RCTCalendarModule_h
 #define RCTCalendarModule_h
 
-#import <React/RCTBridgeModule.h>
-@interface RCTCalendarModule : NSObject <RCTBridgeModule>
+#import <CalendarModule/CalendarModule.h>
+@interface RCTCalendarModule : NSObject <NativeCalendarModuleSpec>
 @end
 
 #endif /* RCTCalendarModule_h */
