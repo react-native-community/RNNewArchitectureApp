@@ -21,7 +21,7 @@ There are a few commits that, if checked out, are interesting points to start wi
 
 ## Issues
 
-The following is the list of issues found while executing the migration with their resolution or workaround.
+The following is a list of issues found while executing the migration with their resolution or workaround.
 * [React Native and Hermes incopatibility](#hermes)
 * [Folly compiler flags](#folly)
 * [Components not properly generated](#components) -> to check whether this is a real issue)
@@ -338,3 +338,35 @@ plugins: [
 ]
 ```
 * Run `BUILD_FROM_GIT=1 RCT_NEW_ARCH_ENABLED=1 pod install`
+
+### [[TurboModules] Create a Calendar Module]()
+Steps:
+* Open the `AwesomeApp.xcworkspace`
+* Create a new group in the `AwesomeApp` and call it `CalendarModule`
+* Create a new header file `RCTCalendarModule.h` and add this code:
+```objective-c
+//  RCTCalendarModule.h
+#import <React/RCTBridgeModule.h>
+@interface RCTCalendarModule : NSObject <RCTBridgeModule>
+@end
+```
+* Create a new objective-c file called ``RCTCalendarModule.m` and add this code:
+```objective-c
+// RCTCalendarModule.m
+#import "RCTCalendarModule.h"
+#import <React/RCTLog.h>
+
+@implementation RCTCalendarModule
+
+// To export a module named RCTCalendarModule
+RCT_EXPORT_MODULE();
+
+RCT_EXPORT_METHOD(createCalendarEvent:(NSString *)name location:(NSString *)location)
+{
+    RCTLogInfo(@"Pretending to create an event %@ at %@", name, location);
+}
+
+@end
+```
+* `cmd+b`
+* `cmd+r`
