@@ -34,6 +34,11 @@
         "name": "CalendarModule",
         "type": "modules",
         "jsSrcsDir": "ios/AwesomeApp/CalendarModule/js"
+      },
+      {
+        "name": "MapView",
+        "type": "components",
+        "jsSrcsDir": "MapView/js"
       }
     ]
   }
