@@ -75,6 +75,14 @@ PODS:
   - glog (0.3.5)
   - hermes-engine (0.11.0)
   - libevent (2.1.12)
+  - MapView (0.0.1):
+    - RCT-Folly (= 2021.06.28.00-v2)
+    - RCTRequired
+    - RCTTypeSafety
+    - React
+    - React-Codegen
+    - React-RCTFabric
+    - ReactCommon/turbomodule/core
   - OpenSSL-Universal (1.1.1100)
   - RCT-Folly (2021.06.28.00-v2):
     - boost
@@ -728,6 +736,7 @@ DEPENDENCIES:
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - hermes-engine (from `https://github.com/facebook/hermes.git`)
   - libevent (~> 2.1.12)
+  - MapView (from `../MapView`)
   - OpenSSL-Universal (= 1.1.1100)
   - RCT-Folly (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
   - RCT-Folly/Fabric (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
@@ -796,6 +805,8 @@ EXTERNAL SOURCES:
     :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
   hermes-engine:
     :git: https://github.com/facebook/hermes.git
+  MapView:
+    :path: "../MapView"
   RCT-Folly:
     :podspec: "../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec"
   RCTRequired:
@@ -883,6 +894,7 @@ SPEC CHECKSUMS:
   glog: 476ee3e89abb49e07f822b48323c51c57124b572
   hermes-engine: 066962f6c4e78776bd757f3b4a3903c38ac0484a
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
+  MapView: 28f4cfd2e4f16d3483e35609a5fbba682243d7bc
   OpenSSL-Universal: ebc357f1e6bc71fa463ccb2fe676756aff50e88c
   RCT-Folly: 4d8508a426467c48885f1151029bc15fa5d7b3b8
   RCTRequired: 1c6e97970292b8612be893e3c711d14831441e9c
@@ -918,6 +930,6 @@ SPEC CHECKSUMS:
   Yoga: 78facf0b95b37d31fc73de5d2fcc2550938a9159
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 63db621f842d6aba9067114a85de296a4bf7f7a0
+PODFILE CHECKSUM: 033c2468a9830ba25aab85164d469025eccc40cb
 
 COCOAPODS: 1.11.2

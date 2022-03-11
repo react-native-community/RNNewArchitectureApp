@@ -693,3 +693,100 @@ RCT_EXPORT_VIEW_PROPERTY(zoomEnabled, BOOL)
 
 @end
 ```
+
+### [[Fabric Component] Create the Native View]()
+Steps:
+* Go to the `MapView/ios` folder
+* Create a new header file `RNTMapView.h`
+* Copy the following code:
+```objective-c
+#ifndef RNTMapView_h
+#define RNTMapView_h
+
+#import <React/RCTViewComponentView.h>
+#import <UIKit/UIKit.h>
+
+@interface RNTMapView : RCTViewComponentView
+
+@end
+
+#endif /* RNTMapView_h */
+```
+* Create a new obbjective-c++ file `RNTMapView.mm`
+* Copy the following code:
+```c++
+#import "RNTMapView.h"
+
+#import <react/renderer/components/MapView/Props.h>
+#import <react/renderer/components/MapView/RCTComponentViewHelpers.h>
+#import <react/renderer/components/MapView/ComponentDescriptors.h>
+#import <MapKit/MapKit.h>
+#import "RCTFabricComponentsPlugins.h"
+
+using namespace facebook::react;
+
+@interface RNTMapView () <RCTMapViewViewProtocol>
+@end
+
+@implementation RNTMapView {
+    MKMapView *_view;
+}
+
++ (ComponentDescriptorProvider)componentDescriptorProvider
+{
+    return concreteComponentDescriptorProvider<MapViewComponentDescriptor>();
+}
+
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    if (self = [super initWithFrame:frame]) {
+        static const auto defaultProps = std::make_shared<const MapViewProps>();
+        _props = defaultProps;
+
+        _view = [[MKMapView alloc] init];
+        _view.zoomEnabled = defaultProps->zoomEnabled;
+
+        self.contentView = _view;
+    }
+
+    return self;
+}
+
+- (void)updateProps:(Props::Shared const &)props oldProps:(Props::Shared const &)oldProps
+{
+    const auto &oldViewProps = *std::static_pointer_cast<MapViewProps const>(_props);
+    const auto &newViewProps = *std::static_pointer_cast<MapViewProps const>(props);
+
+    if(oldViewProps.zoomEnabled != newViewProps.zoomEnabled) {
+        _view.zoomEnabled = newViewProps.zoomEnabled;
+    }
+    [super updateProps:props oldProps:oldProps];
+}
+
+@end
+
+Class<RCTComponentViewProtocol> MapViewCls(void)
+{
+    return RNTMapView.class;
+}
+```
+* Open the `AwesomeApp/ios/Podfile`
+* After the two requires, add this line: `install! 'cocoapods', :deterministic_uuids => false`
+* After the `use_react_native` function, add the following line: `pod "MapView", :path => '../MapView'`
+* Run `BUILD_FROM_GIT=1 RCT_NEW_ARCH_ENABLED=1 pod install`
+  If successful, you should see something like:
+  ```
+  Analyzing dependencies
+  Downloading dependencies
+  Installing MapView (0.0.1)
+  Generating Pods project
+  ```
+* Open the `AwesomeApp.xcworkspace`
+* In the `Pods` project, open the `Development Pods` group
+* Search for `MapView` and check that there are the `RNTMapManager.mm`, the `RNTMapView.h` and the `RNTMapView.mm` files
+* Select `AwesomeApp` in the Project navigator
+* Select `AwesomeApp` in the Targets
+* Select the `General` folder
+* Scroll down until `Frameworks, Libraries, and Embedded Content`
+* Add the `MapKit.framework` framework
+* `cmd+b`
