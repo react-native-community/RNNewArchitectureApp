@@ -667,3 +667,29 @@ If successfull, you should see something like this:
 [Codegen] Generated schema: /var/folders/b7/5gvyd0914t15w42kwy1k_l600000gn/T/MapView0PSxcQ/schema.json
 [Codegen] Generated artifacts: /Users/cipolleschi/rn-test/RNNewArchitectureApp/AwesomeApp/ios/build/generated/ios/react/renderer/components/MapView
 ```
+
+### [[Fabric Component] Create the Native ViewManager]()
+Steps:
+* Go to the `MapView` folder
+* Create a new folder and name it `ios`
+* Create a new file called `RNTMapManager.mm`
+* Paste the following code:
+```objective-c
+#import <MapKit/MapKit.h>
+#import <React/RCTViewManager.h>
+
+@interface RNTMapManager : RCTViewManager
+@end
+
+@implementation RNTMapManager
+
+RCT_EXPORT_MODULE(MapView)
+RCT_EXPORT_VIEW_PROPERTY(zoomEnabled, BOOL)
+
+- (UIView *)view
+{
+  return [[MKMapView alloc] init];
+}
+
+@end
+```
