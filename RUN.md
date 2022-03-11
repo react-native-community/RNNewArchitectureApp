@@ -583,3 +583,25 @@ RCT_EXPORT_METHOD(createCalendarEvent:(NSString *)name
 * `npx react-native start`
 * `npx react-native run-ios`
 * Tap on the button and observe the id that changes.
+
+### [[Fabric Component] Create the JS Spec]()
+Steps:
+* At the same level of the `App.js` file, create a `MapView/js` folder
+* Create a new file `MapViewNativeComponents.js`
+* Add this code to the file:
+```js
+// @flow strict-local
+
+import type {ViewProps} from 'react-native/Libraries/Components/View/ViewPropTypes';
+import type {HostComponent} from 'react-native';
+import codegenNativeComponent from 'react-native/Libraries/Utilities/codegenNativeComponent';
+
+type NativeProps = $ReadOnly<{|
+  ...ViewProps,
+  zoomEnabled: boolean,
+|}>;
+
+export default (codegenNativeComponent<NativeProps>(
+  'MapView',
+): HostComponent<NativeProps>);
+```
