@@ -7,6 +7,7 @@
  */
 
 import React from 'react';
+import { useState } from 'react';
 import type {Node} from 'react';
 import {
   SafeAreaView,
@@ -14,6 +15,7 @@ import {
   useColorScheme,
   Button,
   TurboModuleRegistry,
+  Text,
 } from 'react-native';
 
 import {
@@ -29,15 +31,19 @@ const App: () => Node = () => {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
+  const [eventId, setEventId] = useState<string>("");
+
   return (
     <SafeAreaView style={backgroundStyle}>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
       <Button
         title="Click to invoke your native module!"
         color="#841584"
-        onPress={() => {
-          CalendarModule.createCalendarEvent('foo', 'bar');
+        onPress={async () => {
+          const newId = await CalendarModule.createCalendarEvent('foo', 'bar');
+          setEventId(newId);
         }}/>
+      <Text style={{marginLeft:10}}>{eventId.length == 0 ? "No Event Created" : eventId}</Text>
     </SafeAreaView>
   );
 };

@@ -543,3 +543,43 @@ export interface Spec extends TurboModule {
 * Open the `AwesomeApp.xcworkspace`
 * Set a breakpoint on line 11 of the `RCTCalendarModule.mm` file (the `RCTLogInfo` line)
 * Tap on the Button on the screen and observe the app stopping at the breakpoint.
+
+### [[Turbo Modules] Toward a more testable Spec]()
+Steps:
+* Open the `NativeCalendarModule.js` file.
+* Replace the `createCalendarEvent` return type to `Promise<string>`
+* Regenerate code gen running `BUILD_FROM_GIT=1 RCT_NEW_ARCH_ENABLED=1 pod install`
+* Open `AwesomeApp.xcworkspace`
+* Open the `RCTCalendarModule.mm`
+* Leverage the compiler warning to generate the proper `createCalendarEvent` signature.
+* replace the `RCT_EXPORT_METHOD` with the following code:
+```objective-c
+RCT_EXPORT_METHOD(createCalendarEvent:(NSString *)name
+                  location:(NSString *)location
+                  resolve:(RCTPromiseResolveBlock)resolve
+                  reject:(RCTPromiseRejectBlock)reject)
+{
+  // Do something with the calendar
+  NSString *eventId = [[NSUUID new] UUIDString];
+  resolve(eventId);
+}
+```
+* `cmd+b`
+* Open the `App.js` file and update it ad it follows:
+    * Add the `import { useState } from 'react';` statement
+    * Add the `Text` imports in the `react-native` set
+    * Before returning the components, add the `const [eventId, setEventId] = useState<string>("");`
+    * Replace the `<Button />` component with the following code
+```js
+    <Button
+        title="Click to invoke your native module!"
+        color="#841584"
+        onPress={async () => {
+          const newId = await CalendarModule.createCalendarEvent('foo', 'bar');
+          setEventId(newId);
+        }}/>
+      <Text style={{marginLeft:10}}>{eventId.length == 0 ? "No Event Created" : eventId}</Text>
+```
+* `npx react-native start`
+* `npx react-native run-ios`
+* Tap on the button and observe the id that changes.
