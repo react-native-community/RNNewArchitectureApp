@@ -16,7 +16,7 @@ target 'AwesomeApp' do
     :hermes_enabled => true
   )
 
-  pod "MapView", :path => '../MapView'
+  pod "MapView", :path => "../MapView"
 
   target 'AwesomeAppTests' do
     inherit! :complete

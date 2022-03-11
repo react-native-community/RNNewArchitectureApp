@@ -790,3 +790,21 @@ Class<RCTComponentViewProtocol> MapViewCls(void)
 * Scroll down until `Frameworks, Libraries, and Embedded Content`
 * Add the `MapKit.framework` framework
 * `cmd+b`
+
+### [[Fabric Components] Connect the new component to JS]()
+Steps:
+* Open the `App.js`
+* Add the following import
+```js
+import MapView from './MapView/js/MapViewNativeComponent'
+```
+* When rendering the component, add the new MapView
+```js
+return
+<MapView zoomEnabled={false} style={{width:'100%', height:'100%'}}/>
+```
+* Fix flow errors, if any
+* `npx react-native run-ios`
+* Observe the MapView on the screen. Try to pinch to see that the zoom is disabled.
+* Change the `zoomEnabled` to `true`
+* Try to pinch to see that the zoom is enabled.

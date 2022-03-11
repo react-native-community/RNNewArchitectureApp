@@ -23,6 +23,7 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 
 import CalendarModule from './ios/AwesomeApp/CalendarModule/js/NativeCalendarModule';
+import MapView from './MapView/js/MapViewNativeComponent'
 
 const App: () => Node = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -40,10 +41,11 @@ const App: () => Node = () => {
         title="Click to invoke your native module!"
         color="#841584"
         onPress={async () => {
-          const newId = await CalendarModule.createCalendarEvent('foo', 'bar');
-          setEventId(newId);
+          const newId = await CalendarModule?.createCalendarEvent('foo', 'bar');
+          setEventId(newId != null ? newId : "Can't create event");
         }}/>
       <Text style={{marginLeft:10}}>{eventId.length == 0 ? "No Event Created" : eventId}</Text>
+      <MapView zoomEnabled={true} style={{width:'100%', height:'100%'}}/>
     </SafeAreaView>
   );
 };
