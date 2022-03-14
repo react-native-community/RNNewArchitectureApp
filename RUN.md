@@ -15,8 +15,8 @@ This Run creates a new project with ReactNative and migrates it to the new archi
 There are a few commits that, if checked out, are interesting points to start with.
 * [Initial Project](https://github.com/cortinico/RNNewArchitectureApp/commit/192c35d76b750c3eeeaa04c9c8caa61c2153a8ad)
 * [Working New Architecture Project](https://github.com/cortinico/RNNewArchitectureApp/commit/f0ff35c9f25671f85ae5c64316d0f90c553a9e80)
-* [Project with a Turbo Module]()
-* [Project with a Fabric Component]()
+* [Project with a Turbo Module](https://github.com/cortinico/RNNewArchitectureApp/commit/7759aabc6176bbab0666b944d88627d505987205)
+* [Project with a Fabric Component](https://github.com/cortinico/RNNewArchitectureApp/commit/c45498a48b443d251a76dd6730eb9208cbbbe4a1)
 
 
 ## Issues
@@ -339,7 +339,7 @@ plugins: [
 ```
 * Run `BUILD_FROM_GIT=1 RCT_NEW_ARCH_ENABLED=1 pod install`
 
-### [[TurboModules] Create a Calendar Module]()
+### [[TurboModules] Create a Calendar Module](https://github.com/cortinico/RNNewArchitectureApp/commit/49799e946c865d8cc92130f9f6c4bfb364017290)
 Steps:
 * Open the `AwesomeApp.xcworkspace`
 * Create a new group in the `AwesomeApp` and call it `CalendarModule`
@@ -371,7 +371,7 @@ RCT_EXPORT_METHOD(createCalendarEvent:(NSString *)name location:(NSString *)loca
 * `cmd+b`
 * `cmd+r`
 
-### [[Turbo Modules] Define JS Specs]()
+### [[Turbo Modules] Define JS Specs](https://github.com/cortinico/RNNewArchitectureApp/commit/9f67f17b43f224fd5b37a6b2b3410151126b1a70)
 Steps:
 * In the `AwesomeApp/CalendarModule` group, create a `js` folder
 * Create a `NativeCalendarModule.js` file
@@ -390,7 +390,7 @@ export interface Spec extends TurboModule {
 
 export default (TurboModuleRegistry.get<Spec>('CalendarModule'): ?Spec);
 ```
-### [[Turbo Modules] Configure podspec for codegen]()
+### [[Turbo Modules] Configure podspec for codegen](https://github.com/cortinico/RNNewArchitectureApp/commit/c2cd9500c0770822b3d13064ff38bf19ee0c25c0)
 Steps:
 * In the `AwesomeApp/CalendarModule` group, create a `CalendarModule.podspec` file
 * Copy the following code:
@@ -426,7 +426,7 @@ Pod::Spec.new do |s|
 end
 ```
 
-### [[Turbo Modules] Enable codegen in `package.json`]()
+### [[Turbo Modules] Enable codegen in `package.json`](https://github.com/cortinico/RNNewArchitectureApp/commit/13ed4d9f0796f19fb24430fd6260b3bae2410a6a)
 Steps:
 * Open the `package.json` file
 * At the end of the file, before the las `}` add the following snippet:
@@ -453,7 +453,7 @@ Steps:
 * `cmd+b`
 * `cmd+r`
 
-### [[Turbo Modules] Extend or implement the code-generated native interfaces]()
+### [[Turbo Modules] Extend or implement the code-generated native interfaces](https://github.com/cortinico/RNNewArchitectureApp/commit/81c29e53e10cd2eec13962ca7ec9e5f5cc056a6e)
 Steps:
 * Open the `AwesomeApp.xcworkspace`
 * Rename the `RCTCalendarModule.m` into `RCTCalendarModule.mm`
@@ -474,7 +474,7 @@ Steps:
 * `cmd+b`
 * `cmd+r`
 
-### [[Turbo Modules] Test the Calendar Module in JS]()
+### [[Turbo Modules] Test the Calendar Module in JS](https://github.com/cortinico/RNNewArchitectureApp/commit/28f87053cd5bb689022a811f90c8ad933389475e)
 Steps:
 * Replace the content of the `App.js` file with the following:
 ```js
@@ -544,7 +544,7 @@ export interface Spec extends TurboModule {
 * Set a breakpoint on line 11 of the `RCTCalendarModule.mm` file (the `RCTLogInfo` line)
 * Tap on the Button on the screen and observe the app stopping at the breakpoint.
 
-### [[Turbo Modules] Toward a more testable Spec]()
+### [[Turbo Modules] Toward a more testable Spec](https://github.com/cortinico/RNNewArchitectureApp/commit/7759aabc6176bbab0666b944d88627d505987205)
 Steps:
 * Open the `NativeCalendarModule.js` file.
 * Replace the `createCalendarEvent` return type to `Promise<string>`
@@ -584,7 +584,7 @@ RCT_EXPORT_METHOD(createCalendarEvent:(NSString *)name
 * `npx react-native run-ios`
 * Tap on the button and observe the id that changes.
 
-### [[Fabric Component] Create the JS Spec]()
+### [[Fabric Component] Create the JS Spec](https://github.com/cortinico/RNNewArchitectureApp/commit/6558b96758dd1faeadfbb61c4bb671e4735bf576)
 Steps:
 * At the same level of the `App.js` file, create a `MapView/js` folder
 * Create a new file `MapViewNativeComponents.js`
@@ -606,7 +606,7 @@ export default (codegenNativeComponent<NativeProps>(
 ): HostComponent<NativeProps>);
 ```
 
-### [[Fabric Components] Create the podspec file and generate the code]()
+### [[Fabric Components] Create the podspec file and generate the code](https://github.com/cortinico/RNNewArchitectureApp/commit/66bdf8599a4708f2742f231c8091ddfb6a36fe0e)
 Steps
 * Go to the `MapView` folder
 * Create a new file `MapView.podspec`
@@ -668,7 +668,7 @@ If successfull, you should see something like this:
 [Codegen] Generated artifacts: /Users/cipolleschi/rn-test/RNNewArchitectureApp/AwesomeApp/ios/build/generated/ios/react/renderer/components/MapView
 ```
 
-### [[Fabric Component] Create the Native ViewManager]()
+### [[Fabric Component] Create the Native ViewManager](https://github.com/cortinico/RNNewArchitectureApp/commit/18ec27a1540d10611ed15fcf1c8f4312e7f7a9ce)
 Steps:
 * Go to the `MapView` folder
 * Create a new folder and name it `ios`
@@ -694,7 +694,7 @@ RCT_EXPORT_VIEW_PROPERTY(zoomEnabled, BOOL)
 @end
 ```
 
-### [[Fabric Component] Create the Native View]()
+### [[Fabric Component] Create the Native View](https://github.com/cortinico/RNNewArchitectureApp/commit/2d38c43a819a219b78ee244213da2b6d19acae0a)
 Steps:
 * Go to the `MapView/ios` folder
 * Create a new header file `RNTMapView.h`
@@ -791,7 +791,7 @@ Class<RCTComponentViewProtocol> MapViewCls(void)
 * Add the `MapKit.framework` framework
 * `cmd+b`
 
-### [[Fabric Components] Connect the new component to JS]()
+### [[Fabric Components] Connect the new component to JS](https://github.com/cortinico/RNNewArchitectureApp/commit/c45498a48b443d251a76dd6730eb9208cbbbe4a1)
 Steps:
 * Open the `App.js`
 * Add the following import

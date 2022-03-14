@@ -19,7 +19,7 @@
 		CD35780D27DA64630015DDA1 /* NativeCalendarModule.js in Resources */ = {isa = PBXBuildFile; fileRef = CD35780C27DA64630015DDA1 /* NativeCalendarModule.js */; };
 		CD35780F27DA661D0015DDA1 /* CalendarModule.podspec in Resources */ = {isa = PBXBuildFile; fileRef = CD35780E27DA661D0015DDA1 /* CalendarModule.podspec */; };
 		CD35781127DA691B0015DDA1 /* CalendarModule in Resources */ = {isa = PBXBuildFile; fileRef = CD35781027DA691B0015DDA1 /* CalendarModule */; };
-		CD67FCFB27DBCA600081B2BC /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD67FCFA27DBCA600081B2BC /* MapKit.framework */; };
+		CDAF5CC527DF48F400A38D73 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD67FCFA27DBCA600081B2BC /* MapKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,7 +71,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CD67FCFB27DBCA600081B2BC /* MapKit.framework in Frameworks */,
+				CDAF5CC527DF48F400A38D73 /* MapKit.framework in Frameworks */,
 				66EA172F5A9F8B8D3B25F124 /* libPods-AwesomeApp.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
