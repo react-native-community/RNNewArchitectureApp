@@ -2,7 +2,9 @@
 
 This repo contains several branches that will help you understand how to setup your project for the **React Native New Architecture**. This should considered as a support material of [the official migration guide](https://reactnative.dev/docs/next/new-architecture-intro).
 
-Here you will find **runs of the migration guide** on empty projects. Every commit is **documented** and allows to follow over on every step. 
+Here you will find **runs of the migration guide** on empty projects. Every commit is **documented** and allows to follow over on every step.
+
+Some branches also have a `RUN.md` (example: [`ios/20220309`](https://github.com/cortinico/RNNewArchitectureApp/blob/ios/20220309/RUN.md)) file that can help you follow the commits with additional context.
 
 Please find a list of the branches below, with more information on which kind of setup they're addressing.
 
@@ -12,6 +14,7 @@ Please find a list of the branches below, with more information on which kind of
 | --- | --- | --- | --- |
 | [`run/android/20220202`](https://github.com/cortinico/RNNewArchitectureApp/commits/run/android/20220202) | A run from an empty project on RN 0.67.2, migrated to run on a RN nightly version `0.0.0-20211205-2008-583471bc4`. Here you can see all the step-by-step migration needed for an app coming from RN 0.67 | ✅ | |
 | [`run/android/0.68.0-rc2`](https://github.com/cortinico/RNNewArchitectureApp/commits/run/android/0.68.0-rc2) | A run from an empty project on RN 0.68.0-rc2 using the New Architecture template | ✅ | |
+| [`ios/20220309`](https://github.com/cortinico/RNNewArchitectureApp/commits/ios/20220309) | A run from an empty project starting from 0.67.3 to an app with a Turbomodule and a Fabric component | | ✅ |
 
 ## Sample Run
 
