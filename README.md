@@ -13,7 +13,7 @@ Please find a list of the branches below, with more information on which kind of
 | Branch name | Description | Android | iOS |
 | --- | --- | --- | --- |
 | [`run/android/20220202`](https://github.com/cortinico/RNNewArchitectureApp/commits/run/android/20220202) | A run from an empty project on RN 0.67.2, migrated to run on a RN nightly version `0.0.0-20211205-2008-583471bc4`. Here you can see all the step-by-step migration needed for an app coming from RN 0.67 | ✅ | |
-| [`run/android/0.68.0-rc2`](https://github.com/cortinico/RNNewArchitectureApp/commits/run/android/0.68.0-rc2) | A run from an empty project on RN 0.68.0-rc2 using the New Architecture template | ✅ | |
+| [`run/android/0.68.0-rc3`](https://github.com/cortinico/RNNewArchitectureApp/commits/run/android/0.68.0-rc3) | A run from an empty project on RN 0.68.0-rc3 using the New Architecture template | ✅ | |
 | [`ios/20220309`](https://github.com/cortinico/RNNewArchitectureApp/commits/ios/20220309) | A run from an empty project starting from 0.67.3 to an app with a Turbomodule and a Fabric component | | ✅ |
 
 ## Sample Run
@@ -43,3 +43,11 @@ For example, for the [`run/android/20220202`](https://github.com/cortinico/RNNew
 * [be102a1](https://github.com/cortinico/RNNewArchitectureApp/commit/be102a1) `Enable Hermes`
 * [4357af9](https://github.com/cortinico/RNNewArchitectureApp/commit/4357af9) `Bump React Native to a nightly version`
 * [a3866a1](https://github.com/cortinico/RNNewArchitectureApp/commit/a3866a1) `Result of npx react-native init`
+
+## Older Branches
+
+Here we collect older branches that are working, but no longer relevant.
+
+| Branch name | Description | Android | iOS |
+| --- | --- | --- | --- |
+| [`run/android/0.68.0-rc2`](https://github.com/cortinico/RNNewArchitectureApp/commits/run/android/0.68.0-rc2) | A run from an empty project on RN 0.68.0-rc2 using the New Architecture template | ✅ | |
