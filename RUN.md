@@ -295,3 +295,35 @@ facebook::react::ContextContainer::Shared _contextContainer;
 ```
 * `cmd+b`
 * `cmd+r`
+
+### [[TurboModules] Create a Calendar Module]()
+Steps:
+* At the same level of `AwesomeApp`, create a folder named `Calendar`
+* Create a folder `Calendar/ios`.
+* Open Xcode and create a static library there (Make sure that the `Create Git Repository` checkbox is unchecked).
+* Update the `RCTCalendarModule.h` file with this code:
+```objective-c
+//  RCTCalendarModule.h
+#import <React/RCTBridgeModule.h>
+@interface RCTCalendarModule : NSObject <RCTBridgeModule>
+@end
+```
+* Update the ``RCTCalendarModule.m` file with this code:
+```objective-c
+// RCTCalendarModule.m
+#import "RCTCalendarModule.h"
+#import <React/RCTLog.h>
+
+@implementation RCTCalendarModule
+
+// To export a module named RCTCalendarModule
+RCT_EXPORT_MODULE();
+
+RCT_EXPORT_METHOD(createCalendarEvent:(NSString *)name location:(NSString *)location)
+{
+    RCTLogInfo(@"Pretending to create an event %@ at %@", name, location);
+}
+
+@end
+```
+* Make sure that the `Calendar.xcodeproj` is a direct child of the `ios` folder.
