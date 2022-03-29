@@ -2142,7 +2142,7 @@ cache-base@^1.0.1:
     union-value "^1.0.0"
     unset-value "^1.0.0"
 
-calendar@../calendar:
+calendar@../Calendar:
   version "0.0.1"
 
 call-bind@^1.0.0, call-bind@^1.0.2:

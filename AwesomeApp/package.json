@@ -10,7 +10,7 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
-    "calendar": "../calendar",
+    "calendar": "../Calendar",
     "react": "17.0.2",
     "react-native": "0.68.0-rc.4",
     "react-native-codegen": "^0.0.14"

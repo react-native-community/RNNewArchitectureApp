@@ -426,3 +426,23 @@ Steps:
 ```
 * `cmd+b`
 * `cmd+r`
+
+### [[Turbo Modules] Extend or implement the code-generated native interfaces]()
+
+* Rename the `RCTCalendarModule.m` into `RCTCalendarModule.mm`
+* Open the `RCTCalendarModule.mm` file
+* Add the following import:
+```objective-c
+#import "CalendarSpec.h"
+```
+* Add the following snippet before the `@end` to connect the component with the generated interface
+```c++
+- (std::shared_ptr<facebook::react::TurboModule>)getTurboModule:(const facebook::react::ObjCTurboModule::InitParams &)params
+{
+  return std::make_shared<facebook::react::NativeCalendarSpecJSI>(params);
+}
+```
+* From the `AwesomeApp` folder, run `yarn remove calendar && yarn add ../Calendar`
+* Run `cd ios && RCT_NEW_ARCH_ENABLED=1 pod install`
+* `cmd+b`
+* `cmd+r`
