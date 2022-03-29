@@ -327,3 +327,19 @@ RCT_EXPORT_METHOD(createCalendarEvent:(NSString *)name location:(NSString *)loca
 @end
 ```
 * Make sure that the `Calendar.xcodeproj` is a direct child of the `ios` folder.
+
+### [[Turbo Modules] Define TypeScript Specs]()
+Steps:
+* In the `Calendar` folder, create a `js` folder
+* Create a `NativeCalendar.ts` file
+* Add the following code:
+```ts
+import type { TurboModule } from 'react-native';
+import { TurboModuleRegistry } from 'react-native';
+
+export interface Spec extends TurboModule {
+  createCalendarEvent(name: string, location: string): void;
+}
+
+export default TurboModuleRegistry.get<Spec>('CalendarModule');
+```
