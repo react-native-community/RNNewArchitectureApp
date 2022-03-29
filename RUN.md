@@ -14,21 +14,21 @@ This Run creates a new project with ReactNative using typescript and migrates it
 
 There are a few commits that, if checked out, are interesting points to start with.
 
-- [Initial Project]()
-- [Working New Architecture Project]()
-- [Project with a Turbo Module]()
-- [Project with a Fabric Component]()
+- [Initial Project](#setup)
+- [Working New Architecture Project](#working-project)
+- [Project with a Turbo Module](#working-tm)
+- [Project with a Fabric Component](#working-fc)
 
 ## Steps
 
-### [[Setup] react-native init]()
+### <a name="setup" />[[Setup] react-native init](https://github.com/react-native-community/RNNewArchitectureApp/commit/52b6964fdd362ffdfecc92b66116d57ce978d6a0)
 
 1. run `npx react-native init AwesomeApp --template react-native-template-typescript`
 1. `cd AwesomeApp`
 1. `npx react-native start`
 1. `npx react-native run-ios`
 
-### [[Setup] Set the release candidate version of React Native]()
+### [[Setup] Set the release candidate version of React Native](https://github.com/react-native-community/RNNewArchitectureApp/commit/c9f98c52491ee9880e4537bf9408b71a9833719d)
 
 1. Open the `AwesomeApp/package.json`
 1. Update the `react-native` dependencies' version to `0.68.0-rc.4`
@@ -37,14 +37,14 @@ There are a few commits that, if checked out, are interesting points to start wi
 1. Fix build error in `AppDelegate.m` by replacing the `return [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];` with the `return [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index"];`
 1. Run the app in Xcode to make sure it builds and runs.
 
-### [[Setup] Install CodeGen]()
+### [[Setup] Install CodeGen](https://github.com/react-native-community/RNNewArchitectureApp/commit/5eb2acfdfebcd617bf2e00ad9bba95cccdd65741)
 
 1. `yarn add react-native-codegen`
 1. `cd ios && pod install`
 1. `npx react-native start`
 1. `npx react-native run-ios`
 
-### [[Setup] Enable Hermes]()
+### [[Setup] Enable Hermes](https://github.com/react-native-community/RNNewArchitectureApp/commit/30dc915c37ee7f86ffd2c3f967e764cf8cf592cd)
 
 1. Open the `Podfile`
 1. Change `:hermes_enabled` to `true`
@@ -52,7 +52,7 @@ There are a few commits that, if checked out, are interesting points to start wi
 1. `open AwesomeApp.xcworkspace`
 1. `cmd+r` -> the app builds but when it runs, it crashes.
 
-### [[Setup] Enable C++17]()
+### [[Setup] Enable C++17](https://github.com/react-native-community/RNNewArchitectureApp/commit/0461f8fbe79c2ad2a7344e602d7027b63cc10300)
 
 1. Open `AwesomeApp.xcworkspace`
 1. Select the `AwesomeAppproject` in the project navigator
@@ -62,7 +62,7 @@ There are a few commits that, if checked out, are interesting points to start wi
 1. Select the C++17 option
 1. `cmd+r`
 
-### [[Setup] Update the code to use Objective-C++]()
+### [[Setup] Update the code to use Objective-C++](https://github.com/react-native-community/RNNewArchitectureApp/commit/8d26c93c76524c33c8b12146932cbceaeb0a5d12)
 
 1. Open `AwesomeApp.xcworkspace`
 1. Rename the `AwesomeApp/main.m` to `AwesomeApp/main.mm`
@@ -71,7 +71,7 @@ There are a few commits that, if checked out, are interesting points to start wi
 
 **Note:** Doing this from Xcode will also update the Xcodeproject file
 
-### [[Setup] Provide a RCTCxxBridgeDelegate]()
+### [[Setup] Provide a RCTCxxBridgeDelegate](https://github.com/react-native-community/RNNewArchitectureApp/commit/8fe638ae622b79a8f6b78ea2b2637d86784df73c)
 
 * Open `AwesomeApp.xcworkspace`
 * Open `AwesomeApp/AppDelegate.mm`
@@ -115,7 +115,7 @@ There are a few commits that, if checked out, are interesting points to start wi
 * `cmd+b`
 * `cmd+r`
 
-### [[Turbo Modules] Provide a TurboModuleManager Delegate]()
+### [[Turbo Modules] Provide a TurboModuleManager Delegate](https://github.com/react-native-community/RNNewArchitectureApp/commit/e4de6f982630ecd024731b590843a7c10773320d)
 
 * Open `AwesomeApp.xcworkspace`
 * Open `AwesomeApp/AppDelegate.mm`
@@ -152,7 +152,7 @@ There are a few commits that, if checked out, are interesting points to start wi
 }
 ```
 
-### [[Turbo Modules] Install TurboModuleManager JavaScript Bindings]()
+### [[Turbo Modules] Install TurboModuleManager JavaScript Bindings](https://github.com/react-native-community/RNNewArchitectureApp/commit/09368225e60b73e0a20502569f25403dd3839a83)
 
 * Open `AwesomeApp.xcworkspace`
 * Open `AwesomeApp/AppDelegate.mm`
@@ -199,7 +199,7 @@ There are a few commits that, if checked out, are interesting points to start wi
 ```
 * `cmd+r`
 
-### [[Turbo Modules] Enable TurboModule System]()
+### [[Turbo Modules] Enable TurboModule System](https://github.com/react-native-community/RNNewArchitectureApp/commit/96ad6702211ffe2e016d9067e1175153679c019f)
 
 * Open `AwesomeApp.xcworkspace`
 * Open `AwesomeApp/AppDelegate.mm`
@@ -248,7 +248,7 @@ if (moduleClass == RCTImageLoader.class) {
 
 The error is caused by a module used by the app to load images that requires some custom parameter at init time to work properly.
 
-### [[Fabric] Enable Fabric in Podfile]()
+### [[Fabric] Enable Fabric in Podfile](https://github.com/react-native-community/RNNewArchitectureApp/commit/830f5197949dc331a0688cb776495d605caed00c)
 
 * Open `AwesomeApp/Podfile`
 * Before the `:enable_hermes => true` line, add the following lines:
@@ -258,7 +258,7 @@ The error is caused by a module used by the app to load images that requires som
 * Open `AwesomeApp.xcworkspace`
 * `cmd+r`
 
-### [[Fabric] Update your RootView]()
+### <a name="working-project" />[[Fabric] Update your RootView](https://github.com/react-native-community/RNNewArchitectureApp/commit/4dff69f748a7c673e489b408c74e434d130f3731)
 
 * Open the `AwesomeApp.xcworkspace`
 * Open the `AppDelegate.mm`
@@ -296,8 +296,8 @@ facebook::react::ContextContainer::Shared _contextContainer;
 * `cmd+b`
 * `cmd+r`
 
-### [[TurboModules] Create a Calendar Module]()
-Steps:
+### [[TurboModules] Create a Calendar Module](https://github.com/react-native-community/RNNewArchitectureApp/commit/5eb659f8c442f5add49496e904dade1bb032c7a5)
+
 * At the same level of `AwesomeApp`, create a folder named `Calendar`
 * Create a folder `Calendar/ios`.
 * Open Xcode and create a static library there (Make sure that the `Create Git Repository` checkbox is unchecked).
@@ -308,7 +308,7 @@ Steps:
 @interface RCTCalendarModule : NSObject <RCTBridgeModule>
 @end
 ```
-* Update the ``RCTCalendarModule.m` file with this code:
+* Update the `RCTCalendarModule.m` file with this code:
 ```objective-c
 // RCTCalendarModule.m
 #import "RCTCalendarModule.h"
@@ -328,8 +328,8 @@ RCT_EXPORT_METHOD(createCalendarEvent:(NSString *)name location:(NSString *)loca
 ```
 * Make sure that the `Calendar.xcodeproj` is a direct child of the `ios` folder.
 
-### [[Turbo Modules] Define TypeScript Specs]()
-Steps:
+### [[Turbo Modules] Define TypeScript Specs](https://github.com/react-native-community/RNNewArchitectureApp/commit/8cdf2d32fdd2a989a2b4552c8aedb187136de30a)
+
 * In the `Calendar` folder, create a `js` folder
 * Create a `NativeCalendar.ts` file
 * Add the following code:
@@ -344,7 +344,7 @@ export interface Spec extends TurboModule {
 export default TurboModuleRegistry.get<Spec>('CalendarModule');
 ```
 
-### [[Turbo Modules] Configure podspec for codegen]()
+### [[Turbo Modules] Configure podspec for codegen](https://github.com/react-native-community/RNNewArchitectureApp/commit/e7ba354715b57877bb6497c09635d4fbdbd825df)
 
 * In the `Calendar` group, create a `Calendar.podspec` file
 * Copy the following code:
@@ -381,8 +381,8 @@ Pod::Spec.new do |s|
 end
 ```
 
-### [[Turbo Modules] Enable codegen in `package.json`]()
-Steps:
+### [[Turbo Modules] Enable codegen in `package.json`](https://github.com/react-native-community/RNNewArchitectureApp/commit/d23730f64e00a6a0e840b34ee7c02c181ce86d3a)
+
 * Create a `package.json` file in the `Calendar` folder
 * Add the following code in it:
 ```json
@@ -427,7 +427,7 @@ Steps:
 * `cmd+b`
 * `cmd+r`
 
-### [[Turbo Modules] Extend or implement the code-generated native interfaces]()
+### [[Turbo Modules] Extend or implement the code-generated native interfaces](https://github.com/react-native-community/RNNewArchitectureApp/commit/c3b387ad74634218eff422ee2e32ee77d8cd370a)
 
 * Rename the `RCTCalendarModule.m` into `RCTCalendarModule.mm`
 * Open the `RCTCalendarModule.mm` file
@@ -447,7 +447,7 @@ Steps:
 * `cmd+b`
 * `cmd+r`
 
-### [[Turbo Modules] Test the Calendar Module in TypeScript]()
+### <a name="working-tm" />[[Turbo Modules] Test the Calendar Module in TypeScript](https://github.com/react-native-community/RNNewArchitectureApp/commit/4bb807a19786a48cf743d83458dba5a47186f786)
 
 * Replace the content of the `App.ts` file with the following:
 ```js
@@ -494,7 +494,7 @@ export default App;
 * Set a breakpoint on line 11 of the `RCTCalendarModule.mm` file (the `RCTLogInfo` line)
 * Tap on the Button on the screen and observe the app stopping at the breakpoint.
 
-### [[Fabric Component] Create the TypeScript Spec]()
+### [[Fabric Component] Create the TypeScript Spec](https://github.com/react-native-community/RNNewArchitectureApp/commit/38a3d290ad6460423d1c25cfbafbbd47635d8be7)
 
 * At the same level of the `AwesomeApp` folder, create a `MapView/js` folder
 * Create a new file `MapViewNativeComponents.ts`
@@ -513,8 +513,8 @@ export default codegenNativeComponent<NativeProps>(
 ) as HostComponent<NativeProps>;
 ```
 
-### [[Fabric Components] Create the podspec file and generate the code]()
-Steps
+### [[Fabric Components] Create the podspec file and generate the code](https://github.com/react-native-community/RNNewArchitectureApp/commit/a9cb4ea01dbd3cfaa56bb5bc38c41763c9c88ea7)
+
 * Go to the `MapView` folder
 * Create a new file `MapView.podspec`
 * Add the following code:
@@ -597,7 +597,7 @@ If successfull, you should see something like this:
 [Codegen] Generated artifacts: /Users/cipolleschi/Community/RNNewArchitectureApp/AwesomeApp/ios/build/generated/ios/react/renderer/components/MapViewSpec
 ```
 
-### [[Fabric Component] Create the Native ViewManager]()
+### [[Fabric Component] Create the Native ViewManager](https://github.com/react-native-community/RNNewArchitectureApp/commit/48161e4d311d4d3a019643efb2113e8f9f8ca3c6)
 
 * Go to the `MapView` folder.
 * Create a new folder and name it `ios`.
@@ -626,7 +626,7 @@ RCT_EXPORT_VIEW_PROPERTY(zoomEnabled, BOOL)
 @end
 ```
 
-### [[Fabric Component] Create the Native View]()
+### [[Fabric Component] Create the Native View](https://github.com/react-native-community/RNNewArchitectureApp/commit/0533b9246f5c9c3c8db0f98a4185499cfef8ea41)
 
 * Go to the `MapView/ios/MapView` folder
 * Open the `RCTMapView.h`
@@ -722,7 +722,7 @@ Class<RCTComponentViewProtocol> MapViewCls(void)
 * Add the `MapKit.framework` framework
 * `cmd+b`
 
-### [[Fabric Components] Connect the new component to TypeScript]()
+### <a name="working-fc" />[[Fabric Components] Connect the new component to TypeScript](https://github.com/react-native-community/RNNewArchitectureApp/commit/6916a61df0f552cf23451ba91a5de894a19fc7c5)
 
 * Navigate to the `AwesomeApp` root folder
 * run `yarn add react-native-codegen`
