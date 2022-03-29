@@ -257,3 +257,41 @@ The error is caused by a module used by the app to load images that requires som
 * Run `BUILD_FROM_GIT=1 RCT_NEW_ARCH_ENABLED=1 pod install`
 * Open `AwesomeApp.xcworkspace`
 * `cmd+r`
+
+### [[Fabric] Update your RootView]()
+
+* Open the `AwesomeApp.xcworkspace`
+* Open the `AppDelegate.mm`
+* Add the following imports:
+```objective-c
+#import <React/RCTFabricSurfaceHostingProxyRootView.h>
+#import <React/RCTSurfacePresenter.h>
+#import <React/RCTSurfacePresenterBridgeAdapter.h>
+#import <react/config/ReactNativeConfig.h>
+```
+* Add the following properties in the `@interface AppDelegare` block:
+```c++
+RCTSurfacePresenterBridgeAdapter *_bridgeAdapter;
+std::shared_ptr<const facebook::react::ReactNativeConfig> _reactNativeConfig;
+facebook::react::ContextContainer::Shared _contextContainer;
+```
+* Replace the line that starts with `UIView *rootView =` in the `application:didFinishLaunchingWithOptions:` with the following snippet:
+```c++
+  _contextContainer = std::make_shared<facebook::react::ContextContainer const>();
+  _reactNativeConfig = std::make_shared<facebook::react::EmptyReactNativeConfig const>();
+
+  _contextContainer->insert("ReactNativeConfig", _reactNativeConfig);
+
+  _bridgeAdapter = [[RCTSurfacePresenterBridgeAdapter alloc]
+        initWithBridge:bridge
+      contextContainer:_contextContainer];
+
+  bridge.surfacePresenter = _bridgeAdapter.surfacePresenter;
+
+  UIView *rootView =
+      [[RCTFabricSurfaceHostingProxyRootView alloc] initWithBridge:bridge
+                                                        moduleName:@"AwesomeApp"
+                                                 initialProperties:nil];
+```
+* `cmd+b`
+* `cmd+r`
