@@ -1,12 +1,11 @@
-//
-//  MapView.h
-//  MapView
-//
-//  Created by Riccardo Cipolleschi on 29/03/2022.
-//
+#ifndef RCTMapView_h
+#define RCTMapView_h
 
-#import <Foundation/Foundation.h>
+#import <React/RCTViewComponentView.h>
+#import <UIKit/UIKit.h>
 
-@interface MapView : NSObject
+@interface RCTMapView : RCTViewComponentView
 
 @end
+
+#endif /* RCTMapView_h */
