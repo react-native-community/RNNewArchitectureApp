@@ -36,3 +36,10 @@ There are a few commits that, if checked out, are interesting points to start wi
 1. `cd ios && pod install`
 1. Fix build error in `AppDelegate.m` by replacing the `return [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];` with the `return [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index"];`
 1. Run the app in Xcode to make sure it builds and runs.
+
+### [[Setup] Install CodeGen]()
+
+1. `yarn add react-native-codegen`
+1. `cd ios && pod install`
+1. `npx react-native start`
+1. `npx react-native run-ios`
