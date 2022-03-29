@@ -721,3 +721,31 @@ Class<RCTComponentViewProtocol> MapViewCls(void)
 * Scroll down until `Frameworks, Libraries, and Embedded Content`
 * Add the `MapKit.framework` framework
 * `cmd+b`
+
+### [[Fabric Components] Connect the new component to TypeScript]()
+
+* Navigate to the `AwesomeApp` root folder
+* run `yarn add react-native-codegen`
+* open the `babel.config.js`
+* Add the following code:
+```js
+plugins: [
+    '@babel/plugin-proposal-class-properties',
+    './node_modules/react-native/packages/babel-plugin-codegen'
+]
+```
+* Move to the `ios` folder
+* Run `RCT_NEW_ARCH_ENABLED=1 pod install`
+* Open the `App.ts`
+* Add the following import
+```ts
+import MapView from 'map-view/js/MapViewNativeComponents';
+```
+* When rendering the component, add the new MapView
+```jsx
+<MapView style={{width:'100%', height:'100%'}} zoomEnabled={false}/>
+```
+* `npx react-native run-ios`
+* Observe the MapView on the screen. Try to pinch to see that the zoom is disabled.
+* Change the `zoomEnabled` to `true`
+* Try to pinch to see that the zoom is enabled.
