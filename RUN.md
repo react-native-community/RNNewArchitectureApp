@@ -43,3 +43,11 @@ There are a few commits that, if checked out, are interesting points to start wi
 1. `cd ios && pod install`
 1. `npx react-native start`
 1. `npx react-native run-ios`
+
+### [[Setup] Enable Hermes]()
+
+1. Open the `Podfile`
+1. Change `:hermes_enabled` to `true`
+1. `cd ios && pod install`
+1. `open AwesomeApp.xcworkspace`
+1. `cmd+r` -> the app builds but when it runs, it crashes.
