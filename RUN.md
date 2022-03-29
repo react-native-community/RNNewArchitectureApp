@@ -72,7 +72,7 @@ There are a few commits that, if checked out, are interesting points to start wi
 **Note:** Doing this from Xcode will also update the Xcodeproject file
 
 ### [[Setup] Provide a RCTCxxBridgeDelegate]()
-Steps:
+
 * Open `AwesomeApp.xcworkspace`
 * Open `AwesomeApp/AppDelegate.mm`
 * Add the following imports
@@ -114,3 +114,40 @@ Steps:
 * Update the `Release` configuration with the following line: `-DFOLLY_NO_CONFIG -DFOLLY_MOBILE=1 -DFOLLY_USE_LIBCPP=1`
 * `cmd+b`
 * `cmd+r`
+
+### [[Turbo Modules] Provide a TurboModuleManager Delegate]()
+
+* Open `AwesomeApp.xcworkspace`
+* Open `AwesomeApp/AppDelegate.mm`
+* Add the following imports:
+```objective-c
+#import <ReactCommon/RCTTurboModuleManager.h>
+#import <React/CoreModulesPlugins.h>
+```
+* Make the AppDelegate conforms to `RCTTurboModuleManagerDelegate`:
+```objective-c
+@interface AppDelegate () <RCTCxxBridgeDelegate, RCTTurboModuleManagerDelegate> {
+  RCTTurboModuleManager *_turboModuleManager;
+}
+@end
+```
+* Add the implementation for the protocol's methods
+```c++
+#pragma mark RCTTurboModuleManagerDelegate
+
+- (Class)getModuleClassFromName:(const char *)name
+{
+  return RCTCoreModulesClassProvider(name);
+}
+
+- (std::shared_ptr<facebook::react::TurboModule>)
+    getTurboModule:(const std::string &)name
+         jsInvoker:(std::shared_ptr<facebook::react::CallInvoker>)jsInvoker {
+  return nullptr;
+}
+
+- (id<RCTTurboModule>)getModuleInstanceFromClass:(Class)moduleClass
+{
+  return [moduleClass new];
+}
+```
