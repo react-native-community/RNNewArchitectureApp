@@ -380,3 +380,49 @@ Pod::Spec.new do |s|
   s.dependency "ReactCommon/turbomodule/core"
 end
 ```
+
+### [[Turbo Modules] Enable codegen in `package.json`]()
+Steps:
+* Create a `package.json` file in the `Calendar` folder
+* Add the following code in it:
+```json
+{
+  "name": "calendar",
+  "version": "0.0.1",
+  "description": "Calendar module",
+  "files": [
+      "js",
+      "android",
+      "ios",
+      "Calendar.podspec",
+      "!android/build",
+      "!ios/build",
+      "!**/__tests__",
+      "!**/__fixtures__",
+      "!**/__mocks__"
+  ],
+  "keywords": ["react-native", "ios", "android"],
+  "codegenConfig": {
+    "libraries": [
+      {
+        "name": "CalendarSpec",
+        "type": "modules",
+        "jsSrcsDir": "js"
+      }
+    ]
+  }
+}
+```
+* Go into the `AwesomeApp` folder
+* run `yarn add ../Calendar`
+* `cd ios`
+* Generate the code by running `RCT_NEW_ARCH_ENABLED=1 pod install`. If successful, you should see some lines like these:
+```
+#...
+[Codegen] >>>>> Processing Calendar
+[Codegen] Generated schema: /var/folders/b7/5gvyd0914t15w42kwy1k_l600000gn/T/CalendarPwcu5h/schema.json
+[Codegen] Generated artifacts: /Users/cipolleschi/Community/RNNewArchitectureApp/AwesomeApp/ios/build/generated/ios/Calendar
+#...
+```
+* `cmd+b`
+* `cmd+r`
