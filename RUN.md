@@ -51,3 +51,13 @@ There are a few commits that, if checked out, are interesting points to start wi
 1. `cd ios && pod install`
 1. `open AwesomeApp.xcworkspace`
 1. `cmd+r` -> the app builds but when it runs, it crashes.
+
+### [[Setup] Enable C++17]()
+
+1. Open `AwesomeApp.xcworkspace`
+1. Select the `AwesomeAppproject` in the project navigator
+1. Select the `AwesomeApp project` in the Projects panel
+1. Select the Build Settings tab
+1. Search for `CLANG_CXX_LANGUAGE_STANDARD`
+1. Select the C++17 option
+1. `cmd+r`
