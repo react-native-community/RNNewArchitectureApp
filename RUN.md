@@ -446,3 +446,50 @@ Steps:
 * Run `cd ios && RCT_NEW_ARCH_ENABLED=1 pod install`
 * `cmd+b`
 * `cmd+r`
+
+### [[Turbo Modules] Test the Calendar Module in TypeScript]()
+
+* Replace the content of the `App.ts` file with the following:
+```js
+/**
+ * Sample React Native App
+ * https://github.com/facebook/react-native
+ *
+ * @format
+ */
+import React from 'react';
+import type {Node} from 'react';
+import {
+  SafeAreaView,
+  StatusBar,
+  useColorScheme,
+  Button,
+} from 'react-native';
+import {
+  Colors,
+} from 'react-native/Libraries/NewAppScreen';
+import CalendarModule from 'calendar/js/NativeCalendar';
+const App: () => Node = () => {
+  const isDarkMode = useColorScheme() === 'dark';
+  const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+  };
+  return (
+    <SafeAreaView style={backgroundStyle}>
+      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+      <Button
+        title="Click to invoke your native module!"
+        color="#841584"
+        onPress={() => {
+          CalendarModule.createCalendarEvent('foo', 'bar');
+        }}/>
+    </SafeAreaView>
+  );
+};
+export default App;
+```
+* Run `npx react-native start`
+* Run `npx react-native run-ios`
+* Open the `AwesomeApp.xcworkspace`
+* Set a breakpoint on line 11 of the `RCTCalendarModule.mm` file (the `RCTLogInfo` line)
+* Tap on the Button on the screen and observe the app stopping at the breakpoint.
