@@ -243,6 +243,17 @@ if (moduleClass == RCTImageLoader.class) {
   }
   return [moduleClass new];
 ```
+* `cmd+b`
 * `cmd+r`
 
 The error is caused by a module used by the app to load images that requires some custom parameter at init time to work properly.
+
+### [[Fabric] Enable Fabric in Podfile]()
+
+* Open `AwesomeApp/Podfile`
+* Before the `:enable_hermes => true` line, add the following lines:
+    * `:app_path => "#{Dir.pwd}/..",`
+    * `:fabric_enabled => true,`
+* Run `BUILD_FROM_GIT=1 RCT_NEW_ARCH_ENABLED=1 pod install`
+* Open `AwesomeApp.xcworkspace`
+* `cmd+r`
