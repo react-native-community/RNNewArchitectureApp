@@ -493,3 +493,22 @@ export default App;
 * Open the `AwesomeApp.xcworkspace`
 * Set a breakpoint on line 11 of the `RCTCalendarModule.mm` file (the `RCTLogInfo` line)
 * Tap on the Button on the screen and observe the app stopping at the breakpoint.
+
+### [[Fabric Component] Create the TypeScript Spec]()
+
+* At the same level of the `AwesomeApp` folder, create a `MapView/js` folder
+* Create a new file `MapViewNativeComponents.ts`
+* Add this code to the file:
+```ts
+import type { ViewProps } from 'ViewPropTypes';
+import type { HostComponent } from 'react-native';
+import codegenNativeComponent from 'react-native/Libraries/Utilities/codegenNativeComponent';
+
+export interface NativeProps extends ViewProps {
+  zoomEnabled: boolean,
+}
+
+export default codegenNativeComponent<NativeProps>(
+  'MapView',
+) as HostComponent<NativeProps>;
+```
