@@ -8,6 +8,14 @@
 #import <React/RCTCxxBridgeDelegate.h>
 #import <React/RCTJSIExecutorRuntimeInstaller.h>
 
+#import <React/RCTDataRequestHandler.h>
+#import <React/RCTHTTPRequestHandler.h>
+#import <React/RCTFileRequestHandler.h>
+#import <React/RCTNetworking.h>
+#import <React/RCTImageLoader.h>
+#import <React/RCTGIFImageDecoder.h>
+#import <React/RCTLocalAssetImageLoader.h>
+
 #import <ReactCommon/RCTTurboModuleManager.h>
 #import <React/CoreModulesPlugins.h>
 
@@ -39,6 +47,7 @@ static void InitializeFlipper(UIApplication *application) {
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  RCTEnableTurboModule(YES);
 #ifdef FB_SONARKIT_ENABLED
   InitializeFlipper(application);
 #endif
@@ -130,7 +139,26 @@ static void InitializeFlipper(UIApplication *application) {
 
 - (id<RCTTurboModule>)getModuleInstanceFromClass:(Class)moduleClass
 {
-  return [moduleClass new];
+  if (moduleClass == RCTImageLoader.class) {
+      return [[moduleClass alloc] initWithRedirectDelegate:nil
+          loadersProvider:^NSArray<id<RCTImageURLLoader>> *(RCTModuleRegistry * moduleRegistry) {
+            return @ [[RCTLocalAssetImageLoader new]];
+          }
+          decodersProvider:^NSArray<id<RCTImageDataDecoder>> *(RCTModuleRegistry * moduleRegistry) {
+            return @ [[RCTGIFImageDecoder new]];
+          }];
+    } else if (moduleClass == RCTNetworking.class) {
+       return [[moduleClass alloc]
+          initWithHandlersProvider:^NSArray<id<RCTURLRequestHandler>> *(
+              RCTModuleRegistry *moduleRegistry) {
+            return @[
+              [RCTHTTPRequestHandler new],
+              [RCTDataRequestHandler new],
+              [RCTFileRequestHandler new],
+            ];
+          }];
+    }
+    return [moduleClass new];
 }
 
 @end

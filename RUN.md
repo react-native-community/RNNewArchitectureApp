@@ -198,3 +198,51 @@ There are a few commits that, if checked out, are interesting points to start wi
     }));
 ```
 * `cmd+r`
+
+### [[Turbo Modules] Enable TurboModule System]()
+
+* Open `AwesomeApp.xcworkspace`
+* Open `AwesomeApp/AppDelegate.mm`
+* Add the `RCTEnableTurboModule(YES);` as first line of the `(BOOL)application:didFinishLaunchingWithOptions:` method
+* `cmd+r`
+
+#### <a name="rctimageloader">ISSUE</a>
+If you get a RN error about `ImageLoader`, you can solve it by:
+* Open the `AwesomeApp.xcworkspace`
+* Open the `AppDelegate.mm`
+* Before the `#import <ReactCommon/RCTTurboModuleManager.h>`, add the following imports:
+```objective-c
+#import <React/RCTDataRequestHandler.h>
+#import <React/RCTHTTPRequestHandler.h>
+#import <React/RCTFileRequestHandler.h>
+#import <React/RCTNetworking.h>
+#import <React/RCTImageLoader.h>
+#import <React/RCTGIFImageDecoder.h>
+#import <React/RCTLocalAssetImageLoader.h>
+```
+* Update the body of the `getModuleInstanceFromClass` method with the following code:
+```c++
+if (moduleClass == RCTImageLoader.class) {
+    return [[moduleClass alloc] initWithRedirectDelegate:nil
+        loadersProvider:^NSArray<id<RCTImageURLLoader>> *(RCTModuleRegistry * moduleRegistry) {
+          return @ [[RCTLocalAssetImageLoader new]];
+        }
+        decodersProvider:^NSArray<id<RCTImageDataDecoder>> *(RCTModuleRegistry * moduleRegistry) {
+          return @ [[RCTGIFImageDecoder new]];
+        }];
+  } else if (moduleClass == RCTNetworking.class) {
+     return [[moduleClass alloc]
+        initWithHandlersProvider:^NSArray<id<RCTURLRequestHandler>> *(
+            RCTModuleRegistry *moduleRegistry) {
+          return @[
+            [RCTHTTPRequestHandler new],
+            [RCTDataRequestHandler new],
+            [RCTFileRequestHandler new],
+          ];
+        }];
+  }
+  return [moduleClass new];
+```
+* `cmd+r`
+
+The error is caused by a module used by the app to load images that requires some custom parameter at init time to work properly.
