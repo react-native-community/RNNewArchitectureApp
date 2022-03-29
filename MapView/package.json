@@ -1,0 +1,26 @@
+{
+    "name": "map-view",
+    "version": "0.0.1",
+    "description": "MapView module",
+    "files": [
+        "js",
+        "android",
+        "ios",
+        "Calendar.podspec",
+        "!android/build",
+        "!ios/build",
+        "!**/__tests__",
+        "!**/__fixtures__",
+        "!**/__mocks__"
+    ],
+    "keywords": ["react-native", "ios", "android"],
+    "codegenConfig": {
+        "libraries": [
+            {
+              "name": "MapViewSpec",
+              "type": "components",
+              "jsSrcsDir": "js"
+            }
+        ]
+    }
+  }

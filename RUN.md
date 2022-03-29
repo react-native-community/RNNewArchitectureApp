@@ -512,3 +512,87 @@ export default codegenNativeComponent<NativeProps>(
   'MapView',
 ) as HostComponent<NativeProps>;
 ```
+
+### [[Fabric Components] Create the podspec file and generate the code]()
+Steps
+* Go to the `MapView` folder
+* Create a new file `MapView.podspec`
+* Add the following code:
+```ruby
+# folly_version must match the version used in React Native
+# See folly_version in react-native/React/FBReactNativeSpec/FBReactNativeSpec.podspec
+folly_version = '2021.06.28.00-v2'
+folly_compiler_flags = '-DFOLLY_NO_CONFIG -DFOLLY_MOBILE=1 -DFOLLY_USE_LIBCPP=1 -Wno-comma -Wno-shorten-64-to-32'
+boost_compiler_flags = '-Wno-documentation'
+
+Pod::Spec.new do |s|
+
+  s.name            = "MapView"
+  s.version         = "0.0.1"
+  s.summary         = "Map View Component"
+  s.description     = "Map View Component"
+  s.homepage        = "https://github.com/facebook/react-native.git"
+  s.license         = "MIT"
+  s.platforms       = { :ios => "11.0" }
+  s.author          = "Meta, inc."
+  s.source          = { :git => "https://github.com/facebook/react-native.git", :tag => "#{s.version}" }
+  s.compiler_flags  = folly_compiler_flags + ' ' + boost_compiler_flags + ' -Wno-nullability-completeness'
+
+  s.pod_target_xcconfig = {
+    "HEADER_SEARCH_PATHS" => "\"$(PODS_ROOT)/boost\" \"$(PODS_ROOT)/RCT-Folly\"",
+    "CLANG_CXX_LANGUAGE_STANDARD" => "c++17"
+  }
+
+  s.requires_arc = true
+
+  s.dependency "React"
+  s.dependency "React-RCTFabric"
+  s.dependency "React-Codegen"
+  s.dependency "RCT-Folly", folly_version
+  s.dependency "RCTRequired"
+  s.dependency "RCTTypeSafety"
+  s.dependency "ReactCommon/turbomodule/core"
+
+  s.source_files    = "ios/**/*.{h,m,mm,cpp,swift}"
+end
+```
+* Create a `MapView/package.json` file
+* Paste the following code into it:
+```json
+{
+  "name": "map-view",
+  "version": "0.0.1",
+  "description": "MapView module",
+  "files": [
+      "js",
+      "android",
+      "ios",
+      "Calendar.podspec",
+      "!android/build",
+      "!ios/build",
+      "!**/__tests__",
+      "!**/__fixtures__",
+      "!**/__mocks__"
+  ],
+  "keywords": ["react-native", "ios", "android"],
+  "codegenConfig": {
+      "libraries": [
+          {
+            "name": "MapViewSpec",
+            "type": "components",
+            "jsSrcsDir": "js"
+          }
+      ]
+  }
+}
+```
+* Navigate to the `AwesomeApp` directory
+* Run `yarn add ../MapView`
+* Generate the code running `cd ios && RCT_NEW_ARCH_ENABLED=1 pod install`
+
+If successfull, you should see something like this:
+```
+[Codegen] >>>>> Processing MapViewSpec
+[Codegen] Generated schema: /var/folders/b7/5gvyd0914t15w42kwy1k_l600000gn/T/MapViewSpeckIve9n/schema.json
+[Codegen] Generated artifacts: /Users/cipolleschi/Community/RNNewArchitectureApp/AwesomeApp/ios/build/generated/ios/react/renderer/components/MapViewSpec
+```

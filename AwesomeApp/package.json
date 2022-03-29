@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "calendar": "../Calendar",
+    "map-view": "../MapView",
     "react": "17.0.2",
     "react-native": "0.68.0-rc.4",
     "react-native-codegen": "^0.0.14"
