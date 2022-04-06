@@ -10,6 +10,7 @@ This branch contains all the step executed to:
 
 * [[Setup] Run `npx react-native init AwesomeApp --version 0.67.4`](#setup)
 * [[Migration] Upgrade to 0.68](#move-to-0.68)
+* [[Migration] Install react-native-codegen](#install-codegen)
 
 
 ## Steps
@@ -39,3 +40,8 @@ This branch contains all the step executed to:
         }
     ```
 1. `npx react-native run-ios && npx react-native run-android`
+
+### <a name="install-codegen" />[[Migration] Install react-native-codegen]()
+
+* `yarn add react-native-codegen`
+* `npx react-native run-ios && npx react-native run-android`
