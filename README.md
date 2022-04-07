@@ -13,6 +13,7 @@ This branch contains all the step executed to:
 * [[Migration] Install react-native-codegen](#install-codegen)
 * [[Android Setup] Configure Gradle for CodeGen](#android-setup)
 * [[Hermes] Use Hermes - Android](#hermes-android)
+* [[Hermes] Use Hermes - iOS](#hermes-ios)
 
 ## Steps
 
@@ -133,3 +134,18 @@ This branch contains all the step executed to:
     ```
 1. Clean the build `cd android && ./gradlew clean`
 1. Run the app again `cd .. && npx react-native run-android`
+
+### <a name="hermes-ios" />[[Hermes] Use Hermes - iOS]()
+
+1. Open the `ios/Podfile` file and update it as it follows:
+    ```diff
+        use_react_native!(
+            :path => config[:reactNativePath],
+            # to enable hermes on iOS, change `false` to `true` and then install pods
+    -        :hermes_enabled => false
+    +        :hermes_enabled => true
+        )
+    ```
+1. Remove the previous pods: `rm -rf Pods Podfile.lock`
+1. Install the new pods `cd ios && pod install`
+1. Run the app `cd .. && npx react-native run-ios`
