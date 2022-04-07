@@ -16,6 +16,7 @@ This branch contains all the step executed to:
 * [[Hermes] Use Hermes - iOS](#hermes-ios)
 * [[C++ iOS] iOS: Enable C++17 language feature support](#configure-cpp17)
 * [[C++ iOS] iOS: Use Objective-C++ (.mm extension)](#configure-objcpp)
+* [[TurboModule Setup] iOS: TurboModules: Ensure your App Provides an `RCTCxxBridgeDelegate`](#ios-tm)
 
 ## Steps
 
@@ -170,3 +171,43 @@ This branch contains all the step executed to:
 1. Run `npx react-native run-ios`
 
 **Note:** Renaming files in Xcode also updates the `xcodeproj` file automatically.
+
+### <a name="ios-tm" /> [[TurboModule Setup] iOS: TurboModules: Ensure your App Provides an `RCTCxxBridgeDelegate`]()
+
+1. Open the `AppDelegate.mm` file
+1. Add the following imports:
+    ```objc
+    #import <reacthermes/HermesExecutorFactory.h>
+    #import <React/RCTCxxBridgeDelegate.h>
+    #import <React/RCTJSIExecutorRuntimeInstaller.h>
+    ``
+1. Add the following `@interface`, right before the `@implementation` keyword
+    ```obj-c
+    @interface AppDelegate () <RCTCxxBridgeDelegate> {
+    // ...
+    }
+    @end
+    ```
+1. Add the following function at the end of the file, before the `@end` keyword:
+    ```obj-c
+    #pragma mark - RCTCxxBridgeDelegate
+
+    - (std::unique_ptr<facebook::react::JSExecutorFactory>)jsExecutorFactoryForBridge:(RCTBridge *)bridge
+    {
+    return std::make_unique<facebook::react::HermesExecutorFactory>(facebook::react::RCTJSIExecutorRuntimeInstaller([bridge](facebook::jsi::Runtime &runtime) {
+        if (!bridge) {
+            return;
+        }
+        })
+    );
+    }
+    ```
+1. In Xcode, select the `AwesomeApp` in the project navigator.
+1. Select `AwesomeApp` in the project panel
+1. Select the `Build Settings` tab
+1. Search for `CPLUSPLUS` in the filter text field
+1. Add the following flags to the `Other C++ Flags` field for both the `Debug` and the `Release` configurations:
+    ```sh
+    -DFOLLY_NO_CONFIG -DFOLLY_MOBILE=1 -DFOLLY_USE_LIBCPP=1 -Wno-comma -Wno-shorten-64-to-32
+    ```
+1. From the `AwesomeApp` folder, run the app: `npx react-native ru-ios`

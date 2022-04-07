@@ -4,6 +4,10 @@
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 
+#import <reacthermes/HermesExecutorFactory.h>
+#import <React/RCTCxxBridgeDelegate.h>
+#import <React/RCTJSIExecutorRuntimeInstaller.h>
+
 #ifdef FB_SONARKIT_ENABLED
 #import <FlipperKit/FlipperClient.h>
 #import <FlipperKitLayoutPlugin/FlipperKitLayoutPlugin.h>
@@ -22,6 +26,11 @@ static void InitializeFlipper(UIApplication *application) {
   [client start];
 }
 #endif
+
+@interface AppDelegate () <RCTCxxBridgeDelegate> {
+  // ...
+}
+@end
 
 @implementation AppDelegate
 
@@ -57,6 +66,18 @@ static void InitializeFlipper(UIApplication *application) {
 #else
   return [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 #endif
+}
+
+#pragma mark - RCTCxxBridgeDelegate
+
+- (std::unique_ptr<facebook::react::JSExecutorFactory>)jsExecutorFactoryForBridge:(RCTBridge *)bridge
+{
+return std::make_unique<facebook::react::HermesExecutorFactory>(facebook::react::RCTJSIExecutorRuntimeInstaller([bridge](facebook::jsi::Runtime &runtime) {
+    if (!bridge) {
+        return;
+    }
+    })
+);
 }
 
 @end
