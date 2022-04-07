@@ -15,6 +15,7 @@ This branch contains all the step executed to:
 * [[Hermes] Use Hermes - Android](#hermes-android)
 * [[Hermes] Use Hermes - iOS](#hermes-ios)
 * [[C++ iOS] iOS: Enable C++17 language feature support](#configure-cpp17)
+* [[C++ iOS] iOS: Use Objective-C++ (.mm extension)](#configure-objcpp)
 
 ## Steps
 
@@ -159,3 +160,13 @@ This branch contains all the step executed to:
 * Select the `Build Settings` tab
 * Filter for `CLANG_CXX_LANGUAGE_STANDARD` and update it to `c++17`
 * Run the app `npx react-native run-ios`
+
+### <a name="configure-objcpp">[[C++ iOS] iOS: Use Objective-C++ (.mm extension)]()
+
+1. Open the `AwesomeApp/ios/AwesomeApp.xcworkspace` in Xcode
+1. Rename all the `.m` files to `.mm`:
+    1. `main.m` will be renamed to `main.mm`
+    1. `AppDelegate.m` will be renamed to `AppDelegate.mm`
+1. Run `npx react-native run-ios`
+
+**Note:** Renaming files in Xcode also updates the `xcodeproj` file automatically.
