@@ -14,6 +14,7 @@ This branch contains all the step executed to:
 * [[Android Setup] Configure Gradle for CodeGen](#android-setup)
 * [[Hermes] Use Hermes - Android](#hermes-android)
 * [[Hermes] Use Hermes - iOS](#hermes-ios)
+* [[C++ iOS] iOS: Enable C++17 language feature support](#configure-cpp17)
 
 ## Steps
 
@@ -149,3 +150,12 @@ This branch contains all the step executed to:
 1. Remove the previous pods: `rm -rf Pods Podfile.lock`
 1. Install the new pods `cd ios && pod install`
 1. Run the app `cd .. && npx react-native run-ios`
+
+### <a name="configure-cpp17">[[C++ iOS] iOS: Enable C++17 language feature support]()
+
+* Open the `AwesomeApp/ios/AwesomeApp.xcworkspace` inn Xcode
+* In the `Project Navigator`, select the AwesomeApp Project.
+* In the Project panel, select the `AwesomeApp` project (not the one in the `Target` panel)
+* Select the `Build Settings` tab
+* Filter for `CLANG_CXX_LANGUAGE_STANDARD` and update it to `c++17`
+* Run the app `npx react-native run-ios`
