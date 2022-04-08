@@ -39,6 +39,7 @@ This branch contains all the step executed to:
 * Fabric Setup
     * Android
         * [[Fabric Setup] Provide a `JSIModulePackage` inside your `ReactNativeHost`](#jsimodpackage-in-rnhost)
+        * [[Fabric Setup] Call `setIsFabric` on your Activity’s `ReactRootView`](#set-is-fabric)
 
 ## Steps
 
@@ -828,3 +829,39 @@ Finally, run `npx react-native run-android` to make sure that everything builds 
     }
     ```
 1. Run `npx react-native run-android`
+
+### <a name="set-is-fabric">[[Fabric Setup] Call `setIsFabric` on your Activity’s `ReactRootView`]()
+
+1. Open `AwesomeApp/android/app/src/main/java/com/awesomeapp/MainActivity.java`
+1. Add the following imports:
+    ```java
+    import com.facebook.react.ReactActivityDelegate;
+    import com.facebook.react.ReactRootView;
+    ```
+1. Add the `MainActivityDelegate` within the `MainActivity` class:
+    ```java
+    public class MainActivity extends ReactActivity {
+
+        // Add the Activity Delegate, if you don't have one already.
+        public static class MainActivityDelegate extends ReactActivityDelegate {
+
+            public MainActivityDelegate(ReactActivity activity, String mainComponentName) {
+            super(activity, mainComponentName);
+            }
+
+            @Override
+            protected ReactRootView createRootView() {
+            ReactRootView reactRootView = new ReactRootView(getContext());
+            reactRootView.setIsFabric(true);
+            return reactRootView;
+            }
+        }
+
+        // Make sure to override the `createReactActivityDelegate()` method.
+        @Override
+        protected ReactActivityDelegate createReactActivityDelegate() {
+            return new MainActivityDelegate(this, getMainComponentName());
+        }
+    }
+    ```
+1. Run  `npx react-native run-android`
