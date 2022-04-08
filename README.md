@@ -32,6 +32,8 @@ This branch contains all the step executed to:
             * [AppModuleProvider.cpp](#appmoduleprovidercpp)
             * [OnLoad.cpp](#onloadcpp)
         * [[TurboModule Setup] Enable the useTurboModules flag in your Application onCreate](#enable-tm-android)
+    * iOS
+        * [[TurboModule Setup] Provide a TurboModuleManager Delegate](#ios-tm-manager-delegate)
 
 ## Steps
 
@@ -624,3 +626,74 @@ Finally, run `npx react-native run-android` to make sure that everything builds 
         }
     ```
 * Run `npx react-native run-android`
+
+### <a name="ios-tm-manager-delegate" />[[TurboModule Setup] Provide a TurboModuleManager Delegate]()
+
+1. Open the `AwesomeApp/ios/AwesomeApp/AppDelegate.mm`
+1. Add the following imports:
+    ```objc
+    #import <ReactCommon/RCTTurboModuleManager.h>
+    #import <React/CoreModulesPlugins.h>
+
+    #import <React/RCTDataRequestHandler.h>
+    #import <React/RCTHTTPRequestHandler.h>
+    #import <React/RCTFileRequestHandler.h>
+    #import <React/RCTNetworking.h>
+    #import <React/RCTImageLoader.h>
+    #import <React/RCTGIFImageDecoder.h>
+    #import <React/RCTLocalAssetImageLoader.h>
+    ```
+1. Add the following code in the `@interface`
+    ```objc
+    @interface AppDelegate () <RCTCxxBridgeDelegate, RCTTurboModuleManagerDelegate> {
+        // ...
+        RCTTurboModuleManager *_turboModuleManager;
+    }
+    @end
+    ```
+1. Implement the `getModuleClassFromName`:
+    ```c++
+    #pragma mark RCTTurboModuleManagerDelegate
+
+    - (Class)getModuleClassFromName:(const char *)name
+    {
+    return RCTCoreModulesClassProvider(name);
+    }
+    ```
+1. Implement the `(std::shared_ptr<facebook::react::TurboModule>) getTurboModule:(const std::string &)name jsInvoker:(std::shared_ptr<facebook::react::CallInvoker>)jsInvoker`:
+    ```c++
+    - (std::shared_ptr<facebook::react::TurboModule>)
+        getTurboModule:(const std::string &)name
+             jsInvoker:(std::shared_ptr<facebook::react::CallInvoker>)jsInvoker {
+        return nullptr;
+    }
+    ```
+1. Implement the `(id<RCTTurboModule>)getModuleInstanceFromClass:(Class)moduleClass` method:
+    ```c++
+    - (id<RCTTurboModule>)getModuleInstanceFromClass:(Class)moduleClass
+    {
+        // Set up the default RCTImageLoader and RCTNetworking modules.
+        if (moduleClass == RCTImageLoader.class) {
+            return [[moduleClass alloc] initWithRedirectDelegate:nil
+                loadersProvider:^NSArray<id<RCTImageURLLoader>> *(RCTModuleRegistry * moduleRegistry) {
+                return @ [[RCTLocalAssetImageLoader new]];
+                }
+                decodersProvider:^NSArray<id<RCTImageDataDecoder>> *(RCTModuleRegistry * moduleRegistry) {
+                return @ [[RCTGIFImageDecoder new]];
+                }];
+        } else if (moduleClass == RCTNetworking.class) {
+            return [[moduleClass alloc]
+                initWithHandlersProvider:^NSArray<id<RCTURLRequestHandler>> *(
+                    RCTModuleRegistry *moduleRegistry) {
+                return @[
+                    [RCTHTTPRequestHandler new],
+                    [RCTDataRequestHandler new],
+                    [RCTFileRequestHandler new],
+                ];
+                }];
+        }
+        // No custom initializer here.
+        return [moduleClass new];
+    }
+    ```
+1. Run `npx react-native run-ios`
