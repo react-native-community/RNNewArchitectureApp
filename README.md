@@ -8,17 +8,22 @@ This branch contains all the step executed to:
 
 ## Table of Content
 
-* [[Setup] Run `npx react-native init AwesomeApp --version 0.67.4`](#setup)
-* [[Migration] Upgrade to 0.68](#move-to-0.68)
-* [[Migration] Install react-native-codegen](#install-codegen)
-* [[Android Setup] Configure Gradle for CodeGen](#android-setup)
-* [[Hermes] Use Hermes - Android](#hermes-android)
-* [[Hermes] Use Hermes - iOS](#hermes-ios)
-* [[C++ iOS] iOS: Enable C++17 language feature support](#configure-cpp17)
-* [[C++ iOS] iOS: Use Objective-C++ (.mm extension)](#configure-objcpp)
-* [[TurboModule Setup] iOS: TurboModules: Ensure your App Provides an `RCTCxxBridgeDelegate`](#ios-tm)
-* [[TurboModule Setup] Android: Enable NDK and the native build](#turbomodule-ndk)
-* [[TurboModule Setup] Java - Provide a `ReactPackageTurboModuleManagerDelegate`](#java-tm-delegate)
+* App Setup
+    * [[Setup] Run `npx react-native init AwesomeApp --version 0.67.4`](#setup)
+    * [[Migration] Upgrade to 0.68](#move-to-0.68)
+    * [[Migration] Install react-native-codegen](#install-codegen)
+    * [[Android Setup] Configure Gradle for CodeGen](#android-setup)
+    * [[Hermes] Use Hermes - Android](#hermes-android)
+    * [[Hermes] Use Hermes - iOS](#hermes-ios)
+    * iOS Specific Setup
+        * [[C++ iOS] iOS: Enable C++17 language feature support](#configure-cpp17)
+        * [[C++ iOS] iOS: Use Objective-C++ (.mm extension)](#configure-objcpp)
+        * [[TurboModule Setup] iOS: TurboModules: Ensure your App Provides an `RCTCxxBridgeDelegate`](#ios-tm)
+* TurboModule Setup
+    * Android
+        * [[TurboModule Setup] Android: Enable NDK and the native build](#turbomodule-ndk)
+        * [[TurboModule Setup] Java - Provide a `ReactPackageTurboModuleManagerDelegate`](#java-tm-delegate)
+        * [[TurboModule Setup] Adapt your ReactNativeHost to use the `ReactPackageTurboModuleManagerDelegate`](#java-tm-adapt-host)
 
 ## Steps
 
@@ -387,4 +392,22 @@ This branch contains all the step executed to:
     }
     ```
     **Note:** Make sure that parameter of the `SoLoader.loadLibrary` function in the `maybeLoadOtherSoLibraries` is the same name used in the `LOCAL_MODULE` property of the `Android.mk` file.
+1. `npx react-native run-android`
+
+### <a name="java-tm-adapt-host" /> [[TurboModule Setup] Adapt your ReactNativeHost to use the `ReactPackageTurboModuleManagerDelegate`]()
+
+1. Open the `AwesomeApp/android/app/src/main/MainApplication.java` file
+1. Add the imports:
+    ```java
+    import androidx.annotation.NonNull;
+    import com.facebook.react.ReactPackageTurboModuleManagerDelegate;
+    ```
+1. After the `getJSMainModuleName()` method, within the `ReactNativeHost` construction, add the following method:
+    ```java
+    @NonNull
+    @Override
+    protected ReactPackageTurboModuleManagerDelegate.Builder getReactPackageTurboModuleManagerDelegateBuilder() {
+        return new AppTurboModuleManagerDelegate.Builder();
+    }
+    ```
 1. `npx react-native run-android`
