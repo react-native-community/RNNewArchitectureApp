@@ -24,6 +24,7 @@ This branch contains all the step executed to:
         * [[TurboModule Setup] Android: Enable NDK and the native build](#turbomodule-ndk)
         * [[TurboModule Setup] Java - Provide a `ReactPackageTurboModuleManagerDelegate`](#java-tm-delegate)
         * [[TurboModule Setup] Adapt your ReactNativeHost to use the `ReactPackageTurboModuleManagerDelegate`](#java-tm-adapt-host)
+        * [[TurboModule Setup] Extend the getPackages() from your ReactNativeHost to use the TurboModule](#java-tm-extend-package)
 
 ## Steps
 
@@ -410,4 +411,34 @@ This branch contains all the step executed to:
         return new AppTurboModuleManagerDelegate.Builder();
     }
     ```
+1. `npx react-native run-android`
+
+### <a name="java-tm-extend-package">[[TurboModule Setup] Extend the `getPackages()` from your ReactNativeHost to use the TurboModule]()
+
+1. Open the `AwesomeApp/android/app/src/main/MainApplication.java` file
+1. Update the `getPackages()` method with the following code:
+    ```diff
+        protected List<ReactPackage> getPackages() {
+            @SuppressWarnings("UnnecessaryLocalVariable")
+            List<ReactPackage> packages = new PackageList(this).getPackages();
+
+    +        packages.add(new TurboReactPackage() {
+    +            @Nullable
+    +            @Override
+    +            public NativeModule getModule(String name, ReactApplicationContext reactContext) {
+    +                    return null;
+    +            }
+    +
+    +            @Override
+    +            public ReactModuleInfoProvider getReactModuleInfoProvider() {
+    +                return () -> {
+    +                    final Map<String, ReactModuleInfo> moduleInfos = new HashMap<>();
+    +                    return moduleInfos;
+    +                };
+    +            }
+    +        });
+            return packages;
+    }
+    ```
+    The `getModule(String, ReactApplicationContext)` will return the `NativeModule`related to your TurboModule; the `getReactModuleInfoProvider` will return the additional infoes required by the module. At the moment, we don't have any TurboModule ready to be plugged in, so let's keep them empty.
 1. `npx react-native run-android`
