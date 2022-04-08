@@ -35,6 +35,7 @@ This branch contains all the step executed to:
     * iOS
         * [[TurboModule Setup] Provide a TurboModuleManager Delegate](#ios-tm-manager-delegate)
         * [[TurboModule Setup] Install TurboModuleManager JavaScript Bindings](#ios-tm-js-bindings)
+        * [[TurboModule Setup] Enable TurboModule System - iOS](#ios-enable-tm)
 
 ## Steps
 
@@ -748,3 +749,17 @@ Finally, run `npx react-native run-android` to make sure that everything builds 
         }));
     }
     ```
+
+### <a name="ios-enable-tm" />[[TurboModule Setup] Enable TurboModule System - iOS]()
+
+1. Open the `AwesomeApp/ios/AwesomeApp/AppDelegate.mm`
+1. Update the `(BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions` method
+    ```diff
+        - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+        {
+    +       RCTEnableTurboModule(YES);
+
+            RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self
+                                                      launchOptions:launchOptions];
+    ```
+1. Run `npx react-native run-ios`
