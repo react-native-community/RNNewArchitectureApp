@@ -34,6 +34,7 @@ This branch contains all the step executed to:
         * [[TurboModule Setup] Enable the useTurboModules flag in your Application onCreate](#enable-tm-android)
     * iOS
         * [[TurboModule Setup] Provide a TurboModuleManager Delegate](#ios-tm-manager-delegate)
+        * [[TurboModule Setup] Install TurboModuleManager JavaScript Bindings](#ios-tm-js-bindings)
 
 ## Steps
 
@@ -697,3 +698,53 @@ Finally, run `npx react-native run-android` to make sure that everything builds 
     }
     ```
 1. Run `npx react-native run-ios`
+
+### <a name="ios-tm-js-bindings" />[[TurboModule Setup] Install TurboModuleManager JavaScript Bindings]()
+
+1. Open the `AwesomeApp/ios/AwesomeApp/AppDelegate.mm`
+1. Update the `- (std::unique_ptr<facebook::react::JSExecutorFactory>)jsExecutorFactoryForBridge:(RCTBridge *)` method:
+    ```c++
+    - (std::unique_ptr<facebook::react::JSExecutorFactory>)jsExecutorFactoryForBridge:(RCTBridge *)bridge
+    {
+    // Add these lines to create a TurboModuleManager
+    if (RCTTurboModuleEnabled()) {
+        _turboModuleManager =
+            [[RCTTurboModuleManager alloc] initWithBridge:bridge
+                                                delegate:self
+                                                jsInvoker:bridge.jsCallInvoker];
+
+        // Necessary to allow NativeModules to lookup TurboModules
+        [bridge setRCTTurboModuleRegistry:_turboModuleManager];
+
+        if (!RCTTurboModuleEagerInitEnabled()) {
+        /**
+        * Instantiating DevMenu has the side-effect of registering
+        * shortcuts for CMD + d, CMD + i,  and CMD + n via RCTDevMenu.
+        * Therefore, when TurboModules are enabled, we must manually create this
+        * NativeModule.
+        */
+        [_turboModuleManager moduleForName:"DevMenu"];
+        }
+    }
+
+    // Add this line...
+    __weak __typeof(self) weakSelf = self;
+
+    // If you want to use the `JSCExecutorFactory`, remember to add the `#import <React/JSCExecutorFactory.h>`
+    // import statement on top.
+    return std::make_unique<facebook::react::HermesExecutorFactory>(
+        facebook::react::RCTJSIExecutorRuntimeInstaller([weakSelf, bridge](facebook::jsi::Runtime &runtime) {
+        if (!bridge) {
+            return;
+        }
+
+        // And add these lines to install the bindings...
+        __typeof(self) strongSelf = weakSelf;
+        if (strongSelf) {
+            facebook::react::RuntimeExecutor syncRuntimeExecutor =
+                [&](std::function<void(facebook::jsi::Runtime & runtime_)> &&callback) { callback(runtime); };
+            [strongSelf->_turboModuleManager installJSBindingWithRuntimeExecutor:syncRuntimeExecutor];
+        }
+        }));
+    }
+    ```
