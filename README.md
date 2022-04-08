@@ -18,6 +18,7 @@ This branch contains all the step executed to:
 * [[C++ iOS] iOS: Use Objective-C++ (.mm extension)](#configure-objcpp)
 * [[TurboModule Setup] iOS: TurboModules: Ensure your App Provides an `RCTCxxBridgeDelegate`](#ios-tm)
 * [[TurboModule Setup] Android: Enable NDK and the native build](#turbomodule-ndk)
+* [[TurboModule Setup] Java - Provide a `ReactPackageTurboModuleManagerDelegate`](#java-tm-delegate)
 
 ## Steps
 
@@ -342,3 +343,48 @@ This branch contains all the step executed to:
 1. From the `AwesomeApp` folder, run `npx react-native run-android`
 
 **NOTE:** Make sure that the `targets` property in the `externalNativeBuild/ndkBuild` of the `gradle.build` file matches the `LOCAL_MODULE` property of the `Android.mk` file
+
+### <a name="java-tm-delegate" />[[TurboModule Setup] Java - Provide a `ReactPackageTurboModuleManagerDelegate`]()
+
+1. Create a new file `AwesomeApp/android/app/src/main/com/awesomeapp/AppTurboModuleManagerDelegate`
+2. Add the following code:
+    ```java
+    package com.awesomeapp;
+
+    import com.facebook.jni.HybridData;
+    import com.facebook.react.ReactPackage;
+    import com.facebook.react.ReactPackageTurboModuleManagerDelegate;
+    import com.facebook.react.bridge.ReactApplicationContext;
+    import com.facebook.soloader.SoLoader;
+
+    import java.util.List;
+
+    public class AppTurboModuleManagerDelegate extends ReactPackageTurboModuleManagerDelegate {
+
+        private static volatile boolean sIsSoLibraryLoaded;
+
+        protected AppTurboModuleManagerDelegate(ReactApplicationContext reactApplicationContext, List<ReactPackage> packages) {
+            super(reactApplicationContext, packages);
+        }
+
+        protected native HybridData initHybrid();
+
+        public static class Builder extends ReactPackageTurboModuleManagerDelegate.Builder {
+            protected AppTurboModuleManagerDelegate build(
+                    ReactApplicationContext context, List<ReactPackage> packages) {
+                return new AppTurboModuleManagerDelegate(context, packages);
+            }
+        }
+
+        @Override
+        protected synchronized void maybeLoadOtherSoLibraries() {
+            // Prevents issues with initializer interruptions.
+            if (!sIsSoLibraryLoaded) {
+                SoLoader.loadLibrary("awesomeapp_appmodules");
+                sIsSoLibraryLoaded = true;
+            }
+        }
+    }
+    ```
+    **Note:** Make sure that parameter of the `SoLoader.loadLibrary` function in the `maybeLoadOtherSoLibraries` is the same name used in the `LOCAL_MODULE` property of the `Android.mk` file.
+1. `npx react-native run-android`
