@@ -31,6 +31,7 @@ This branch contains all the step executed to:
             * [AppModuleProvider.h](#appmoduleproviderh)
             * [AppModuleProvider.cpp](#appmoduleprovidercpp)
             * [OnLoad.cpp](#onloadcpp)
+        * [[TurboModule Setup] Enable the useTurboModules flag in your Application onCreate](#enable-tm-android)
 
 ## Steps
 
@@ -602,3 +603,24 @@ Referring to [this step](https://reactnative.dev/docs/new-architecture-app-modul
     ```
 
 Finally, run `npx react-native run-android` to make sure that everything builds properly.
+
+### <a name="enable-tm-android" />[[TurboModule Setup] Enable the useTurboModules flag in your Application onCreate]()
+
+* Open the `AwesomeApp/android/app/src/main/java/com/awesomeapp/MainApplication.java` file
+* Add the import for the feature flags
+    ```diff
+    import com.facebook.react.ReactPackage;
+    + import com.facebook.react.config.ReactFeatureFlags;
+    import com.facebook.soloader.SoLoader;
+    ```
+* Modify the `OnCreate` file as it follows:
+    ```diff
+        @Override
+        public void onCreate() {
+            super.onCreate();
+    +        ReactFeatureFlags.useTurboModules = true;
+            SoLoader.init(this, /* native exopackage */ false);
+            initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
+        }
+    ```
+* Run `npx react-native run-android`
