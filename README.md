@@ -55,6 +55,8 @@ This branch contains all the step executed to:
         * [[TurboModule] Create iOS Implementation](#tm-ios)
         * [[TurboModule] Setup Android Autolinking](#tm-autolinking)
         * [[TurboModule] Test the TurboModule](#tm-test)
+    * Fabric Components
+        * [[Fabric Component] Create Flow Spec](#fc-flow-spec)
 
 ## Steps
 
@@ -1345,3 +1347,23 @@ Finally, run `npx react-native run-android` to make sure that everything builds 
 1. Press on `Compute`, to see the app working on iOS.
 1. From the terminal, run `npx react-native run-android`.
 1. Press on `Compute`, to see the app working also on Android.
+
+### <a name="fc-flow-spec" />[[Fabric Component] Create Flow Spec]()
+
+1. Create a new file `library/src/ColoredViewNativeComponent.js` with this code:
+    ```ts
+    // @flow
+    import type {ViewProps} from 'react-native/Libraries/Components/View/ViewPropTypes';
+    import type {HostComponent} from 'react-native';
+    import { ViewStyle } from 'react-native';
+    import codegenNativeComponent from 'react-native/Libraries/Utilities/codegenNativeComponent';
+
+    type NativeProps = $ReadOnly<{|
+        ...ViewProps,
+        color: string
+    |}>;
+
+    export default (codegenNativeComponent<NativeProps>(
+        'ColoredView',
+    ): HostComponent<NativeProps>);
+    ```
