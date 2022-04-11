@@ -42,6 +42,8 @@ This branch contains all the step executed to:
         * [[Fabric Setup] Call `setIsFabric` on your Activity’s `ReactRootView`](#set-is-fabric)
     * iOS
         * [[Fabric Setup] Enable Fabric in Podfile](#fabric-podfile)
+        * [[Fabric Setup] Update your root view](#fabric-root-view)
+        * [[Fabric Setup] Add Babel plugin](#fabric-babel)
 
 ## Steps
 
@@ -886,4 +888,46 @@ Finally, run `npx react-native run-android` to make sure that everything builds 
             # to enable hermes on iOS, change `false` to `true` and then install pods
             :hermes_enabled => true
         )
+    ```
+
+### <a name="fabric-root-view" />[[Fabric Setup] Update your root view]()
+
+1. Open the `AwesomeApp/ios/AwesomeApp/AppDelegate.mm` file.
+1. Add the following `imports`:
+    ```objective-c
+    #import <React/RCTFabricSurfaceHostingProxyRootView.h>
+    #import <React/RCTSurfacePresenter.h>
+    #import <React/RCTSurfacePresenterBridgeAdapter.h>
+    #import <react/config/ReactNativeConfig.h>
+    ```
+1. Add the following properties in the `AppDelegate` interface:
+    ```diff
+    @interface AppDelegate () <RCTCxxBridgeDelegate,
+                           RCTTurboModuleManagerDelegate> {
+
+    +   RCTSurfacePresenterBridgeAdapter *_bridgeAdapter;
+    +   std::shared_ptr<const facebook::react::ReactNativeConfig> _reactNativeConfig;
+    +   facebook::react::ContextContainer::Shared _contextContainer;
+    @end
+    ```
+1. Update the `rootView` property as it follows:
+    ```diff
+    RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
+    - RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
+                                                   moduleName:@"AwesomeApp"
+                                            initialProperties:nil];
+    + _contextContainer = std::make_shared<facebook::react::ContextContainer const>();
+    + _reactNativeConfig = std::make_shared<facebook::react::EmptyReactNativeConfig const>();
+
+    + _contextContainer->insert("ReactNativeConfig", _reactNativeConfig);
+
+    + _bridgeAdapter = [[RCTSurfacePresenterBridgeAdapter alloc]
+            initWithBridge:bridge
+          contextContainer:_contextContainer];
+
+    + bridge.surfacePresenter = _bridgeAdapter.surfacePresenter;
+
+    + UIView *rootView = [[RCTFabricSurfaceHostingProxyRootView alloc] initWithBridge:bridge
+                                                                           moduleName:@"AwesomeApp"
+                                                 initialProperties:@{}];
     ```
