@@ -52,6 +52,7 @@ This branch contains all the step executed to:
         * [[TurboModule] Setup Codegen - iOS](#tm-codegen-ios)
         * [[TurboModule] Setup podspec file](#tm-podspec-ios)
         * [[TurboModule] Create Android Implementation](#tm-android)
+        * [[TurboModule] Create iOS Implementation](#tm-ios)
 
 ## Steps
 
@@ -1207,4 +1208,51 @@ Finally, run `npx react-native run-android` to make sure that everything builds 
             };
         }
     }
+    ```
+### <a name="tm-ios" />[[TurboModule] Create iOS Implementation]()
+
+1. In the `library/ios` folder, create a new static library with Xcode, called `RNLibrary`
+1. Move the `xcodeproj` up of 1 folder, and the content of RNLibrary up of 1 folder. The final layout of the iOS folder should be this one:
+    ```
+    library
+    '-> ios
+        '-> RNLibrary
+            '-> RNLibrary.h
+            '-> RNLibrary.m
+        '-> RNLibrary.xcodeproj
+    ```
+1. In Xcode, create a new CocoaTouch class called `RNCalculator`.
+1. Rename the `RNCalculator.m` into `RNCalculator.mm`
+1. Replace the `RNCalculator.h` with the following code:
+    ```obj-c
+    #import <React/RCTBridgeModule.h>
+
+    @interface RNCalculator : NSObject <RCTBridgeModule>
+
+    @end
+    ```
+1. Replcase the `RNCalculator.mm` with the following code:
+    ```obj-c
+    #import "RNCalculator.h"
+    #import "RNCalculatorSpec.h"
+
+    @implementation RNCalculator
+
+    RCT_EXPORT_MODULE(Calculator)
+
+    RCT_REMAP_METHOD(add, addA:(NSInteger)a
+                            andB:(NSInteger)b
+                    withResolver:(RCTPromiseResolveBlock) resolve
+                    withRejecter:(RCTPromiseRejectBlock) reject)
+    {
+        NSNumber *result = [[NSNumber alloc] initWithInteger:a+b];
+        resolve(result);
+    }
+
+    - (std::shared_ptr<facebook::react::TurboModule>)getTurboModule:
+        (const facebook::react::ObjCTurboModule::InitParams &)params
+    {
+        return std::make_shared<facebook::react::NativeCalculatorSpecJSI>(params);
+    }
+    @end
     ```
