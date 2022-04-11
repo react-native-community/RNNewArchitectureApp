@@ -51,6 +51,7 @@ This branch contains all the step executed to:
         * [[TurboModule] Setup Codegen - Android](#tm-codegen-android)
         * [[TurboModule] Setup Codegen - iOS](#tm-codegen-ios)
         * [[TurboModule] Setup podspec file](#tm-podspec-ios)
+        * [[TurboModule] Create Android Implementation](#tm-android)
 
 ## Steps
 
@@ -1115,4 +1116,95 @@ Finally, run `npx react-native run-android` to make sure that everything builds 
         s.dependency "RCTTypeSafety"
         s.dependency "ReactCommon/turbomodule/core"
     end
+    ```
+
+### <a name="tm-android" />[[TurboModule] Create Android Implementation]()
+
+1. Create the following file `library/android/src/main/AndroidManifest.xml`:
+    ```xml
+    <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+        package="com.library">
+    </manifest>
+    ```
+1. Create the `CalculatorModule` file at the path `library/android/src/main/java/com/library/CalculatorModule.java`:
+    ```java
+    package com.library;
+
+    import com.facebook.react.bridge.NativeModule;
+    import com.facebook.react.bridge.Promise;
+    import com.facebook.react.bridge.ReactApplicationContext;
+    import com.facebook.react.bridge.ReactContext;
+    import com.facebook.react.bridge.ReactContextBaseJavaModule;
+    import com.facebook.react.bridge.ReactMethod;
+    import java.util.Map;
+    import java.util.HashMap;
+
+    public class CalculatorModule extends NativeCalculatorSpec {
+        public static final String NAME = "Calculator";
+
+        CalculatorModule(ReactApplicationContext context) {
+            super(context);
+        }
+
+        @Override
+        public String getName() {
+            return NAME;
+        }
+
+        @ReactMethod
+        public void add(double a, double b, Promise promise) {
+            promise.resolve(a + b);
+        }
+    }
+    ```
+1. Create the `LibraryPackage.java` at `library/android/src/main/java/com/library/LibraryPackage.java`:
+    ```java
+    package com.library;
+
+    import androidx.annotation.Nullable;
+
+    import com.facebook.react.bridge.NativeModule;
+    import com.facebook.react.bridge.ReactApplicationContext;
+    import com.facebook.react.module.model.ReactModuleInfo;
+    import com.facebook.react.module.model.ReactModuleInfoProvider;
+    import com.facebook.react.TurboReactPackage;
+    import com.facebook.react.uimanager.ViewManager;
+
+    import java.util.ArrayList;
+    import java.util.Collections;
+    import java.util.List;
+    import java.util.Map;
+    import java.util.HashMap;
+
+    public class LibraryPackage extends TurboReactPackage {
+
+        @Nullable
+        @Override
+        public NativeModule getModule(String name, ReactApplicationContext reactContext) {
+            if (name.equals(CalculatorModule.NAME)) {
+                return new CalculatorModule(reactContext);
+            } else {
+                return null;
+            }
+        }
+
+        @Override
+        public ReactModuleInfoProvider getReactModuleInfoProvider() {
+            return () -> {
+                final Map<String, ReactModuleInfo> moduleInfos = new HashMap<>();
+                moduleInfos.put(
+                        CalculatorModule.NAME,
+                        new ReactModuleInfo(
+                                CalculatorModule.NAME,
+                                CalculatorModule.NAME,
+                                false, // canOverrideExistingModule
+                                false, // needsEagerInit
+                                true, // hasConstants
+                                false, // isCxxModule
+                                true // isTurboModule
+                ));
+                return moduleInfos;
+            };
+        }
+    }
     ```
