@@ -49,6 +49,7 @@ This branch contains all the step executed to:
     * TurboModule
         * [[TurboModule] Create Flow Spec](#tm-flow-spec)
         * [[TurboModule] Setup Codegen - Android](#tm-codegen-android)
+        * [[TurboModule] Setup Codegen - iOS](#tm-codegen-ios)
 
 ## Steps
 
@@ -1056,5 +1057,22 @@ Finally, run `npx react-native run-android` to make sure that everything builds 
         jsRootDir = file("../src/")
         libraryName = "library"
         codegenJavaPackageName = "com.library"
+    }
+    ```
+
+### <a name="tm-codegen-ios">[[TurboModule] Setup Codegen - iOS]()
+
+1. Open the `library/package.json` file
+1. Add the following code at the end of the file:
+    ```json
+    ,
+    "codegenConfig": {
+        "libraries": [
+            {
+            "name": "RNCalculatorSpec",
+            "type": "modules",
+            "jsSrcsDir": "src"
+            }
+        ]
     }
     ```
