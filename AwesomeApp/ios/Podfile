@@ -8,6 +8,10 @@ target 'AwesomeApp' do
 
   use_react_native!(
     :path => config[:reactNativePath],
+    # Modify here if your app root path isn't the same as this one.
+    :app_path => "#{Dir.pwd}/..",
+    # Pass the flag to enable fabric to use_react_native!.
+    :fabric_enabled => true,
     # to enable hermes on iOS, change `false` to `true` and then install pods
     :hermes_enabled => true
   )

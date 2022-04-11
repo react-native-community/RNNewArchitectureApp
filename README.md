@@ -40,6 +40,8 @@ This branch contains all the step executed to:
     * Android
         * [[Fabric Setup] Provide a `JSIModulePackage` inside your `ReactNativeHost`](#jsimodpackage-in-rnhost)
         * [[Fabric Setup] Call `setIsFabric` on your Activity’s `ReactRootView`](#set-is-fabric)
+    * iOS
+        * [[Fabric Setup] Enable Fabric in Podfile](#fabric-podfile)
 
 ## Steps
 
@@ -865,3 +867,23 @@ Finally, run `npx react-native run-android` to make sure that everything builds 
     }
     ```
 1. Run  `npx react-native run-android`
+
+### <a name="fabric-podfile" />[[Fabric Setup] Enable Fabric in Podfile]()
+
+1. Open the `AwesomeApp/ios/Podfile` and modify it as it follows:
+    ```diff
+    platform :ios, '11.0'
+    + install! 'cocoapods', :deterministic_uuids => false
+    target 'AwesomeApp' do
+        config = use_native_modules!
+
+        use_react_native!(
+            :path => config[:reactNativePath],
+    +       # Modify here if your app root path isn't the same as this one.
+    +       :app_path => "#{Dir.pwd}/..",
+    +       # Pass the flag to enable fabric to use_react_native!.
+    +       :fabric_enabled => true,
+            # to enable hermes on iOS, change `false` to `true` and then install pods
+            :hermes_enabled => true
+        )
+    ```
