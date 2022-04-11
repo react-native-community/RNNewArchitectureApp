@@ -53,6 +53,7 @@ This branch contains all the step executed to:
         * [[TurboModule] Setup podspec file](#tm-podspec-ios)
         * [[TurboModule] Create Android Implementation](#tm-android)
         * [[TurboModule] Create iOS Implementation](#tm-ios)
+        * [[TurboModule] Setup Android Autolinking](#tm-autolinking)
 
 ## Steps
 
@@ -1256,3 +1257,36 @@ Finally, run `npx react-native run-android` to make sure that everything builds 
     }
     @end
     ```
+
+### <a name="tm-autolinking" />[[TurboModule] Setup Android Autolinking]()
+
+1. Open the `AweseomeApp/android/app/src/main/jni/Android.mk` and update it as it follows:
+    1. Include the library's `Android.mk`
+        ```diff
+        # include $(GENERATED_SRC_DIR)/codegen/jni/Android.mk
+
+        + include $(NODE_MODULES_DIR)/library/android/build/generated/source/codegen/jni/Android.mk
+        include $(CLEAR_VARS)
+        ```
+    1. Add the library to the `LOCAL_SHARED_LIBS`
+        ```diff
+        libreact_codegen_rncore \
+        + libreact_codegen_library \
+        libreact_debug \
+1. Open the `AwesomeApp/android/app/src/main/jni/AppModuleProvider.cpp`:
+    1. Add the import `#include <library.h>`
+    1. Add the following code in the `AppModuleProvider` constructor:
+        ```diff
+            // auto module = samplelibrary_ModuleProvider(moduleName, params);
+            // if (module != nullptr) {
+            //    return module;
+            // }
+
+        +    auto module = library_ModuleProvider(moduleName, params);
+        +    if (module != nullptr) {
+        +        return module;
+        +    }
+
+            return rncore_ModuleProvider(moduleName, params);
+        }
+        ```
