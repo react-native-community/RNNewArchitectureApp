@@ -61,6 +61,7 @@ This branch contains all the step executed to:
         * [[Fabric Component] Add Android Implementation](#fc-android)
         * [[Fabric Component] Add iOS Implementation](#fc-ios)
         * [[Fabric Component] Setup Android Autolinking](#fc-autolinking)
+        * [[Fabric Component] Test the Fabric Component](#fc-test)
 
 ## Steps
 
@@ -1796,3 +1797,70 @@ Finally, run `npx react-native run-android` to make sure that everything builds 
         });
     }
     ```
+
+### <a name="fc-test" />[[Fabric Component] Test the Fabric Component]()
+
+1. Navigate to the `AwesomeApp` folder.
+1. Run `yarn remove library && yarn add ../library`
+1. Run `rm -rf ios/Pods ios/Podfile.lock ios/build`
+1. Run `cd ios && RCT_NEW_ARCH_ENABLED=1 pod install`
+1. Run `open AwesomeApp.xcworkspace`
+1. Clean the project with `cmd + shift + k` (This step is required to clean the cache from previous builds)
+1. Run `cd .. && npx react-native run-ios`
+1. Open the `AwesomeApp/App.js` file and update the code with the following:
+    ```diff
+    import Calculator from 'library/src/NativeCalculator';
+    + import ColoredView from 'library/src/ColoredViewNativeComponent';
+
+    const App: () => Node = () => {
+
+    const [result, setResult] = useState<number | null>(null);
+
+    async function onPress() {
+        const newResult = await Calculator?.add(3,7);
+        setResult(newResult ?? null);
+    }
+    return (
+        <SafeAreaView>
+        <StatusBar barStyle={'dark-content'} />
+        <Text style={{ "margin":20 }}>3+7={result ?? "??"}</Text>
+        <Button title="Compute" onPress={onPress} />
+    +    <ColoredView style={{"margin":20; "width":100; "height":100} color={"FFAA77"} />
+        </SafeAreaView>
+    );
+    };
+
+    export default App;
+    ```
+1. Play with the values of the `color` property to see the square change color on iOS.
+1. From the terminal, run `npx react-native run-android`.
+1. Play with the values of the `color` property to see the square change color on Android.
+
+**Note:** At the current moment, this code works on iOS. However, the codegen has some issues: if we open the `ios/build/generated/ios/RCTThirdPartyFabricComponentProvider.h`, we can see that there is a duplicated declaration:
+```c++
+Class<RCTComponentViewProtocol> ColoredViewCls(void) __attribute__((used)); // RNCalculatorSpec
+Class<RCTComponentViewProtocol> ColoredViewCls(void) __attribute__((used)); // RNColoredViewSpec
+```
+Similarly, if we open the `ios/build/generated/ios/RCTThirdPartyFabricComponentProvider.cpp`, we can see this code:
+```c++
+    {"ColoredView", ColoredViewCls}, // RNCalculatorSpec
+    {"ColoredView", ColoredViewCls}, // RNColoredViewSpec
+```
+Finally, when reloading this code, Hermes complaints with this error:
+```
+ ERROR  Invariant Violation: requireNativeComponent: "ColoredView" was not found in the UIManager.
+
+This error is located at:
+    in ColoredView (at App.js:35)
+    in RCTView (at View.js:32)
+    in View (at SafeAreaView.js:41)
+    in SafeAreaView (at App.js:31)
+    in App (at renderApplication.js:50)
+    in RCTView (at View.js:32)
+    in View (at AppContainer.js:92)
+    in RCTView (at View.js:32)
+    in View (at AppContainer.js:119)
+    in AppContainer (at renderApplication.js:43)
+    in AwesomeApp(RootComponent) (at renderApplication.js:60), js engine: hermes
+```
+But everything works fine.

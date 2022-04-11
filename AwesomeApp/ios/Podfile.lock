@@ -81,6 +81,7 @@ PODS:
     - RCTTypeSafety
     - React-Codegen
     - React-Core
+    - React-RCTFabric
     - ReactCommon/turbomodule/core
   - OpenSSL-Universal (1.1.1100)
   - RCT-Folly (2021.06.28.00-v2):
@@ -887,7 +888,7 @@ SPEC CHECKSUMS:
   glog: 476ee3e89abb49e07f822b48323c51c57124b572
   hermes-engine: 84e3af1ea01dd7351ac5d8689cbbea1f9903ffc3
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
-  library: d6e8ecbcf29335edcd4b987bc65d3150717764b1
+  library: c1758f625829f886677054070792583c316b30c2
   OpenSSL-Universal: ebc357f1e6bc71fa463ccb2fe676756aff50e88c
   RCT-Folly: 4d8508a426467c48885f1151029bc15fa5d7b3b8
   RCTRequired: bab4a7c3d7eb9553b13773ee190f279712efd1fc
@@ -923,6 +924,6 @@ SPEC CHECKSUMS:
   Yoga: 6671cf077f614314c22fd09ddf87d7abeee64e96
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 75774dae5d3efbe3efa339e2c5c10e806e0c8ea2
+PODFILE CHECKSUM: bf45a81b644bc9a04c68100448e19f1692c1c665
 
 COCOAPODS: 1.11.2

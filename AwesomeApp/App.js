@@ -17,6 +17,7 @@ import {
   View,
 } from 'react-native';
 import Calculator from 'library/src/NativeCalculator';
+import ColoredView from 'library/src/ColoredViewNativeComponent';
 
 const App: () => Node = () => {
 
@@ -31,6 +32,7 @@ const App: () => Node = () => {
       <StatusBar barStyle={'dark-content'} />
       <Text style={{ "margin":20 }}>3+7={result ?? "??"}</Text>
       <Button title="Compute" onPress={onPress} />
+      <ColoredView style={{"margin":20, width:100, height:100 }} color={"#0000FF"} />
     </SafeAreaView>
   );
 };
