@@ -44,6 +44,8 @@ This branch contains all the step executed to:
         * [[Fabric Setup] Enable Fabric in Podfile](#fabric-podfile)
         * [[Fabric Setup] Update your root view](#fabric-root-view)
         * [[Fabric Setup] Cleanup and run the app](#fabric-run)
+* Pillars
+    * [[Pillars] Setup library](#pillar-setup)
 
 ## Steps
 
@@ -948,3 +950,40 @@ Finally, run `npx react-native run-android` to make sure that everything builds 
 1. Remove generated files by running `cd ios && rm -rf Pods Podfile.lock build`
 1. Run `RCT_NEW_ARCH_ENABLED=1 pod install`
 1. `cd .. && npx react-native run-ios`
+
+### <a name="pillar-setup" /> [[Pillars] Setup library]()
+
+1. Create a folder at the same level of `AwesomeApp` and call it `library`.
+1. Create a `package.json` file and add the following code:
+    ```json
+    {
+    "name": "library",
+    "version": "0.0.1",
+    "description": "Turbomodule and Fabric component",
+    "react-native": "src/index",
+    "source": "src/index",
+    "files": [
+        "src",
+        "android",
+        "ios",
+        "library.podspec",
+        "!android/build",
+        "!ios/build",
+        "!**/__tests__",
+        "!**/__fixtures__",
+        "!**/__mocks__"
+    ],
+    "keywords": ["react-native", "ios", "android"],
+    "repository": "https://github.com/<your_github_handle>/library",
+    "author": "<Your Name> <your_email@your_provider.com> (https://github.com/<your_github_handle>)",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/<your_github_handle>/library/issues"
+    },
+    "homepage": "https://github.com/<your_github_handle>/library#readme",
+    "devDependencies": {},
+    "peerDependencies": {
+        "react": "*",
+        "react-native": "*"
+    }
+    ```
