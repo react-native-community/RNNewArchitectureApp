@@ -43,7 +43,7 @@ This branch contains all the step executed to:
     * iOS
         * [[Fabric Setup] Enable Fabric in Podfile](#fabric-podfile)
         * [[Fabric Setup] Update your root view](#fabric-root-view)
-        * [[Fabric Setup] Add Babel plugin](#fabric-babel)
+        * [[Fabric Setup] Cleanup and run the app](#fabric-run)
 
 ## Steps
 
@@ -931,3 +931,20 @@ Finally, run `npx react-native run-android` to make sure that everything builds 
                                                                            moduleName:@"AwesomeApp"
                                                  initialProperties:@{}];
     ```
+
+### <a name="fabric-run" />[[Fabric Setup] Add Babel plugin and run the app]()
+
+1. Open the `babel.config.js`:
+1. Add the `plugin` property after the `preset` one:
+    ```diff
+    module.exports = {
+        presets: ['module:metro-react-native-babel-preset'],
+    +    plugins: [
+    +        '@babel/plugin-proposal-class-properties',
+    +        './node_modules/@react-native/babel-plugin-codegen'
+    +    ]
+    };
+    ```
+1. Remove generated files by running `cd ios && rm -rf Pods Podfile.lock build`
+1. Run `RCT_NEW_ARCH_ENABLED=1 pod install`
+1. `cd .. && npx react-native run-ios`
