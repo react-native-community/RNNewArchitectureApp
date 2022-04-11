@@ -46,6 +46,8 @@ This branch contains all the step executed to:
         * [[Fabric Setup] Cleanup and run the app](#fabric-run)
 * Pillars
     * [[Pillars] Setup library](#pillar-setup)
+    * TurboModule
+        * [[TurboModule] Create Flow Spec](#tm-flow-spec)
 
 ## Steps
 
@@ -986,4 +988,22 @@ Finally, run `npx react-native run-android` to make sure that everything builds 
         "react": "*",
         "react-native": "*"
     }
+    ```
+
+### <a name="tm-flow-spec" /> [[TurboModule] Create Flow Spec]()
+
+1. Create a new folder `library/src`
+1. Create a new file `library/src/NativeCalculator.js` with this code:
+    ```ts
+    // @flow
+    import type { TurboModule } from 'react-native/Libraries/TurboModule/RCTExport';
+    import { TurboModuleRegistry } from 'react-native';
+
+    export interface Spec extends TurboModule {
+        // your module methods go here, for example:
+        add(a: number, b: number): Promise<number>;
+    }
+    export default (TurboModuleRegistry.get<Spec>(
+        'Calculator'
+    ): ?Spec);
     ```
