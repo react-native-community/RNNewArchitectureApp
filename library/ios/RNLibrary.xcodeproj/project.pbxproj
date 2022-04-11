@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CD88C39F28047F0C0051BBE6 /* RNColoredViewManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = CD88C39E28047F0C0051BBE6 /* RNColoredViewManager.mm */; };
+		CD88C3A228047F9C0051BBE6 /* RNColoredView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD88C3A128047F9C0051BBE6 /* RNColoredView.m */; };
 		CD9C8C482804562F0062EAC7 /* RNLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = CD9C8C472804562F0062EAC7 /* RNLibrary.m */; };
 		CD9C8C492804562F0062EAC7 /* RNLibrary.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = CD9C8C462804562F0062EAC7 /* RNLibrary.h */; };
 		CD9C8C51280456FA0062EAC7 /* RNCalculator.mm in Sources */ = {isa = PBXBuildFile; fileRef = CD9C8C50280456FA0062EAC7 /* RNCalculator.mm */; };
@@ -26,6 +28,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		CD88C39E28047F0C0051BBE6 /* RNColoredViewManager.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = RNColoredViewManager.mm; sourceTree = "<group>"; };
+		CD88C3A028047F9C0051BBE6 /* RNColoredView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNColoredView.h; sourceTree = "<group>"; };
+		CD88C3A128047F9C0051BBE6 /* RNColoredView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNColoredView.m; sourceTree = "<group>"; };
 		CD9C8C432804562F0062EAC7 /* libRNLibrary.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRNLibrary.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD9C8C462804562F0062EAC7 /* RNLibrary.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNLibrary.h; sourceTree = "<group>"; };
 		CD9C8C472804562F0062EAC7 /* RNLibrary.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNLibrary.m; sourceTree = "<group>"; };
@@ -67,6 +72,9 @@
 				CD9C8C472804562F0062EAC7 /* RNLibrary.m */,
 				CD9C8C4F280456FA0062EAC7 /* RNCalculator.h */,
 				CD9C8C50280456FA0062EAC7 /* RNCalculator.mm */,
+				CD88C39E28047F0C0051BBE6 /* RNColoredViewManager.mm */,
+				CD88C3A028047F9C0051BBE6 /* RNColoredView.h */,
+				CD88C3A128047F9C0051BBE6 /* RNColoredView.m */,
 			);
 			path = RNLibrary;
 			sourceTree = "<group>";
@@ -129,7 +137,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				CD9C8C482804562F0062EAC7 /* RNLibrary.m in Sources */,
+				CD88C3A228047F9C0051BBE6 /* RNColoredView.m in Sources */,
 				CD9C8C51280456FA0062EAC7 /* RNCalculator.mm in Sources */,
+				CD88C39F28047F0C0051BBE6 /* RNColoredViewManager.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

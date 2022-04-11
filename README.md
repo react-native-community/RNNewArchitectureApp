@@ -59,6 +59,7 @@ This branch contains all the step executed to:
         * [[Fabric Component] Create Flow Spec](#fc-flow-spec)
         * [[Fabric Component] Update Codegen - iOS](#fc-codegen-ios)
         * [[Fabric Component] Add Android Implementation](#fc-android)
+        * [[Fabric Component] Add iOS Implementation](#fc-ios)
 
 ## Steps
 
@@ -1467,4 +1468,160 @@ Finally, run `npx react-native run-android` to make sure that everything builds 
         viewManagers.add(new ColoredViewManager(reactContext));
         return viewManagers;
     }
+    ```
+
+### <a name="fc-ios">[[Fabric Component] Add iOS Implementation]()
+
+1. Open the `library/library.podspec`
+1. Update the podspec with the following changes
+    1. at the beginning of the file:
+        ```diff
+        platform :ios, '11.0'
+        + install! 'cocoapods', :deterministic_uuids => false
+        ```
+    1. Within the `target AwesomeApp do` block
+    ```diff
+    s.pod_target_xcconfig    = {
+        "HEADER_SEARCH_PATHS" => "\"$(PODS_ROOT)/boost\"",
+    +    "OTHER_CPLUSPLUSFLAGS" => "-DFOLLY_NO_CONFIG -DFOLLY_MOBILE=1 -DFOLLY_USE_LIBCPP=1",
+        "CLANG_CXX_LANGUAGE_STANDARD" => "c++17"
+    }
+
+    s.dependency "React-Core"
+    + s.dependency "React-RCTFabric"
+    s.dependency "React-Codegen"
+    s.dependency "RCT-Folly", folly_version
+    ```
+1. Open the `library/ios/RNLibrary.xcodeproj`
+1. Create a new Objective-C file and call it `RNColoredViewManager`
+1. Rename it `RNColoredView.mm`
+1. Replace the content with the following code:
+    ```objc
+    #import <React/RCTViewManager.h>
+
+    @interface RNColoredViewManager : RCTViewManager
+    @end
+
+    @implementation RNColoredViewManager
+
+    RCT_EXPORT_MODULE(ColoredView)
+
+    - (UIView *)view
+    {
+    return [[UIView alloc] init];
+    }
+
+    RCT_CUSTOM_VIEW_PROPERTY(color, NSString, UIView)
+    {
+    [view setBackgroundColor:[self hexStringToColor:json]];
+    }
+
+    - hexStringToColor:(NSString *)stringToConvert
+    {
+    NSString *noHashString = [stringToConvert stringByReplacingOccurrencesOfString:@"#" withString:@""];
+    NSScanner *stringScanner = [NSScanner scannerWithString:noHashString];
+
+    unsigned hex;
+    if (![stringScanner scanHexInt:&hex]) return nil;
+    int r = (hex >> 16) & 0xFF;
+    int g = (hex >> 8) & 0xFF;
+    int b = (hex) & 0xFF;
+
+    return [UIColor colorWithRed:r / 255.0f green:g / 255.0f blue:b / 255.0f alpha:1.0f];
+    }
+
+    @end
+    ```
+1. Create a new `Cocoa Touch Class` and call it `RNColoredView`
+1. Rename the `RNColoredView.m` to `RNColoredView.mm`
+1. Replace the code in the `RNColoredView.h` with the following:
+    ```objc
+    #import <React/RCTViewComponentView.h>
+    #import <UIKit/UIKit.h>
+
+    #ifndef NativeComponentExampleComponentView_h
+    #define NativeComponentExampleComponentView_h
+
+    NS_ASSUME_NONNULL_BEGIN
+
+    @interface RNColoredView : RCTViewComponentView
+    @end
+
+    NS_ASSUME_NONNULL_END
+
+    #endif /* NativeComponentExampleComponentView_h */
+    ```
+1. Replace the content of the `RNColoredView.mm` with the following code:
+    ```c++
+    #import "RNColoredView.h"
+
+    #import <react/renderer/components/RNColoredViewSpec/ComponentDescriptors.h>
+    #import <react/renderer/components/RNColoredViewSpec/EventEmitters.h>
+    #import <react/renderer/components/RNColoredViewSpec/Props.h>
+    #import <react/renderer/components/RNColoredViewSpec/RCTComponentViewHelpers.h>
+
+    #import "RCTFabricComponentsPlugins.h"
+
+    using namespace facebook::react;
+
+    @interface RNColoredView () <RCTColoredViewViewProtocol>
+
+    @end
+
+    @implementation RNColoredView {
+        UIView * _view;
+    }
+
+    + (ComponentDescriptorProvider)componentDescriptorProvider
+    {
+        return concreteComponentDescriptorProvider<ColoredViewComponentDescriptor>();
+    }
+
+    - (instancetype)initWithFrame:(CGRect)frame
+    {
+    if (self = [super initWithFrame:frame]) {
+        static const auto defaultProps = std::make_shared<const ColoredViewProps>();
+        _props = defaultProps;
+
+        _view = [[UIView alloc] init];
+
+        self.contentView = _view;
+    }
+
+    return self;
+    }
+
+    - (void)updateProps:(Props::Shared const &)props oldProps:(Props::Shared const &)oldProps
+    {
+        const auto &oldViewProps = *std::static_pointer_cast<ColoredViewProps const>(_props);
+        const auto &newViewProps = *std::static_pointer_cast<ColoredViewProps const>(props);
+
+        if (oldViewProps.color != newViewProps.color) {
+            NSString * colorToConvert = [[NSString alloc] initWithUTF8String: newViewProps.color.c_str()];
+            [_view setBackgroundColor:[self hexStringToColor:colorToConvert]];
+        }
+
+        [super updateProps:props oldProps:oldProps];
+    }
+
+    Class<RCTComponentViewProtocol> ColoredViewCls(void)
+    {
+        return RNColoredView.class;
+    }
+
+    - hexStringToColor:(NSString *)stringToConvert
+    {
+        NSString *noHashString = [stringToConvert stringByReplacingOccurrencesOfString:@"#" withString:@""];
+        NSScanner *stringScanner = [NSScanner scannerWithString:noHashString];
+
+        unsigned hex;
+        if (![stringScanner scanHexInt:&hex]) return nil;
+        int r = (hex >> 16) & 0xFF;
+        int g = (hex >> 8) & 0xFF;
+        int b = (hex) & 0xFF;
+
+        return [UIColor colorWithRed:r / 255.0f green:g / 255.0f blue:b / 255.0f alpha:1.0f];
+    }
+
+    @end
     ```
