@@ -60,6 +60,7 @@ This branch contains all the step executed to:
         * [[Fabric Component] Update Codegen - iOS](#fc-codegen-ios)
         * [[Fabric Component] Add Android Implementation](#fc-android)
         * [[Fabric Component] Add iOS Implementation](#fc-ios)
+        * [[Fabric Component] Setup Android Autolinking](#fc-autolinking)
 
 ## Steps
 
@@ -1624,4 +1625,174 @@ Finally, run `npx react-native run-android` to make sure that everything builds 
     }
 
     @end
+    ```
+
+### <a name="fc-autolinking" />[[Fabric Component] Setup Android Autolinking]()
+
+1. Create a new `AwesomeApp/android/app/src/main/java/com/awesomeapp/ComponentsRegistry.java` with this code:
+    ```java
+    package com.awesomeapp;
+
+    import com.facebook.jni.HybridData;
+    import com.facebook.proguard.annotations.DoNotStrip;
+    import com.facebook.react.fabric.ComponentFactory;
+    import com.facebook.soloader.SoLoader;
+
+    @DoNotStrip
+    public class ComponentsRegistry {
+        static {
+            SoLoader.loadLibrary("fabricjni");
+        }
+
+        @DoNotStrip private final HybridData mHybridData;
+
+        @DoNotStrip
+        private native HybridData initHybrid(ComponentFactory componentFactory);
+
+        @DoNotStrip
+        private ComponentsRegistry(ComponentFactory componentFactory) {
+            mHybridData = initHybrid(componentFactory);
+        }
+
+        @DoNotStrip
+        public static ComponentsRegistry register(ComponentFactory componentFactory) {
+            return new ComponentsRegistry(componentFactory);
+        }
+    }
+    ```
+1. Open the `AwesomeApp/android/app/src/main/java/com/awesomeapp/MainApplication.java` and update it as it follows:
+    1. Add the following imports:
+        ```java
+        import com.facebook.react.bridge.NativeModule;
+        import com.facebook.react.uimanager.ViewManager;
+        import com.library.LibraryPackage;
+        import java.util.Collections;
+        ```
+    1. In the `getPackages` method, add the following line:
+        ```diff
+        // packages.add(new MyReactNativePackage());
+        + packages.add(new LibraryPackage());
+
+        return packages;
+        ```
+    1. In the `getJSIModuleProvider` method, add the following line:
+        ```diff
+        final ComponentFactory componentFactory = new ComponentFactory();
+        CoreComponentsRegistry.register(componentFactory);
+        + MyComponentsRegistry.register(componentFactory);
+        ```
+1. Create a new file `AwesomeApp/android/app/src/main/jni/ComponentsRegistry.h`:
+    ```c++
+    #pragma once
+
+    #include <ComponentFactory.h>
+    #include <fbjni/fbjni.h>
+    #include <react/renderer/componentregistry/ComponentDescriptorProviderRegistry.h>
+    #include <react/renderer/componentregistry/ComponentDescriptorRegistry.h>
+
+    namespace facebook {
+    namespace react {
+
+    class ComponentsRegistry
+        : public facebook::jni::HybridClass<ComponentsRegistry> {
+    public:
+    constexpr static auto kJavaDescriptor =
+        "Lcom/awesomeapp/ComponentsRegistry;";
+
+    static void registerNatives();
+
+    ComponentsRegistry(ComponentFactory *delegate);
+
+    private:
+    friend HybridBase;
+
+    static std::shared_ptr<ComponentDescriptorProviderRegistry const>
+    sharedProviderRegistry();
+
+    const ComponentFactory *delegate_;
+
+    static jni::local_ref<jhybriddata> initHybrid(
+        jni::alias_ref<jclass>,
+        ComponentFactory *delegate);
+    };
+
+    } // namespace react
+    } // namespace facebook
+    ```
+1. Create a new file `AwesomeApp/android/app/src/main/jni/ComponentsRegistry.cpp`:
+    ```c++
+    #include "ComponentsRegistry.h"
+
+    #include <CoreComponentsRegistry.h>
+    #include <fbjni/fbjni.h>
+    #include <react/renderer/componentregistry/ComponentDescriptorProviderRegistry.h>
+    #include <react/renderer/components/rncore/ComponentDescriptors.h>
+    #include <react/renderer/components/library/ComponentDescriptors.h>
+
+    namespace facebook {
+    namespace react {
+
+    ComponentsRegistry::ComponentsRegistry(
+        ComponentFactory *delegate)
+        : delegate_(delegate) {}
+
+    std::shared_ptr<ComponentDescriptorProviderRegistry const>
+    ComponentsRegistry::sharedProviderRegistry() {
+    auto providerRegistry = CoreComponentsRegistry::sharedProviderRegistry();
+
+    providerRegistry->add(concreteComponentDescriptorProvider<ColoredViewComponentDescriptor>());
+
+    return providerRegistry;
+    }
+
+    jni::local_ref<ComponentsRegistry::jhybriddata>
+    ComponentsRegistry::initHybrid(
+        jni::alias_ref<jclass>,
+        ComponentFactory *delegate) {
+    auto instance = makeCxxInstance(delegate);
+
+    auto buildRegistryFunction =
+        [](EventDispatcher::Weak const &eventDispatcher,
+            ContextContainer::Shared const &contextContainer)
+        -> ComponentDescriptorRegistry::Shared {
+        auto registry = ComponentsRegistry::sharedProviderRegistry()
+                            ->createComponentDescriptorRegistry(
+                                {eventDispatcher, contextContainer});
+
+        auto mutableRegistry =
+            std::const_pointer_cast<ComponentDescriptorRegistry>(registry);
+
+        mutableRegistry->setFallbackComponentDescriptor(
+            std::make_shared<UnimplementedNativeViewComponentDescriptor>(
+                ComponentDescriptorParameters{
+                    eventDispatcher, contextContainer, nullptr}));
+
+        return registry;
+    };
+
+    delegate->buildRegistryFunction = buildRegistryFunction;
+    return instance;
+    }
+
+    void ComponentsRegistry::registerNatives() {
+    registerHybrid({
+        makeNativeMethod("initHybrid", ComponentsRegistry::initHybrid),
+    });
+    }
+
+    } // namespace react
+    } // namespace facebook
+    ```
+1. Open the `OnLoad.cpp` file and add the following line:
+    ```diff
+    + #include "ComponentsRegistry.h"
+
+    // ...
+
+    JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *vm, void *) {
+        return facebook::jni::initialize(vm, [] {
+            facebook::react::AppTurboModuleManagerDelegate::registerNatives();
+    +        facebook::react::ComponentsRegistry::registerNatives();
+        });
+    }
     ```

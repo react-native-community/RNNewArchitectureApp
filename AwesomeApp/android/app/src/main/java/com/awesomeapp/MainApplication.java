@@ -17,6 +17,7 @@ import com.facebook.react.bridge.JSIModuleProvider;
 import com.facebook.react.bridge.JSIModuleSpec;
 import com.facebook.react.bridge.JSIModuleType;
 import com.facebook.react.bridge.JavaScriptContextHolder;
+import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.UIManager;
 import com.facebook.react.config.ReactFeatureFlags;
@@ -25,10 +26,13 @@ import com.facebook.react.fabric.ComponentFactory;
 import com.facebook.react.fabric.CoreComponentsRegistry;
 import com.facebook.react.fabric.FabricJSIModuleProvider;
 import com.facebook.react.fabric.EmptyReactNativeConfig;
+import com.facebook.react.uimanager.ViewManager;
 import com.facebook.react.uimanager.ViewManagerRegistry;
 import java.lang.reflect.InvocationTargetException;
+import com.library.LibraryPackage;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Collections;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -45,6 +49,8 @@ public class MainApplication extends Application implements ReactApplication {
           List<ReactPackage> packages = new PackageList(this).getPackages();
           // Packages that cannot be autolinked yet can be added manually here, for example:
           // packages.add(new MyReactNativePackage());
+          packages.add(new LibraryPackage());
+
           return packages;
         }
 
@@ -78,6 +84,7 @@ public class MainApplication extends Application implements ReactApplication {
                   public JSIModuleProvider<UIManager> getJSIModuleProvider() {
                     final ComponentFactory componentFactory = new ComponentFactory();
                     CoreComponentsRegistry.register(componentFactory);
+                    ComponentsRegistry.register(componentFactory);
                     final ReactInstanceManager reactInstanceManager = getReactInstanceManager();
 
                     ViewManagerRegistry viewManagerRegistry =
