@@ -57,6 +57,7 @@ This branch contains all the step executed to:
         * [[TurboModule] Test the TurboModule](#tm-test)
     * Fabric Components
         * [[Fabric Component] Create Flow Spec](#fc-flow-spec)
+        * [[Fabric Component] Update Codegen - iOS](#fc-codegen-ios)
 
 ## Steps
 
@@ -1366,4 +1367,25 @@ Finally, run `npx react-native run-android` to make sure that everything builds 
     export default (codegenNativeComponent<NativeProps>(
         'ColoredView',
     ): HostComponent<NativeProps>);
+    ```
+
+### <a name="fc-codegen-ios" />[[Fabric Component] Update Codegen - iOS]()
+
+1. Open the `library/package.json`
+1. Add the following snippet in the `libraries` array:
+    ```diff
+    "codegenConfig": {
+        "libraries": [
+            {
+            "name": "RNCalculatorSpec",
+            "type": "modules",
+            "jsSrcsDir": "src"
+            },
+    +        {
+    +        "name": "RNColoredViewSpec",
+    +        "type": "components",
+    +        "jsSrcsDir": "src"
+    +        }
+        ]
+    }
     ```
