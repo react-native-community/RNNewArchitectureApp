@@ -58,6 +58,7 @@ This branch contains all the step executed to:
     * Fabric Components
         * [[Fabric Component] Create Flow Spec](#fc-flow-spec)
         * [[Fabric Component] Update Codegen - iOS](#fc-codegen-ios)
+        * [[Fabric Component] Add Android Implementation](#fc-android)
 
 ## Steps
 
@@ -1387,5 +1388,83 @@ Finally, run `npx react-native run-android` to make sure that everything builds 
     +        "jsSrcsDir": "src"
     +        }
         ]
+    }
+    ```
+
+### <a name="fc-android">[[Fabric Component] Add Android Implementation]()
+
+1. Create a new file `library/android/src/main/java/com/library/ColoredView.java`:
+    ```java
+    package com.library;
+
+    import androidx.annotation.Nullable;
+    import android.content.Context;
+    import android.util.AttributeSet;
+
+    import android.view.View;
+
+    public class ColoredView extends View {
+
+        public ColoredView(Context context) {
+            super(context);
+        }
+
+        public ColoredView(Context context, @Nullable AttributeSet attrs) {
+            super(context, attrs);
+        }
+
+        public ColoredView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+            super(context, attrs, defStyleAttr);
+        }
+
+    }
+    ```
+1. Create a new file `library/android/src/main/java/com/library/ColoredViewManager.java`:
+    ```java
+    package com.library;
+
+    import androidx.annotation.Nullable;
+    import com.facebook.react.module.annotations.ReactModule;
+    import com.facebook.react.uimanager.SimpleViewManager;
+    import com.facebook.react.uimanager.ThemedReactContext;
+    import com.facebook.react.uimanager.annotations.ReactProp;
+    import com.facebook.react.bridge.ReactApplicationContext;
+    import android.graphics.Color;
+    import java.util.Map;
+    import java.util.HashMap;
+
+    public class ColoredViewManager extends SimpleViewManager<ColoredView> {
+
+        public static final String NAME = "ColoredView";
+        ReactApplicationContext mCallerContext;
+
+        public ColoredViewManager(ReactApplicationContext reactContext) {
+            mCallerContext = reactContext;
+        }
+
+        @Override
+        public String getName() {
+            return NAME;
+        }
+
+        @Override
+        public ColoredView createViewInstance(ThemedReactContext context) {
+            return new ColoredView(context);
+        }
+
+        @ReactProp(name = "color")
+        public void setColor(ColoredView view, String color) {
+            view.setBackgroundColor(Color.parseColor(color));
+        }
+
+    }
+    ```
+1. Open the `library/android/src/main/java/com/library/LibraryPackage.java` and add the following method:
+    ```java
+    @Override
+    public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
+        List<ViewManager> viewManagers = new ArrayList<>();
+        viewManagers.add(new ColoredViewManager(reactContext));
+        return viewManagers;
     }
     ```

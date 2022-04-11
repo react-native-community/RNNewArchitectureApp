@@ -45,4 +45,11 @@ public class LibraryPackage extends TurboReactPackage {
             return moduleInfos;
         };
     }
+
+    @Override
+    public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
+        List<ViewManager> viewManagers = new ArrayList<>();
+        viewManagers.add(new ColoredViewManager(reactContext));
+        return viewManagers;
+    }
 }
