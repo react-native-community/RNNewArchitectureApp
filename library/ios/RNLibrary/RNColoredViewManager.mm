@@ -12,6 +12,8 @@ RCT_EXPORT_MODULE(ColoredView)
     return [[UIView alloc] init];
 }
 
+RCT_EXPORT_VIEW_PROPERTY(image, UIImage)
+
 RCT_CUSTOM_VIEW_PROPERTY(color, NSString, UIView)
 {
     [view setBackgroundColor:[self hexStringToColor:json]];
