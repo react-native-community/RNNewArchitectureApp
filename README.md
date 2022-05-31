@@ -1,4 +1,4 @@
-# TurboModule vs. JSBridge and Flutter
+# TurboModule vs JSBridge and Flutter
 
 This repository will show you how to integrate with the TurboModule and Fabric, compare the performance of JSBridge and Turbo Module, and compare the performance of Flutter.
 
