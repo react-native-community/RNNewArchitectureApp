@@ -21,6 +21,9 @@ This branch contains all the step executed to:
         * [[TurboModule] Provide a TurboModuleManager Delegate](#ios-tm-manager-delegate)
         * [[TurboModule] Install TurboModuleManager JavaScript Bindings](#ios-tm-js-bindings)
         * [[TurboModule] Enable TurboModule System - iOS](#ios-enable-tm)
+    * Fabric Setup
+        * [[Fabric] Enable Fabric in Podfile](#fabric-podfile)
+
 
 ## Steps
 
@@ -290,3 +293,25 @@ If the instruction completes successfully, you should see it returning `8081`.
                                                       launchOptions:launchOptions];
     ```
 1. Run `npx react-native run-ios`
+
+### <a name="fabric-podfile" />[[Fabric] Enable Fabric in Podfile](https://github.com/react-native-community/RNNewArchitectureApp/commit/)
+
+1. Open the `AwesomeApp/ios/Podfile` and modify it as it follows:
+    ```diff
+    platform :ios, '12.4'
+    + install! 'cocoapods', :deterministic_uuids => false
+    target 'AwesomeApp' do
+        config = use_native_modules!
+
+        use_react_native!(
+            :path => config[:reactNativePath],
+    +       # Modify here if your app root path isn't the same as this one.
+    +       :app_path => "#{Dir.pwd}/..",
+    +       # Pass the flag to enable fabric to use_react_native!.
+    +       :fabric_enabled => true,
+            # to enable hermes on iOS, change `false` to `true` and then install pods
+            :hermes_enabled => true
+        )
+    ```
+1. Go to `ios` folder and run `RCT_NEW_ARCH_ENABLED=1 pod install`
+1. From `AwesomeApp`, run `npx react-native run-ios`

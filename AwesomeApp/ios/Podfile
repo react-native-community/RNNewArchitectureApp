@@ -2,12 +2,17 @@ require_relative '../node_modules/react-native/scripts/react_native_pods'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
 platform :ios, '12.4'
+install! 'cocoapods', :deterministic_uuids => false
 
 target 'AwesomeApp' do
   config = use_native_modules!
 
   use_react_native!(
     :path => config[:reactNativePath],
+    # Modify here if your app root path isn't the same as this one.
+    :app_path => "#{Dir.pwd}/..",
+    # Pass the flag to enable fabric to use_react_native!.
+    :fabric_enabled => true,
     # to enable hermes on iOS, change `false` to `true` and then install pods
     :hermes_enabled => true
   )
