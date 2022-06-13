@@ -12,6 +12,8 @@ This branch contains all the step executed to:
     * [[Setup] Run `npx react-native init AwesomeApp --version 0.67.4`](#setup)
     * [[Migration] Upgrade to 0.69](#move-to-0.69)
     * [[Hermes] Use Hermes - iOS](#hermes-ios)
+    * [[iOS] Enable C++17 language feature support](#configure-cpp17)
+
 
 ## Steps
 
@@ -94,3 +96,13 @@ If the instruction completes successfully, you should see it returning `8081`.
 1. Remove the previous pods: `rm -rf Pods Podfile.lock`
 1. Install the new pods `cd ios && pod install`
 1. Run the app `cd .. && npx react-native run-ios`
+
+### <a name="configure-cpp17">[[iOS] Enable C++17 language feature support](https://github.com/react-native-community/RNNewArchitectureApp/commit/)
+
+* Open the `AwesomeApp/ios/AwesomeApp.xcworkspace` inn Xcode
+* In the `Project Navigator`, select the AwesomeApp Project.
+* In the Project panel, select the `AwesomeApp` project (not the one in the `Target` panel)
+* Select the `Build Settings` tab
+* Filter for `CLANG_CXX_LANGUAGE_STANDARD` and update it to `c++17`
+* Search now for `OTHER_CPLUSPLUSFLAGS` and add the following flag: `-DFOLLY_NO_CONFIG -DFOLLY_MOBILE=1 -DFOLLY_USE_LIBCPP=1 -Wno-comma --Wno-shorten-64-to-32`
+* Run the app `npx react-native run-ios`
