@@ -14,6 +14,7 @@ This branch contains all the step executed to:
     * [[Hermes] Use Hermes - iOS](#hermes-ios)
     * [[iOS] Enable C++17 language feature support](#configure-cpp17)
     * [[iOS] Use Objective-C++ (.mm extension)](#configure-objcpp)
+    * [[iOS] TurboModules: Ensure your App Provides an `RCTCxxBridgeDelegate`](#ios-tm)
 
 
 ## Steps
@@ -117,3 +118,35 @@ If the instruction completes successfully, you should see it returning `8081`.
 1. Run `npx react-native run-ios`
 
 **Note:** Renaming files in Xcode also updates the `xcodeproj` file automatically.
+
+### <a name="ios-tm" /> [[TurboModule Setup] iOS: TurboModules: Ensure your App Provides an `RCTCxxBridgeDelegate`](https://github.com/react-native-community/RNNewArchitectureApp/commit/70518279b54b47a9e1dd202ab9b389ca5de7751c)
+
+1. Open the `AppDelegate.mm` file
+1. Add the following imports:
+    ```objc
+    #import <reacthermes/HermesExecutorFactory.h>
+    #import <React/RCTCxxBridgeDelegate.h>
+    #import <React/RCTJSIExecutorRuntimeInstaller.h>
+    ``
+1. Add the following `@interface`, right before the `@implementation` keyword
+    ```obj-c
+    @interface AppDelegate () <RCTCxxBridgeDelegate> {
+    // ...
+    }
+    @end
+    ```
+1. Add the following function at the end of the file, before the `@end` keyword:
+    ```obj-c
+    #pragma mark - RCTCxxBridgeDelegate
+
+    - (std::unique_ptr<facebook::react::JSExecutorFactory>)jsExecutorFactoryForBridge:(RCTBridge *)bridge
+    {
+    return std::make_unique<facebook::react::HermesExecutorFactory>(facebook::react::RCTJSIExecutorRuntimeInstaller([bridge](facebook::jsi::Runtime &runtime) {
+        if (!bridge) {
+            return;
+        }
+        })
+    );
+    }
+    ```
+1. From the `AwesomeApp` folder, run the app: `npx react-native ru-ios`
