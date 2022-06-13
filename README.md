@@ -13,6 +13,7 @@ This branch contains all the step executed to:
     * [[Migration] Upgrade to 0.69](#move-to-0.69)
     * [[Hermes] Use Hermes - iOS](#hermes-ios)
     * [[iOS] Enable C++17 language feature support](#configure-cpp17)
+    * [[iOS] Use Objective-C++ (.mm extension)](#configure-objcpp)
 
 
 ## Steps
@@ -106,3 +107,13 @@ If the instruction completes successfully, you should see it returning `8081`.
 * Filter for `CLANG_CXX_LANGUAGE_STANDARD` and update it to `c++17`
 * Search now for `OTHER_CPLUSPLUSFLAGS` and add the following flag: `-DFOLLY_NO_CONFIG -DFOLLY_MOBILE=1 -DFOLLY_USE_LIBCPP=1 -Wno-comma --Wno-shorten-64-to-32`
 * Run the app `npx react-native run-ios`
+
+### <a name="configure-objcpp">[[iOS] Use Objective-C++ (.mm extension)](https://github.com/react-native-community/RNNewArchitectureApp/commit/)
+
+1. Open the `AwesomeApp/ios/AwesomeApp.xcworkspace` in Xcode
+1. Rename all the `.m` files to `.mm`:
+    1. `main.m` will be renamed to `main.mm`
+    1. `AppDelegate.m` will be renamed to `AppDelegate.mm`
+1. Run `npx react-native run-ios`
+
+**Note:** Renaming files in Xcode also updates the `xcodeproj` file automatically.
