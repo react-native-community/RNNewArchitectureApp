@@ -23,6 +23,9 @@ This branch contains all the step executed to:
         * [[TurboModule] Enable TurboModule System - iOS](#ios-enable-tm)
     * Fabric Setup
         * [[Fabric] Enable Fabric in Podfile](#fabric-podfile)
+        * [[Fabric] Update your root view](#fabric-root-view)
+    * TurboModule
+        * [[TurboModule] Setup calculator](#setup-calculator)
 
 
 ## Steps
@@ -315,3 +318,84 @@ If the instruction completes successfully, you should see it returning `8081`.
     ```
 1. Go to `ios` folder and run `RCT_NEW_ARCH_ENABLED=1 pod install`
 1. From `AwesomeApp`, run `npx react-native run-ios`
+
+### <a name="fabric-root-view" />[[Fabric] Update your root view](https://github.com/react-native-community/RNNewArchitectureApp/commit/)
+
+1. Open the `AwesomeApp/ios/AwesomeApp/AppDelegate.mm` file.
+1. Add the following `imports`:
+    ```objective-c
+    #import <React/RCTFabricSurfaceHostingProxyRootView.h>
+    #import <React/RCTSurfacePresenter.h>
+    #import <React/RCTSurfacePresenterBridgeAdapter.h>
+    #import <react/config/ReactNativeConfig.h>
+    ```
+1. Add the following properties in the `AppDelegate` interface:
+    ```diff
+    @interface AppDelegate () <RCTCxxBridgeDelegate,
+                           RCTTurboModuleManagerDelegate> {
+
+    +   RCTSurfacePresenterBridgeAdapter *_bridgeAdapter;
+    +   std::shared_ptr<const facebook::react::ReactNativeConfig> _reactNativeConfig;
+    +   facebook::react::ContextContainer::Shared _contextContainer;
+    @end
+    ```
+1. Update the `rootView` property as it follows:
+    ```diff
+    RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
+    - RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
+                                                   moduleName:@"AwesomeApp"
+                                            initialProperties:nil];
+    + _contextContainer = std::make_shared<facebook::react::ContextContainer const>();
+    + _reactNativeConfig = std::make_shared<facebook::react::EmptyReactNativeConfig const>();
+
+    + _contextContainer->insert("ReactNativeConfig", _reactNativeConfig);
+
+    + _bridgeAdapter = [[RCTSurfacePresenterBridgeAdapter alloc]
+            initWithBridge:bridge
+          contextContainer:_contextContainer];
+
+    + bridge.surfacePresenter = _bridgeAdapter.surfacePresenter;
+
+    + UIView *rootView = [[RCTFabricSurfaceHostingProxyRootView alloc] initWithBridge:bridge
+                                                                           moduleName:@"AwesomeApp"
+                                                 initialProperties:@{}];
+    ```
+1. 1. From `AwesomeApp`, run `npx react-native run-ios`
+
+### <a name="setup-calculator" /> [[TurboModule] Setup calculator](https://github.com/react-native-community/RNNewArchitectureApp/commit/)
+
+1. Create a folder at the same level of `AwesomeApp` and call it `calculator`.
+1. Create a `package.json` file and add the following code:
+    ```json
+    {
+        "name": "calculator",
+        "version": "0.0.1",
+        "description": "Calculator TurboModule",
+        "react-native": "src/index",
+        "source": "src/index",
+        "files": [
+            "src",
+            "android",
+            "ios",
+            "calculator.podspec",
+            "!android/build",
+            "!ios/build",
+            "!**/__tests__",
+            "!**/__fixtures__",
+            "!**/__mocks__"
+        ],
+        "keywords": ["react-native", "ios", "android"],
+        "repository": "https://github.com/<your_github_handle>/calculator",
+        "author": "<Your Name> <your_email@your_provider.com> (https://github.com/<your_github_handle>)",
+        "license": "MIT",
+        "bugs": {
+            "url": "https://github.com/<your_github_handle>/calculator/issues"
+        },
+        "homepage": "https://github.com/<your_github_handle>/claculator#readme",
+        "devDependencies": {},
+        "peerDependencies": {
+            "react": "*",
+            "react-native": "*"
+        }
+    }
+    ```
