@@ -26,6 +26,7 @@ This branch contains all the step executed to:
         * [[Fabric] Update your root view](#fabric-root-view)
     * TurboModule
         * [[TurboModule] Setup calculator](#setup-calculator)
+        * [[TurboModule] Create Flow Spec](#tm-flow-spec)
 
 
 ## Steps
@@ -398,4 +399,22 @@ If the instruction completes successfully, you should see it returning `8081`.
             "react-native": "*"
         }
     }
+    ```
+
+### <a name="tm-flow-spec" />[[TurboModule] Create Flow Spec](https://github.com/react-native-community/RNNewArchitectureApp/commit/)
+
+1. Create a new folder `calculator/src`
+1. Create a new file `calculator/src/NativeCalculator.js` with this code:
+    ```ts
+    // @flow
+    import type { TurboModule } from 'react-native/Libraries/TurboModule/RCTExport';
+    import { TurboModuleRegistry } from 'react-native';
+
+    export interface Spec extends TurboModule {
+        // your module methods go here, for example:
+        add(a: number, b: number): Promise<number>;
+    }
+    export default (TurboModuleRegistry.get<Spec>(
+        'Calculator'
+    ): ?Spec);
     ```
