@@ -31,6 +31,8 @@ This branch contains all the step executed to:
         * [[TurboModule] Setup podspec file](#tm-podspec-ios)
         * [[TurboModule] Create iOS Implementation](#tm-ios)
         * [[TurboModule] Test the TurboModule](#tm-test)
+    * Fabric Component
+        * [[Fabric Components] Setup centered-text](#setup-fabric-comp)
 
 
 ## Steps
@@ -570,3 +572,41 @@ If the instruction completes successfully, you should see it returning `8081`.
     export default App;
     ```
 1. Press on `Compute`, to see the app working on iOS.
+
+### <a name="setup-fabric-comp" /> [[Fabric Components] Setup centered-text](https://github.com/react-native-community/RNNewArchitectureApp/commit/)
+
+1. Create a folder at the same level of `AwesomeApp` and call it `centered-text`.
+1. Create a `package.json` file and add the following code:
+    ```json
+    {
+        "name": "centered-text",
+        "version": "0.0.1",
+        "description": "Centered Text Fabric Component",
+        "react-native": "src/index",
+        "source": "src/index",
+        "files": [
+            "src",
+            "android",
+            "ios",
+            "centered-text.podspec",
+            "!android/build",
+            "!ios/build",
+            "!**/__tests__",
+            "!**/__fixtures__",
+            "!**/__mocks__"
+        ],
+        "keywords": ["react-native", "ios", "android"],
+        "repository": "https://github.com/<your_github_handle>/centered-text",
+        "author": "<Your Name> <your_email@your_provider.com> (https://github.com/<your_github_handle>)",
+        "license": "MIT",
+        "bugs": {
+            "url": "https://github.com/<your_github_handle>/centered-text/issues"
+        },
+        "homepage": "https://github.com/<your_github_handle>/centered-text#readme",
+        "devDependencies": {},
+        "peerDependencies": {
+            "react": "*",
+            "react-native": "*"
+        }
+    }
+    ```
