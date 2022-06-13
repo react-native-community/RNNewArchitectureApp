@@ -30,6 +30,7 @@ This branch contains all the step executed to:
         * [[TurboModule] Setup Codegen - iOS](#tm-codegen-ios)
         * [[TurboModule] Setup podspec file](#tm-podspec-ios)
         * [[TurboModule] Create iOS Implementation](#tm-ios)
+        * [[TurboModule] Test the TurboModule](#tm-test)
 
 
 ## Steps
@@ -517,3 +518,55 @@ If the instruction completes successfully, you should see it returning `8081`.
     }
     @end
     ```
+
+### <a name="tm-test" />[[TurboModule] Test the TurboModule](https://github.com/react-native-community/RNNewArchitectureApp/commit/871c17f7d18747dc46313229d604a17803e30348)
+
+1. Navigate to the `AwesomeApp` folder.
+1. Run `yarn add ../calculator`
+1. Run `rm -rf ios/Pods ios/Podfile.lock ios/build`
+1. Run `cd ios && RCT_NEW_ARCH_ENABLED=1 pod install`
+1. Run `open AwesomeApp.xcworkspace`
+1. Clean the project with `cmd + shift + k` (This step is required to clean the cache from previous builds)
+1. Run `cd .. && npx react-native run-ios`
+1. Open the `AwesomeApp/App.js` file and replace the content with:
+    ```ts
+    /**
+     * Sample React Native App
+    * https://github.com/facebook/react-native
+    *
+    * @format
+    * @flow strict-local
+    */
+
+    import React from 'react';
+    import {useState} from "react";
+    import type {Node} from 'react';
+    import {
+    SafeAreaView,
+    StatusBar,
+    Text,
+    Button,
+    View,
+    } from 'react-native';
+    import Calculator from 'calculator/src/NativeCalculator';
+
+    const App: () => Node = () => {
+
+    const [result, setResult] = useState<number | null>(null);
+
+    async function onPress() {
+        const newResult = await Calculator?.add(3,7);
+        setResult(newResult ?? null);
+    }
+    return (
+        <SafeAreaView>
+        <StatusBar barStyle={'dark-content'} />
+        <Text style={{ "margin":20 }}>3+7={result ?? "??"}</Text>
+        <Button title="Compute" onPress={onPress} />
+        </SafeAreaView>
+    );
+    };
+
+    export default App;
+    ```
+1. Press on `Compute`, to see the app working on iOS.
