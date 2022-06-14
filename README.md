@@ -47,6 +47,7 @@ This branch contains all the step executed to:
         * [[TurboModule] Java - Provide a `ReactPackageTurboModuleManagerDelegate`](#java-tm-delegate)
         * [[TurboModule] Adapt your ReactNativeHost to use the `ReactPackageTurboModuleManagerDelegate`](#java-tm-adapt-host)
         * [[TurboModule] Extend the `getPackages()` from your ReactNativeHost to use the TurboModule](#java-tm-extend-package)
+        * [[TurboModule] C++ Provide a native implementation for the methods in your *TurboModuleDelegate class](#cpp-tm-manager)
 
 ## Steps
 
@@ -1145,3 +1146,157 @@ If the instruction completes successfully, you should see it returning `8081`.
     ```
     The `getModule(String, ReactApplicationContext)` will return the `NativeModule`related to your TurboModule; the `getReactModuleInfoProvider` will return the additional infoes required by the module. At the moment, we don't have any TurboModule ready to be plugged in, so let's keep them empty.
 1. `npx react-native run-android`
+
+### <a name="cpp-tm-manager" />[[TurboModule] C++ Provide a native implementation for the methods in your *TurboModuleDelegate class](https://github.com/react-native-community/RNNewArchitectureApp/commit/29ae65ce347d3c9316d4f078ece2b0d510823331)
+
+Referring to [this step](https://reactnative.dev/docs/new-architecture-app-modules-android#5-c-provide-a-native-implementation-for-the-methods-in-your-turbomoduledelegate-class), we now have to add a few files in the `AwesomeApp/android/app/src/main/jni` folder:
+
+1. `AppTurboModuleManagerDelegate.h`
+1. `AppTurboModuleManagerDelegate.cpp`
+1. `AppModuleProvider.h`
+1. `AppModuleProvider.cpp`
+1. `OnLoad.cpp`
+
+#### AppTurboModuleManagerDelegate.h
+
+1. Create the `AppTurboModuleManagerDelegate.h` file in the `AwesomeApp/android/app/src/main/jni` folder
+1. Add this code:
+    ```c++
+    #include <memory>
+    #include <string>
+
+    #include <ReactCommon/TurboModuleManagerDelegate.h>
+    #include <fbjni/fbjni.h>
+
+    namespace facebook {
+    namespace react {
+
+    class AppTurboModuleManagerDelegate : public jni::HybridClass<AppTurboModuleManagerDelegate, TurboModuleManagerDelegate> {
+    public:
+    // Adapt it to the package you used for your Java class.
+    static constexpr auto kJavaDescriptor =
+        "Lcom/awesomeapp/AppTurboModuleManagerDelegate;";
+
+    static jni::local_ref<jhybriddata> initHybrid(jni::alias_ref<jhybridobject>);
+
+    static void registerNatives();
+
+    std::shared_ptr<TurboModule> getTurboModule(const std::string name, const std::shared_ptr<CallInvoker> jsInvoker) override;
+    std::shared_ptr<TurboModule> getTurboModule(const std::string name, const JavaTurboModule::InitParams &params) override;
+
+    private:
+    friend HybridBase;
+    using HybridBase::HybridBase;
+
+    };
+
+    } // namespace react
+    } // namespace facebook
+    ```
+
+#### AppTurboModuleManagerDelegate.cpp
+
+1. Create the `AppTurboModuleManagerDelegate.cpp` file in the `AwesomeApp/android/app/src/main/jni` folder
+1. Add this code:
+    ```c++
+    #include "AppTurboModuleManagerDelegate.h"
+    #include "AppModuleProvider.h"
+
+    namespace facebook {
+    namespace react {
+
+    jni::local_ref<AppTurboModuleManagerDelegate::jhybriddata> AppTurboModuleManagerDelegate::initHybrid(
+        jni::alias_ref<jhybridobject>
+    ) {
+        return makeCxxInstance();
+    }
+
+    void AppTurboModuleManagerDelegate::registerNatives() {
+        registerHybrid({
+            makeNativeMethod("initHybrid", AppTurboModuleManagerDelegate::initHybrid),
+        });
+    }
+
+    std::shared_ptr<TurboModule> AppTurboModuleManagerDelegate::getTurboModule(
+        const std::string name,
+        const std::shared_ptr<CallInvoker> jsInvoker
+    ) {
+        // Not implemented yet: provide pure-C++ NativeModules here.
+        return nullptr;
+    }
+
+    std::shared_ptr<TurboModule> AppTurboModuleManagerDelegate::getTurboModule(
+        const std::string name,
+        const JavaTurboModule::InitParams &params
+    ) {
+        return AppModuleProvider(name, params);
+    }
+
+    } // namespace react
+    } // namespace facebook
+    ```
+
+#### AppModuleProvider.h
+
+1. Create the `AppModuleProvider.h` file in the `AwesomeApp/android/app/src/main/jni` folder
+1. Add the following code:
+    ```c++
+    #pragma once
+
+    #include <memory>
+    #include <string>
+
+    #include <ReactCommon/JavaTurboModule.h>
+
+    namespace facebook {
+    namespace react {
+
+    std::shared_ptr<TurboModule> AppModuleProvider(const std::string moduleName, const JavaTurboModule::InitParams &params);
+
+    } // namespace react
+    } // namespace facebook
+    ```
+
+#### AppModuleProvider.cpp
+
+1. Create the `AppModuleProvider.cpp` file in the `AwesomeApp/android/app/src/main/jni` folder
+1. Add the following code:
+    ```c++
+    #include "AppModuleProvider.h"
+
+    #include <rncore.h>
+    // Add the include of the TurboModule
+
+    namespace facebook {
+    namespace react {
+
+    std::shared_ptr<TurboModule> AppModuleProvider(const std::string moduleName, const JavaTurboModule::InitParams &params) {
+        // Uncomment this for your TurboModule
+        // auto module = samplelibrary_ModuleProvider(moduleName, params);
+        // if (module != nullptr) {
+        //   return module;
+        // }
+
+        return rncore_ModuleProvider(moduleName, params);
+    }
+
+    } // namespace react
+    } // namespace facebook
+    ```
+
+#### OnLoad.cpp
+
+1. Create the `OnLoad.cpp` file in the `AwesomeApp/android/app/src/main/jni` folder
+1. Add the following code:
+    ```c++
+    #include <fbjni/fbjni.h>
+    #include "AppTurboModuleManagerDelegate.h"
+
+    JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *vm, void *) {
+    return facebook::jni::initialize(vm, [] {
+        facebook::react::AppTurboModuleManagerDelegate::registerNatives();
+    });
+    }
+    ```
+
+Finally, run `npx react-native run-android` to make sure that everything builds properly.
