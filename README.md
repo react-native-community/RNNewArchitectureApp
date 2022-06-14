@@ -58,7 +58,7 @@ This branch contains all the step executed to:
         * [[TurboModule] Setup Android Autolinking](#tm-autolinking)
     * Fabric Component
         * [[Fabric Components] Setup Codegen - Android](fc-codegen-android)
-
+        * [[Fabric Components] Create Android Implementation](#fc-android)
 
 ## Steps
 
@@ -1657,5 +1657,115 @@ Finally, run `npx react-native run-android` to make sure that everything builds 
         jsRootDir = file("../src/")
         libraryName = "centeredtext"
         codegenJavaPackageName = "com.centeredtext"
+    }
+    ```
+
+### <a name="fc-android">[[Fabric Components] Create Android Implementation](https://github.com/react-native-community/RNNewArchitectureApp/commit/)
+
+1. Create an `AndroidManifest.xml` file in `centered-text/src/main` with the following content:
+    ```xml
+    <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+        package="com.centeredtext">
+    </manifest>
+    ```
+1. Create a new file `centered-text/android/src/main/java/com/centeredtext/CenteredText.java`:
+    ```java
+    package com.centeredtext;
+
+    import androidx.annotation.Nullable;
+    import android.content.Context;
+    import android.util.AttributeSet;
+    import android.graphics.Color;
+    import android.widget.TextView;
+    import android.view.Gravity;
+
+    public class CenteredText extends TextView {
+        public CenteredText(Context context) {
+            super(context);
+            this.configureComponent();
+        }
+        public CenteredText(Context context, @Nullable AttributeSet attrs) {
+            super(context, attrs);
+            this.configureComponent();
+        }
+        public CenteredText(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+            super(context, attrs, defStyleAttr);
+            this.configureComponent();
+        }
+        private void configureComponent() {
+            this.setBackgroundColor(Color.RED);
+            this.setGravity(Gravity.CENTER_HORIZONTAL);
+        }
+    }
+    ```
+1. Create a new file `centered-text/android/src/main/java/com/centeredtext/CenteredTextManager.java`:
+    ```java
+    package com.centeredtext;
+
+    import androidx.annotation.NonNull;
+    import androidx.annotation.Nullable;
+    import com.facebook.react.bridge.ReadableArray;
+    import com.facebook.react.bridge.ReactApplicationContext;
+    import com.facebook.react.module.annotations.ReactModule;
+    import com.facebook.react.uimanager.SimpleViewManager;
+    import com.facebook.react.uimanager.ThemedReactContext;
+    import com.facebook.react.uimanager.ViewManagerDelegate;
+    import com.facebook.react.uimanager.annotations.ReactProp;
+    import com.facebook.react.viewmanagers.RNCenteredTextManagerInterface;
+    import com.facebook.react.viewmanagers.RNCenteredTextManagerDelegate;
+
+    @ReactModule(name = CenteredTextManager.NAME)
+    public class CenteredTextManager extends SimpleViewManager<CenteredText>
+            implements RNCenteredTextManagerInterface<CenteredText> {
+        private final ViewManagerDelegate<CenteredText> mDelegate;
+        static final String NAME = "RNCenteredText";
+        public CenteredTextManager(ReactApplicationContext context) {
+            mDelegate = new RNCenteredTextManagerDelegate<>(this);
+        }
+        @Nullable
+        @Override
+        protected ViewManagerDelegate<CenteredText> getDelegate() {
+            return mDelegate;
+        }
+        @NonNull
+        @Override
+        public String getName() {
+            return CenteredTextManager.NAME;
+        }
+        @NonNull
+        @Override
+        protected CenteredText createViewInstance(@NonNull ThemedReactContext context) {
+            return new CenteredText(context);
+        }
+        @Override
+        @ReactProp(name = "text")
+        public void setText(CenteredText view, @Nullable String text) {
+            view.setText(text);
+        }
+    }
+    ```
+1. Open the `centered-text/android/src/main/java/com/centeredtext/CenteredTextPackage.java` and add the following code:
+    ```java
+    package com.centeredtext;
+
+    import com.facebook.react.ReactPackage;
+    import com.facebook.react.bridge.NativeModule;
+    import com.facebook.react.bridge.ReactApplicationContext;
+    import com.facebook.react.uimanager.ViewManager;
+    import java.util.ArrayList;
+    import java.util.Collections;
+    import java.util.List;
+
+    public class CenteredTextPackage implements ReactPackage {
+        @Override
+        public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
+            List<ViewManager> viewManagers = new ArrayList<>();
+            viewManagers.add(new CenteredTextManager(reactContext));
+            return viewManagers;
+        }
+        @Override
+        public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
+            return Collections.emptyList();
+        }
     }
     ```
