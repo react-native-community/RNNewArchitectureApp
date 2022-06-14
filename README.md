@@ -56,6 +56,9 @@ This branch contains all the step executed to:
         * [[TurboModule] Setup Codegen - Android](#tm-codegen-android)
         * [[TurboModule] Create Android Implementation](#tm-android)
         * [[TurboModule] Setup Android Autolinking](#tm-autolinking)
+    * Fabric Component
+        * [[Fabric Components] Setup Codegen - Android](fc-codegen-android)
+
 
 ## Steps
 
@@ -1604,3 +1607,55 @@ Finally, run `npx react-native run-android` to make sure that everything builds 
 
 **Note:** If you followed all the guide until here, you can test the TM on Android by opening the `App.js` file and commenting out the
 `import CenteredText from 'centered-text/src/CenteredTextNativeComponent';` and the `<CenteredText text="Hello World" style={{width:"100%", height:"30"}} />` lines. Otherwise, you'll need also the [Test the TurboModule](#tm-test) step from iOS
+
+### <a name="fc-codegen-android">[[Fabric Components] Setup Codegen - Android](https://github.com/react-native-community/RNNewArchitectureApp/commit/)
+
+**Note:** This and the following Android steps for the Fabric Component requires the [Setup Centered Text](#setup-centered-text) and the [Create Flow Spec](#fc-flow-spec) steps from iOS.
+
+1. In the `centered-text` folder, create an `android` folder
+1. Create an `build.gradle` file and add the following code:
+    ```js
+    buildscript {
+        ext.safeExtGet = {prop, fallback ->
+            rootProject.ext.has(prop) ? rootProject.ext.get(prop) : fallback
+        }
+        repositories {
+            google()
+            gradlePluginPortal()
+        }
+        dependencies {
+            classpath("com.android.tools.build:gradle:7.1.1")
+        }
+    }
+
+    apply plugin: 'com.android.library'
+    apply plugin: 'com.facebook.react'
+
+    android {
+        compileSdkVersion safeExtGet('compileSdkVersion', 31)
+
+        defaultConfig {
+            minSdkVersion safeExtGet('minSdkVersion', 21)
+            targetSdkVersion safeExtGet('targetSdkVersion', 31)
+        }
+    }
+
+    repositories {
+        maven {
+            // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
+            url "$projectDir/../node_modules/react-native/android"
+        }
+        mavenCentral()
+        google()
+    }
+
+    dependencies {
+        implementation(project(":ReactAndroid"))
+    }
+
+    react {
+        jsRootDir = file("../src/")
+        libraryName = "centeredtext"
+        codegenJavaPackageName = "com.centeredtext"
+    }
+    ```
