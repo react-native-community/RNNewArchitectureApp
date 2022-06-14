@@ -41,6 +41,7 @@ This branch contains all the step executed to:
 * Android
     * Setup
         * [[Setup] Configure Gradle for CodeGen](#android-setup)
+        * [[Hermes] Use Hermes - Android](#hermes-android)
 
 ## Steps
 
@@ -887,3 +888,22 @@ If the instruction completes successfully, you should see it returning `8081`.
     ```
 1. Go back to the `AwesomeApp` folder
 1. `npx react-native run-android` (Don't worry if it takes some time to complete.)
+
+### <a name="hermes-android" />[[Hermes] Use Hermes - Android](https://github.com/react-native-community/RNNewArchitectureApp/commit/a4e1ea687eb3a5c97f2a8610b5e4b1a75cf7eb9a)
+
+1. Open the `AwesomeApp/android/app/build.gradle` and update the `enableHermes` propety:
+    ```diff
+        project.ext.react = [
+    -        enableHermes: false,  // clean and rebuild if changing
+    +        enableHermes: true,  // clean and rebuild if changing
+        ]
+
+        apply from: "../../node_modules/react-native/react.gradle"
+    ```
+1. Open the `AwesomeApp/android/app/proguard-rules.pro` and update the file adding these lines:
+    ```sh
+    -keep class com.facebook.hermes.unicode.** { *; }
+    -keep class com.facebook.jni.** { *; }
+    ```
+1. Clean the build `cd android && ./gradlew clean`
+1. Run the app again `cd .. && npx react-native run-android`
