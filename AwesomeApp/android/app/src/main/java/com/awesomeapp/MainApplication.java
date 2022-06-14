@@ -7,6 +7,7 @@ import android.app.Application;
 import android.content.Context;
 import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.config.ReactFeatureFlags;
 import com.facebook.react.module.model.ReactModuleInfoProvider;
 import com.facebook.react.module.model.ReactModuleInfo;
 import com.facebook.react.PackageList;
@@ -75,6 +76,7 @@ public class MainApplication extends Application implements ReactApplication {
   @Override
   public void onCreate() {
     super.onCreate();
+    ReactFeatureFlags.useTurboModules = true;
     SoLoader.init(this, /* native exopackage */ false);
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
   }
