@@ -49,6 +49,8 @@ This branch contains all the step executed to:
         * [[TurboModule] Extend the `getPackages()` from your ReactNativeHost to use the TurboModule](#java-tm-extend-package)
         * [[TurboModule] C++ Provide a native implementation for the methods in your *TurboModuleDelegate class](#cpp-tm-manager)
         * [[TurboModule] Enable the useTurboModules flag in your Application onCreate](#enable-tm-android)
+    * Fabric Setup
+        * [[Fabric] Provide a `JSIModulePackage` inside your `ReactNativeHost`](#jsimodpackage-in-rnhost)
 
 ## Steps
 
@@ -1322,3 +1324,63 @@ Finally, run `npx react-native run-android` to make sure that everything builds 
         }
     ```
 * Run `npx react-native run-android`
+
+### <a name="jsimodpackage-in-rnhost" />[[Fabric Setup] Provide a `JSIModulePackage` inside your `ReactNativeHost`](https://github.com/react-native-community/RNNewArchitectureApp/commit/77974c1d9b9cd97324a8d10f264bce60a2540c26)
+
+1. Open `AwesomeApp/android/app/src/main/java/com/awesomeapp/MainApplication.java`
+1. Add the imports:
+    ```java
+    import com.facebook.react.bridge.JSIModulePackage;
+    import com.facebook.react.bridge.JSIModuleProvider;
+    import com.facebook.react.bridge.JSIModuleSpec;
+    import com.facebook.react.bridge.JSIModuleType;
+    import com.facebook.react.bridge.JavaScriptContextHolder;
+    import com.facebook.react.bridge.UIManager;
+    import com.facebook.react.fabric.ComponentFactory;
+    import com.facebook.react.fabric.CoreComponentsRegistry;
+    import com.facebook.react.fabric.FabricJSIModuleProvider;
+    import com.facebook.react.fabric.EmptyReactNativeConfig;
+    import com.facebook.react.uimanager.ViewManagerRegistry;
+    import java.util.ArrayList;
+    ```
+1. Update the `ReactNativeHost` with this new method:
+    ```java
+    @Nullable
+    @Override
+    protected JSIModulePackage getJSIModulePackage() {
+        return new JSIModulePackage() {
+            @Override
+            public List<JSIModuleSpec> getJSIModules(
+                final ReactApplicationContext reactApplicationContext,
+                final JavaScriptContextHolder jsContext) {
+                    final List<JSIModuleSpec> specs = new ArrayList<>();
+                    specs.add(new JSIModuleSpec() {
+                        @Override
+                        public JSIModuleType getJSIModuleType() {
+                        return JSIModuleType.UIManager;
+                        }
+
+                        @Override
+                        public JSIModuleProvider<UIManager> getJSIModuleProvider() {
+                        final ComponentFactory componentFactory = new ComponentFactory();
+                        CoreComponentsRegistry.register(componentFactory);
+                        final ReactInstanceManager reactInstanceManager = getReactInstanceManager();
+
+                        ViewManagerRegistry viewManagerRegistry =
+                            new ViewManagerRegistry(
+                                reactInstanceManager.getOrCreateViewManagers(
+                                    reactApplicationContext));
+
+                        return new FabricJSIModuleProvider(
+                            reactApplicationContext,
+                            componentFactory,
+                            new EmptyReactNativeConfig(),
+                            viewManagerRegistry);
+                        }
+                    });
+                    return specs;
+            }
+        };
+    }
+    ```
+1. Run `npx react-native run-android`
