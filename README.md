@@ -52,6 +52,8 @@ This branch contains all the step executed to:
     * Fabric Setup
         * [[Fabric] Provide a `JSIModulePackage` inside your `ReactNativeHost`](#jsimodpackage-in-rnhost)
         * [[Fabric] Call `setIsFabric` on your Activity’s `ReactRootView`](#set-is-fabric)
+    * TurboModule
+        * [[TurboModule] Setup Codegen - Android](#tm-codegen-android)
 
 ## Steps
 
@@ -1421,3 +1423,55 @@ Finally, run `npx react-native run-android` to make sure that everything builds 
     }
     ```
 1. Run  `npx react-native run-android`
+
+### <a name="tm-codegen-android">[[TurboModule] Setup Codegen - Android](https://github.com/react-native-community/RNNewArchitectureApp/commit/)
+
+**Note:** This and the following android steps for TM requires the [Setup calculator](#setup-calculator) and the [Create Flow Spec](#tm-flow-spec) steps from iOS.
+
+1. In the `calculator` folder, create an `android` folder
+1. Create an `build.gradle` file and add the following code:
+    ```js
+    buildscript {
+        ext.safeExtGet = {prop, fallback ->
+            rootProject.ext.has(prop) ? rootProject.ext.get(prop) : fallback
+        }
+        repositories {
+            google()
+            gradlePluginPortal()
+        }
+        dependencies {
+            classpath("com.android.tools.build:gradle:7.1.1")
+        }
+    }
+
+    apply plugin: 'com.android.library'
+    apply plugin: 'com.facebook.react'
+
+    android {
+        compileSdkVersion safeExtGet('compileSdkVersion', 31)
+
+        defaultConfig {
+            minSdkVersion safeExtGet('minSdkVersion', 21)
+            targetSdkVersion safeExtGet('targetSdkVersion', 31)
+        }
+    }
+
+    repositories {
+        maven {
+            // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
+            url "$projectDir/../node_modules/react-native/android"
+        }
+        mavenCentral()
+        google()
+    }
+
+    dependencies {
+        implementation(project(":ReactAndroid"))
+    }
+
+    react {
+        jsRootDir = file("../src/")
+        libraryName = "calculator"
+        codegenJavaPackageName = "com.calculator"
+    }
+    ```
