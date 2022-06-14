@@ -11,6 +11,7 @@ This branch contains all the step executed to:
 * App Setup
     * [[Setup] Run `npx react-native init AwesomeApp --version 0.67.4`](#setup)
     * [[Migration] Upgrade to 0.69](#move-to-0.69)
+    * [[Hermes] Use Hermes - iOS](#hermes-ios)
 
 ## Steps
 
@@ -78,3 +79,18 @@ adb -s <emulator-id> reverse tcp:8081 tcp:8081
 ```
 Remember to replace the `<emulator-id>` with your own emulator. For me it was `emulator-5554`, for example.
 If the instruction completes successfully, you should see it returning `8081`.
+
+### <a name="hermes-ios" />[[Hermes] Use Hermes - iOS](https://github.com/react-native-community/RNNewArchitectureApp/commit/)
+
+1. Open the `ios/Podfile` file and update it as it follows:
+    ```diff
+        use_react_native!(
+            :path => config[:reactNativePath],
+            # to enable hermes on iOS, change `false` to `true` and then install pods
+    -        :hermes_enabled => false
+    +        :hermes_enabled => true
+        )
+    ```
+1. Remove the previous pods: `rm -rf Pods Podfile.lock`
+1. Install the new pods `cd ios && pod install`
+1. Run the app `cd .. && npx react-native run-ios`
