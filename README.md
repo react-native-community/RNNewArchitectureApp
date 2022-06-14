@@ -37,6 +37,7 @@ This branch contains all the step executed to:
         * [[Fabric Components] Setup Codegen - iOS](#fc-codegen-ios)
         * [[Fabric Components] Setup podspec file](#fc-podspec-ios)
         * [[Fabric Components] Create iOS Implementation](#fc-ios)
+        * [[Fabric Components] Test the Fabric Component](#fc-test)
 
 
 ## Steps
@@ -790,4 +791,28 @@ If the instruction completes successfully, you should see it returning `8081`.
     {
     return RNCenteredText.class;
     }
+    ```
+
+### <a name="fc-test" />[[Fabric Components] Test the Fabric Component](https://github.com/react-native-community/RNNewArchitectureApp/commit/)
+
+1. Navigate to the `AwesomeApp` folder.
+1. Run `yarn add ../centered-text`
+1. Run `rm -rf ios/Pods ios/Podfile.lock ios/build`
+1. Run `cd ios && RCT_NEW_ARCH_ENABLED=1 pod install`
+1. Run `open AwesomeApp.xcworkspace`
+1. Clean the project with `cmd + shift + k` (This step is required to clean the cache from previous builds)
+1. Run `cd .. && npx react-native run-ios`
+1. Open the `AwesomeApp/App.js` file and replace the content with:
+    ```diff
+    } from 'react-native';
+    import Calculator from 'calculator/src/NativeCalculator';
+    + import CenteredText from 'centered-text/src/CenteredTextNativeComponent';
+
+    // ...
+
+        <Text style={{ "margin":20 }}>3+7={result ?? "??"}</Text>
+        <Button title="Compute" onPress={onPress} />
+    +    <CenteredText text="Hello World" style={{width:"100%", height:"30"}} />
+        </SafeAreaView>
+    );
     ```

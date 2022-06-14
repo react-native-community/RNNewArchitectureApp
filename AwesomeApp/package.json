@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "calculator": "../calculator",
+    "centered-text": "../centered-text",
     "react": "18.0.0",
     "react-native": "0.69.0-rc.6"
   },
