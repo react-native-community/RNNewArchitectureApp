@@ -1,6 +1,7 @@
 #include "AppModuleProvider.h"
 
 #include <rncore.h>
+#include <calculator.h>
 // Add the include of the TurboModule
 
 namespace facebook {
@@ -12,6 +13,11 @@ std::shared_ptr<TurboModule> AppModuleProvider(const std::string moduleName, con
     // if (module != nullptr) {
     //   return module;
     // }
+
+    auto module = calculator_ModuleProvider(moduleName, params);
+    if (module != nullptr) {
+        return module;
+    }
 
     return rncore_ModuleProvider(moduleName, params);
 }

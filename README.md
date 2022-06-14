@@ -55,6 +55,7 @@ This branch contains all the step executed to:
     * TurboModule
         * [[TurboModule] Setup Codegen - Android](#tm-codegen-android)
         * [[TurboModule] Create Android Implementation](#tm-android)
+        * [[TurboModule] Setup Android Autolinking](#tm-autolinking)
 
 ## Steps
 
@@ -1566,3 +1567,40 @@ Finally, run `npx react-native run-android` to make sure that everything builds 
         }
     }
     ```
+### <a name="tm-autolinking"/>[[TurboModule] Setup Android Autolinking](https://github.com/react-native-community/RNNewArchitectureApp/commit/)
+
+1. Open the `AweseomeApp/android/app/src/main/jni/Android.mk` and update it as it follows:
+    1. Include the library's `Android.mk`
+        ```diff
+        # include $(GENERATED_SRC_DIR)/codegen/jni/Android.mk
+
+        + include $(NODE_MODULES_DIR)/calculator/android/build/generated/source/codegen/jni/Android.mk
+        include $(CLEAR_VARS)
+        ```
+    1. Add the library to the `LOCAL_SHARED_LIBS`
+        ```diff
+        libreact_codegen_rncore \
+        + libreact_codegen_calculator \
+        libreact_debug \
+1. Open the `AwesomeApp/android/app/src/main/jni/AppModuleProvider.cpp`:
+    1. Add the import `#include <calculator.h>`
+    1. Add the following code in the `AppModuleProvider` constructor:
+        ```diff
+            // auto module = samplelibrary_ModuleProvider(moduleName, params);
+            // if (module != nullptr) {
+            //    return module;
+            // }
+
+        +    auto module = calculator_ModuleProvider(moduleName, params);
+        +    if (module != nullptr) {
+        +        return module;
+        +    }
+
+            return rncore_ModuleProvider(moduleName, params);
+        }
+        ```
+1. `yarn remove calculator && yarn add ../calculator`
+1. `npx react-native run-android`
+
+**Note:** If you followed all the guide until here, you can test the TM on Android by opening the `App.js` file and commenting out the
+`import CenteredText from 'centered-text/src/CenteredTextNativeComponent';` and the `<CenteredText text="Hello World" style={{width:"100%", height:"30"}} />` lines. Otherwise, you'll need also the [Test the TurboModule](#tm-test) step from iOS
