@@ -45,6 +45,7 @@ This branch contains all the step executed to:
     * TurboModule Setup
         * [[TurboModule] Android: Enable NDK and the native build](#turbomodule-ndk)
         * [[TurboModule] Java - Provide a `ReactPackageTurboModuleManagerDelegate`](#java-tm-delegate)
+        * [[TurboModule] Adapt your ReactNativeHost to use the `ReactPackageTurboModuleManagerDelegate`](#java-tm-adapt-host)
 
 ## Steps
 
@@ -1082,4 +1083,22 @@ If the instruction completes successfully, you should see it returning `8081`.
     }
     ```
     **Note:** Make sure that parameter of the `SoLoader.loadLibrary` function in the `maybeLoadOtherSoLibraries` is the same name used in the `LOCAL_MODULE` property of the `Android.mk` file.
+1. `npx react-native run-android`
+
+### <a name="java-tm-adapt-host" /> [[TurboModule] Adapt your ReactNativeHost to use the `ReactPackageTurboModuleManagerDelegate`](https://github.com/react-native-community/RNNewArchitectureApp/commit/)
+
+1. Open the `AwesomeApp/android/app/src/java/main/MainApplication.java` file
+1. Add the imports:
+    ```java
+    import androidx.annotation.NonNull;
+    import com.facebook.react.ReactPackageTurboModuleManagerDelegate;
+    ```
+1. After the `getJSMainModuleName()` method, within the `ReactNativeHost` construction, add the following method:
+    ```java
+    @NonNull
+    @Override
+    protected ReactPackageTurboModuleManagerDelegate.Builder getReactPackageTurboModuleManagerDelegateBuilder() {
+        return new AppTurboModuleManagerDelegate.Builder();
+    }
+    ```
 1. `npx react-native run-android`
