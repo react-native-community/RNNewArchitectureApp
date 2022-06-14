@@ -1,18 +1,26 @@
 package com.awesomeapp;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import android.app.Application;
 import android.content.Context;
+import com.facebook.react.bridge.NativeModule;
+import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.module.model.ReactModuleInfoProvider;
+import com.facebook.react.module.model.ReactModuleInfo;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.ReactPackageTurboModuleManagerDelegate;
+import com.facebook.react.TurboReactPackage;
 import com.facebook.soloader.SoLoader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -29,6 +37,21 @@ public class MainApplication extends Application implements ReactApplication {
           List<ReactPackage> packages = new PackageList(this).getPackages();
           // Packages that cannot be autolinked yet can be added manually here, for example:
           // packages.add(new MyReactNativePackage());
+          packages.add(new TurboReactPackage() {
+            @Nullable
+            @Override
+            public NativeModule getModule(String name, ReactApplicationContext reactContext) {
+                    return null;
+            }
+
+            @Override
+            public ReactModuleInfoProvider getReactModuleInfoProvider() {
+                return () -> {
+                    final Map<String, ReactModuleInfo> moduleInfos = new HashMap<>();
+                    return moduleInfos;
+                };
+            }
+          });
           return packages;
         }
 

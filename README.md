@@ -46,6 +46,7 @@ This branch contains all the step executed to:
         * [[TurboModule] Android: Enable NDK and the native build](#turbomodule-ndk)
         * [[TurboModule] Java - Provide a `ReactPackageTurboModuleManagerDelegate`](#java-tm-delegate)
         * [[TurboModule] Adapt your ReactNativeHost to use the `ReactPackageTurboModuleManagerDelegate`](#java-tm-adapt-host)
+        * [[TurboModule] Extend the `getPackages()` from your ReactNativeHost to use the TurboModule](#java-tm-extend-package)
 
 ## Steps
 
@@ -1101,4 +1102,46 @@ If the instruction completes successfully, you should see it returning `8081`.
         return new AppTurboModuleManagerDelegate.Builder();
     }
     ```
+1. `npx react-native run-android`
+
+### <a name="java-tm-extend-package">[[TurboModule] Extend the `getPackages()` from your ReactNativeHost to use the TurboModule](https://github.com/react-native-community/RNNewArchitectureApp/commit/df733542b62f05f0323e5aad28279c42cacca1d4)
+
+1. Open the `AwesomeApp/android/app/src/java/main/MainApplication.java` file
+1. Update the `getPackages()` method with the following code:
+    ```diff
+        import java.util.List;
+        + import java.util.Map;
+        + import java.util.HashMap;
+        + import androidx.annotation.Nullable;
+        + import com.facebook.react.TurboReactPackage;
+        + import com.facebook.react.bridge.NativeModule;
+        + import com.facebook.react.bridge.ReactApplicationContext;
+        + import com.facebook.react.module.model.ReactModuleInfoProvider;
+        + import com.facebook.react.module.model.ReactModuleInfo;
+
+
+        // ...
+        protected List<ReactPackage> getPackages() {
+            @SuppressWarnings("UnnecessaryLocalVariable")
+            List<ReactPackage> packages = new PackageList(this).getPackages();
+
+    +        packages.add(new TurboReactPackage() {
+    +            @Nullable
+    +            @Override
+    +            public NativeModule getModule(String name, ReactApplicationContext reactContext) {
+    +                    return null;
+    +            }
+    +
+    +            @Override
+    +            public ReactModuleInfoProvider getReactModuleInfoProvider() {
+    +                return () -> {
+    +                    final Map<String, ReactModuleInfo> moduleInfos = new HashMap<>();
+    +                    return moduleInfos;
+    +                };
+    +            }
+    +        });
+            return packages;
+    }
+    ```
+    The `getModule(String, ReactApplicationContext)` will return the `NativeModule`related to your TurboModule; the `getReactModuleInfoProvider` will return the additional infoes required by the module. At the moment, we don't have any TurboModule ready to be plugged in, so let's keep them empty.
 1. `npx react-native run-android`
