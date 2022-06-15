@@ -7,6 +7,7 @@ include $(REACT_ANDROID_DIR)/Android-prebuilt.mk
 # include $(GENERATED_SRC_DIR)/codegen/jni/Android.mk
 
 include $(NODE_MODULES_DIR)/calculator/android/build/generated/source/codegen/jni/Android.mk
+include $(NODE_MODULES_DIR)/centered-text/android/build/generated/source/codegen/jni/Android.mk
 include $(CLEAR_VARS)
 
 LOCAL_PATH := $(THIS_DIR)
@@ -35,6 +36,7 @@ libjsi \
 libfolly_runtime \
 libreact_codegen_rncore \
 libreact_codegen_calculator \
+libreact_codegen_centeredtext \
 libreact_debug \
 libreact_nativemodule_core \
 libreact_render_componentregistry \

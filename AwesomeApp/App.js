@@ -17,7 +17,7 @@ Button,
 View,
 } from 'react-native';
 import Calculator from 'calculator/src/NativeCalculator';
-// import CenteredText from 'centered-text/src/CenteredTextNativeComponent';
+import CenteredText from 'centered-text/src/CenteredTextNativeComponent';
 
 const App: () => Node = () => {
 
@@ -32,7 +32,7 @@ return (
     <StatusBar barStyle={'dark-content'} />
     <Text style={{ "margin":20 }}>3+7={result ?? "??"}</Text>
     <Button title="Compute" onPress={onPress} />
-    {/* <CenteredText text="Hello World" style={{width:"100%", height:"30"}} /> */}
+    <CenteredText text="Hello World" style={{width:"100%", height:"30"}} />
     </SafeAreaView>
 );
 };

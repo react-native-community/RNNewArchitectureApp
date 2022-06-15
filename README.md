@@ -59,6 +59,7 @@ This branch contains all the step executed to:
     * Fabric Component
         * [[Fabric Components] Setup Codegen - Android](fc-codegen-android)
         * [[Fabric Components] Create Android Implementation](#fc-android)
+        * [[Fabric Components] Setup Android Autolinking](#fc-autolinking)
 
 ## Steps
 
@@ -1769,3 +1770,184 @@ Finally, run `npx react-native run-android` to make sure that everything builds 
         }
     }
     ```
+
+### <a name="fc-autolinking"/>[[Fabric Components] Setup Android Autolinking](https://github.com/react-native-community/RNNewArchitectureApp/commit/)
+
+1. Open the `AweseomeApp/android/app/src/main/jni/Android.mk` and update it as it follows:
+    1. Include the library's `Android.mk`
+        ```diff
+        # include $(GENERATED_SRC_DIR)/codegen/jni/Android.mk
+
+        + include $(NODE_MODULES_DIR)/centered-text/android/build/generated/source/codegen/jni/Android.mk
+        include $(CLEAR_VARS)
+        ```
+    1. Add the library to the `LOCAL_SHARED_LIBS`
+        ```diff
+        libreact_codegen_rncore \
+        + libreact_codegen_centeredtext \
+        libreact_debug \
+1. Create a `AwesomeApp/android/app/src/main/java/AppComponentsRegistry.java` with the following code:
+    ```java
+    package com.awesomeapp;
+
+    import com.facebook.jni.HybridData;
+    import com.facebook.proguard.annotations.DoNotStrip;
+    import com.facebook.react.fabric.ComponentFactory;
+    import com.facebook.soloader.SoLoader;
+
+    @DoNotStrip
+    public class AppComponentsRegistry {
+        static {
+            SoLoader.loadLibrary("fabricjni");
+        }
+
+        @DoNotStrip private final HybridData mHybridData;
+
+        @DoNotStrip
+        private native HybridData initHybrid(ComponentFactory componentFactory);
+
+        @DoNotStrip
+        private AppComponentsRegistry(ComponentFactory componentFactory) {
+            mHybridData = initHybrid(componentFactory);
+        }
+
+        @DoNotStrip
+        public static AppComponentsRegistry register(ComponentFactory componentFactory) {
+            return new AppComponentsRegistry(componentFactory);
+        }
+    }
+    ```
+1. Create a `AwesomeApp/android/app/src/main/jni/AppComponentsRegistry.h` with the following code:
+    ```c++
+    #pragma once
+
+    #include <ComponentFactory.h>
+    #include <fbjni/fbjni.h>
+    #include <react/renderer/componentregistry/ComponentDescriptorProviderRegistry.h>
+    #include <react/renderer/componentregistry/ComponentDescriptorRegistry.h>
+
+    namespace facebook {
+    namespace react {
+
+    class AppComponentsRegistry
+        : public facebook::jni::HybridClass<AppComponentsRegistry> {
+    public:
+    constexpr static auto kJavaDescriptor =
+        "Lcom/awesomeapp/AppComponentsRegistry;";
+
+    static void registerNatives();
+
+    AppComponentsRegistry(ComponentFactory *delegate);
+
+    private:
+    friend HybridBase;
+
+    static std::shared_ptr<ComponentDescriptorProviderRegistry const>
+    sharedProviderRegistry();
+
+    const ComponentFactory *delegate_;
+
+    static jni::local_ref<jhybriddata> initHybrid(
+        jni::alias_ref<jclass>,
+        ComponentFactory *delegate);
+    };
+
+    } // namespace react
+    } // namespace facebook
+    ```
+1. Create a `AwesomeApp/android/app/src/main/jni/AppComponentsRegistry.cpp` and add the following code:
+    ```c++
+    #include "AppComponentsRegistry.h"
+
+    #include <CoreComponentsRegistry.h>
+    #include <fbjni/fbjni.h>
+    #include <react/renderer/componentregistry/ComponentDescriptorProviderRegistry.h>
+    #include <react/renderer/components/rncore/ComponentDescriptors.h>
+    #include <react/renderer/components/centeredtext/ComponentDescriptors.h>
+
+    namespace facebook {
+    namespace react {
+
+    AppComponentsRegistry::AppComponentsRegistry(
+        ComponentFactory *delegate)
+        : delegate_(delegate) {}
+
+    std::shared_ptr<ComponentDescriptorProviderRegistry const>
+    AppComponentsRegistry::sharedProviderRegistry() {
+    auto providerRegistry = CoreComponentsRegistry::sharedProviderRegistry();
+
+    providerRegistry->add(concreteComponentDescriptorProvider<CenteredTextComponentDescriptor>());
+
+    return providerRegistry;
+    }
+
+    jni::local_ref<AppComponentsRegistry::jhybriddata>
+    AppComponentsRegistry::initHybrid(
+        jni::alias_ref<jclass>,
+        ComponentFactory *delegate) {
+    auto instance = makeCxxInstance(delegate);
+
+    auto buildRegistryFunction =
+        [](EventDispatcher::Weak const &eventDispatcher,
+            ContextContainer::Shared const &contextContainer)
+        -> ComponentDescriptorRegistry::Shared {
+        auto registry = AppComponentsRegistry::sharedProviderRegistry()
+                            ->createComponentDescriptorRegistry(
+                                {eventDispatcher, contextContainer});
+
+        auto mutableRegistry =
+            std::const_pointer_cast<ComponentDescriptorRegistry>(registry);
+
+        mutableRegistry->setFallbackComponentDescriptor(
+            std::make_shared<UnimplementedNativeViewComponentDescriptor>(
+                ComponentDescriptorParameters{
+                    eventDispatcher, contextContainer, nullptr}));
+
+        return registry;
+    };
+
+    delegate->buildRegistryFunction = buildRegistryFunction;
+    return instance;
+    }
+
+    void AppComponentsRegistry::registerNatives() {
+    registerHybrid({
+        makeNativeMethod("initHybrid", AppComponentsRegistry::initHybrid),
+    });
+    }
+
+    } // namespace react
+    } // namespace facebook
+    ```
+1. Open the `android/app/src/jni/OnLoad.cpp` file and add the following line:
+    ```diff
+    + #include "AppComponentsRegistry.h"
+    // ...
+    facebook::react::AppTurboModuleManagerDelegate::registerNatives();
+    + facebook::react::AppComponentsRegistry::registerNatives();
+    ```
+1. Open the `android/app/src/main/java/com/awesomeapp/MainApplication.java` and update it as it follows:
+    1. Add the following imports:
+        ```java
+        import com.facebook.react.bridge.NativeModule;
+        import com.facebook.react.uimanager.ViewManager;
+        import com.centeredtext.CenteredTextPackage;
+        import java.util.Collections;
+        ```
+    1. In the `getPackages` method, add the following line:
+        ```diff
+        // packages.add(new MyReactNativePackage());
+        + packages.add(new CenteredTextPackage());
+
+        return packages;
+        ```
+    1. In the `getJSIModuleProvider` method, add the following line:
+        ```diff
+        final ComponentFactory componentFactory = new ComponentFactory();
+        CoreComponentsRegistry.register(componentFactory);
+        + AppComponentsRegistry.register(componentFactory);
+        ```
+1. From `AwesomeApp`, run `yarn remove centered-text && yarn add ../centered-text`
+1. `npx react-native run-android`
+
+**Note:** If you followed all the guide until here, you can test the FC on Android by opening the. Otherwise, you'll need also the [Test the Fabric Components](#fc-test) step from iOS.

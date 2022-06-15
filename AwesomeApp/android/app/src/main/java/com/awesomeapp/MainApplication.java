@@ -3,14 +3,9 @@ package com.awesomeapp;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-
-
-
-    import com.facebook.react.uimanager.ViewManagerRegistry;
-    import java.util.ArrayList;
-
 import android.app.Application;
 import android.content.Context;
+import com.centeredtext.CenteredTextPackage;
 import com.facebook.react.bridge.JavaScriptContextHolder;
 import com.facebook.react.bridge.JSIModulePackage;
 import com.facebook.react.bridge.JSIModuleProvider;
@@ -64,6 +59,7 @@ public class MainApplication extends Application implements ReactApplication {
                             public JSIModuleProvider<UIManager> getJSIModuleProvider() {
                             final ComponentFactory componentFactory = new ComponentFactory();
                             CoreComponentsRegistry.register(componentFactory);
+                            AppComponentsRegistry.register(componentFactory);
                             final ReactInstanceManager reactInstanceManager = getReactInstanceManager();
 
                             ViewManagerRegistry viewManagerRegistry =
@@ -109,6 +105,7 @@ public class MainApplication extends Application implements ReactApplication {
                 };
             }
           });
+          packages.add(new CenteredTextPackage());
           return packages;
         }
 
