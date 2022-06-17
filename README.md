@@ -16,7 +16,7 @@ Please find a list of the branches below, with more information on which kind of
 | [`run/android/0.68.0-rc3`](https://github.com/cortinico/RNNewArchitectureApp/commits/run/android/0.68.0-rc3) | A run from an empty project on RN 0.68.0-rc3 using the New Architecture template | ✅ | |
 | [`ios/20220309`](https://github.com/cortinico/RNNewArchitectureApp/commits/ios/20220309) | A run from an empty project starting from 0.67.3 to an app with a Turbomodule and a Fabric component | | ✅ |
 | [`run/from-0.67-to-0.68`](https://github.com/react-native-community/RNNewArchitectureApp/tree/run/from-0.67-to-0.68) | A full migration from RN 0.67 to 0.68 | ✅ | ✅ |
-| [`run/ios/0.68.0-rc.4-typescript`](https://github.com/react-native-community/RNNewArchitectureApp/blob/run/ios/0.68.0-rc.4-typescript) | A migration from RN 0.67 to RN 0.68 with typescript suppport for iOS | | ✅ |
+| [`run/ios/0.68.0-rc.4-typescript`](https://github.com/react-native-community/RNNewArchitectureApp/tree/run/ios/0.68.0-rc.4-typescript) | A migration from RN 0.67 to RN 0.68 with typescript suppport for iOS | | ✅ |
 | [`run/android/0.68.0-rc.4-typescript`](https://github.com/react-native-community/RNNewArchitectureApp/tree/run/android/0.68.0-rc.4-typescript) | A migration from RN 0.67 to RN 0.68 with typescript suppport for Android | ✅ | |
 
 
