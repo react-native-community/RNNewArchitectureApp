@@ -13,7 +13,7 @@ This branch contains all the step executed to:
     * [[Setup] Run npx react-native init AwesomeApp --version 0.67.4](#setup)
     * [[Migration] Upgrade to 0.69](#move-to-0.70)
     * [[iOS] Use Objective-C++ (.mm extension)](#configure-objcpp)
-
+    * [[Android] Configure Gradle for CodeGen](#android-setup)
 
 ## Steps
 
@@ -100,3 +100,84 @@ This branch contains all the step executed to:
 1. Run `npx react-native run-ios`
 
 **Note:** Renaming files in Xcode also updates the `xcodeproj` file automatically.
+
+### <a name="android-setup" />[[Android] Configure Gradle for CodeGen]()
+
+1. Navigate to `AwesomeApp/android` folder
+1. Update Gradle running: `./gradlew wrapper --gradle-version 7.3.3 --distribution-type=all`
+1. Open the `AwesomeApp/android/settings.gradle` file and add the following lines:
+    ```diff
+    apply from: file("../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesSettingsGradle(settings)
+    include ':app'
+    + includeBuild('../node_modules/react-native-gradle-plugin')
+
+    + include(":ReactAndroid")
+    + project(":ReactAndroid").projectDir = file('../node_modules/react-native/ReactAndroid')
+    + include(":ReactAndroid:hermes-engine")
+    + project(":ReactAndroid:hermes-engine").projectDir = file('../node_modules/react-native/ReactAndroid/hermes-engine')
+    ```
+1. Open the `AwesomeApp/android/build.gradle` file and update the gradle dependency:
+    ```diff
+        //...
+        repositories {
+            google()
+            mavenCentral()
+        }
+        dependencies {
+    -        classpath("com.android.tools.build:gradle:4.2.2")
+    +        classpath("com.android.tools.build:gradle:7.2.0")
+
+    +        classpath("com.facebook.react:react-native-gradle-plugin")
+    +        classpath("de.undercouch:gradle-download-task:4.1.2")
+
+            // NOTE: Do not place your application dependencies here; they belong
+            // in the individual module build.gradle files
+
+        }
+    }
+    ```
+1. Open the `android/app/build.gradle` and add the following snippet:
+    ```diff
+    project.ext.react = [
+    -    enableHermes: true,  // clean and rebuild if changing
+    +    enableHermes: true,  // clean and rebuild if changing
+    ]
+    // ...
+
+    }
+
+    if (enableHermes) {
+    -    def hermesPath = "../../node_modules/hermes-engine/android/";
+    -    debugImplementation files(hermesPath + "hermes-debug.aar")
+    -    releaseImplementation files(hermesPath + "hermes-release.aar")
+    +    //noinspection GradleDynamicVersion
+    +    implementation("com.facebook.react:hermes-engine:+") { // From node_modules
+    +        exclude group:'com.facebook.fbjni'
+    +    }
+    } else {
+
+    // ...
+
+    + configurations.all {
+    +     resolutionStrategy.dependencySubstitution {
+    +         substitute(module("com.facebook.react:react-native"))
+    +                 .using(project(":ReactAndroid"))
+    +                 .because("On New Architecture we're building React Native from source")
+    +         substitute(module("com.facebook.react:hermes-engine"))
+    +                .using(project(":ReactAndroid:hermes-engine"))
+    +                .because("On New Architecture we're building Hermes from source")
+    +     }
+    + }
+
+    // Run this once to be able to run the application with BUCK
+    // puts all compile dependencies into folder libs for BUCK to use
+    task copyDownloadableDepsToLibs(type: Copy) {
+    ```
+1. Open the `AwesomeApp/android/app/proguard-rules.pro` and update the file adding these lines:
+    ```sh
+    -keep class com.facebook.hermes.unicode.** { *; }
+    -keep class com.facebook.jni.** { *; }
+    ```
+1. Run `./gradlew clean`
+1. Go back to the `AwesomeApp` folder
+1. `npx react-native run-android` (Don't worry if it takes some time to complete.)

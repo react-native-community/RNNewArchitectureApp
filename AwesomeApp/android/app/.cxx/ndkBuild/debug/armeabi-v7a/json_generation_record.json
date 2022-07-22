@@ -1,0 +1,65 @@
+[
+  {
+    "level": "INFO",
+    "message": "Start JSON generation. Platform version: 21 min SDK version: armeabi-v7a",
+    "file": "/Users/cipolleschi/Community/RNNewArchitectureApp/AwesomeApp/android/app/src/main/jni/Android.mk",
+    "tag": "debug|armeabi-v7a",
+    "diagnosticCode": "UNKNOWN"
+  },
+  {
+    "level": "INFO",
+    "message": "rebuilding JSON /Users/cipolleschi/Community/RNNewArchitectureApp/AwesomeApp/android/app/.cxx/ndkBuild/debug/armeabi-v7a/android_gradle_build.json due to:",
+    "file": "/Users/cipolleschi/Community/RNNewArchitectureApp/AwesomeApp/android/app/src/main/jni/Android.mk",
+    "tag": "debug|armeabi-v7a",
+    "diagnosticCode": "UNKNOWN"
+  },
+  {
+    "level": "INFO",
+    "message": "- expected json /Users/cipolleschi/Community/RNNewArchitectureApp/AwesomeApp/android/app/.cxx/ndkBuild/debug/armeabi-v7a/android_gradle_build.json file is not present, will remove stale json folder",
+    "file": "/Users/cipolleschi/Community/RNNewArchitectureApp/AwesomeApp/android/app/src/main/jni/Android.mk",
+    "tag": "debug|armeabi-v7a",
+    "diagnosticCode": "UNKNOWN"
+  },
+  {
+    "level": "INFO",
+    "message": "- missing previous command file /Users/cipolleschi/Community/RNNewArchitectureApp/AwesomeApp/android/app/.cxx/ndkBuild/debug/armeabi-v7a/build_command.txt, will remove stale json folder",
+    "file": "/Users/cipolleschi/Community/RNNewArchitectureApp/AwesomeApp/android/app/src/main/jni/Android.mk",
+    "tag": "debug|armeabi-v7a",
+    "diagnosticCode": "UNKNOWN"
+  },
+  {
+    "level": "INFO",
+    "message": "- command changed from previous, will remove stale json folder",
+    "file": "/Users/cipolleschi/Community/RNNewArchitectureApp/AwesomeApp/android/app/src/main/jni/Android.mk",
+    "tag": "debug|armeabi-v7a",
+    "diagnosticCode": "UNKNOWN"
+  },
+  {
+    "level": "INFO",
+    "message": "created folder \u0027/Users/cipolleschi/Community/RNNewArchitectureApp/AwesomeApp/android/app/.cxx/ndkBuild/debug/armeabi-v7a\u0027",
+    "file": "/Users/cipolleschi/Community/RNNewArchitectureApp/AwesomeApp/android/app/src/main/jni/Android.mk",
+    "tag": "debug|armeabi-v7a",
+    "diagnosticCode": "UNKNOWN"
+  },
+  {
+    "level": "INFO",
+    "message": "executing ndkBuild Executable : /Users/cipolleschi/Library/Android/sdk/ndk/21.4.7075529/ndk-build\narguments : \nNDK_PROJECT_PATH\u003dnull\nAPP_BUILD_SCRIPT\u003d/Users/cipolleschi/Community/RNNewArchitectureApp/AwesomeApp/android/app/src/main/jni/Android.mk\nAPP_ABI\u003darmeabi-v7a\nNDK_ALL_ABIS\u003darmeabi-v7a\nNDK_DEBUG\u003d1\nAPP_PLATFORM\u003dandroid-21\nNDK_OUT\u003d/Users/cipolleschi/Community/RNNewArchitectureApp/AwesomeApp/android/app/build/intermediates/ndkBuild/debug/obj\nNDK_LIBS_OUT\u003d/Users/cipolleschi/Community/RNNewArchitectureApp/AwesomeApp/android/app/build/intermediates/ndkBuild/debug/lib\nAPP_CFLAGS+\u003d-Wall\nAPP_CFLAGS+\u003d-Werror\nAPP_CFLAGS+\u003d-fexceptions\nAPP_CFLAGS+\u003d-frtti\nAPP_CFLAGS+\u003d-DWITH_INSPECTOR\u003d1\nAPP_CPPFLAGS+\u003d-std\u003dc++17\nAPP_PLATFORM\u003dandroid-21\nAPP_STL\u003dc++_shared\nNDK_TOOLCHAIN_VERSION\u003dclang\nGENERATED_SRC_DIR\u003d/Users/cipolleschi/Community/RNNewArchitectureApp/AwesomeApp/android/app/build/generated/source\nPROJECT_BUILD_DIR\u003d/Users/cipolleschi/Community/RNNewArchitectureApp/AwesomeApp/android/app/build\nREACT_ANDROID_DIR\u003d/Users/cipolleschi/Community/RNNewArchitectureApp/AwesomeApp/android/../node_modules/react-native/ReactAndroid\nREACT_ANDROID_BUILD_DIR\u003d/Users/cipolleschi/Community/RNNewArchitectureApp/AwesomeApp/android/../node_modules/react-native/ReactAndroid/build\nNODE_MODULES_DIR\u003d/Users/cipolleschi/Community/RNNewArchitectureApp/AwesomeApp/android/../node_modules\nAPP_SHORT_COMMANDS\u003dfalse\nLOCAL_SHORT_COMMANDS\u003dfalse\n-B\n-n\njvmArgs : \n\n",
+    "file": "/Users/cipolleschi/Community/RNNewArchitectureApp/AwesomeApp/android/app/src/main/jni/Android.mk",
+    "tag": "debug|armeabi-v7a",
+    "diagnosticCode": "UNKNOWN"
+  },
+  {
+    "level": "INFO",
+    "message": "Executable : /Users/cipolleschi/Library/Android/sdk/ndk/21.4.7075529/ndk-build\narguments : \nNDK_PROJECT_PATH\u003dnull\nAPP_BUILD_SCRIPT\u003d/Users/cipolleschi/Community/RNNewArchitectureApp/AwesomeApp/android/app/src/main/jni/Android.mk\nAPP_ABI\u003darmeabi-v7a\nNDK_ALL_ABIS\u003darmeabi-v7a\nNDK_DEBUG\u003d1\nAPP_PLATFORM\u003dandroid-21\nNDK_OUT\u003d/Users/cipolleschi/Community/RNNewArchitectureApp/AwesomeApp/android/app/build/intermediates/ndkBuild/debug/obj\nNDK_LIBS_OUT\u003d/Users/cipolleschi/Community/RNNewArchitectureApp/AwesomeApp/android/app/build/intermediates/ndkBuild/debug/lib\nAPP_CFLAGS+\u003d-Wall\nAPP_CFLAGS+\u003d-Werror\nAPP_CFLAGS+\u003d-fexceptions\nAPP_CFLAGS+\u003d-frtti\nAPP_CFLAGS+\u003d-DWITH_INSPECTOR\u003d1\nAPP_CPPFLAGS+\u003d-std\u003dc++17\nAPP_PLATFORM\u003dandroid-21\nAPP_STL\u003dc++_shared\nNDK_TOOLCHAIN_VERSION\u003dclang\nGENERATED_SRC_DIR\u003d/Users/cipolleschi/Community/RNNewArchitectureApp/AwesomeApp/android/app/build/generated/source\nPROJECT_BUILD_DIR\u003d/Users/cipolleschi/Community/RNNewArchitectureApp/AwesomeApp/android/app/build\nREACT_ANDROID_DIR\u003d/Users/cipolleschi/Community/RNNewArchitectureApp/AwesomeApp/android/../node_modules/react-native/ReactAndroid\nREACT_ANDROID_BUILD_DIR\u003d/Users/cipolleschi/Community/RNNewArchitectureApp/AwesomeApp/android/../node_modules/react-native/ReactAndroid/build\nNODE_MODULES_DIR\u003d/Users/cipolleschi/Community/RNNewArchitectureApp/AwesomeApp/android/../node_modules\nAPP_SHORT_COMMANDS\u003dfalse\nLOCAL_SHORT_COMMANDS\u003dfalse\n-B\n-n\njvmArgs : \n\n",
+    "file": "/Users/cipolleschi/Community/RNNewArchitectureApp/AwesomeApp/android/app/src/main/jni/Android.mk",
+    "tag": "debug|armeabi-v7a",
+    "diagnosticCode": "UNKNOWN"
+  },
+  {
+    "level": "INFO",
+    "message": "JSON generation completed with problem. Exception: Build command failed.\nError while executing process /Users/cipolleschi/Library/Android/sdk/ndk/21.4.7075529/ndk-build with arguments {NDK_PROJECT_PATH\u003dnull APP_BUILD_SCRIPT\u003d/Users/cipolleschi/Community/RNNewArchitectureApp/AwesomeApp/android/app/src/main/jni/Android.mk APP_ABI\u003darmeabi-v7a NDK_ALL_ABIS\u003darmeabi-v7a NDK_DEBUG\u003d1 APP_PLATFORM\u003dandroid-21 NDK_OUT\u003d/Users/cipolleschi/Community/RNNewArchitectureApp/AwesomeApp/android/app/build/intermediates/ndkBuild/debug/obj NDK_LIBS_OUT\u003d/Users/cipolleschi/Community/RNNewArchitectureApp/AwesomeApp/android/app/build/intermediates/ndkBuild/debug/lib APP_CFLAGS+\u003d-Wall APP_CFLAGS+\u003d-Werror APP_CFLAGS+\u003d-fexceptions APP_CFLAGS+\u003d-frtti APP_CFLAGS+\u003d-DWITH_INSPECTOR\u003d1 APP_CPPFLAGS+\u003d-std\u003dc++17 APP_PLATFORM\u003dandroid-21 APP_STL\u003dc++_shared NDK_TOOLCHAIN_VERSION\u003dclang GENERATED_SRC_DIR\u003d/Users/cipolleschi/Community/RNNewArchitectureApp/AwesomeApp/android/app/build/generated/source PROJECT_BUILD_DIR\u003d/Users/cipolleschi/Community/RNNewArchitectureApp/AwesomeApp/android/app/build REACT_ANDROID_DIR\u003d/Users/cipolleschi/Community/RNNewArchitectureApp/AwesomeApp/android/../node_modules/react-native/ReactAndroid REACT_ANDROID_BUILD_DIR\u003d/Users/cipolleschi/Community/RNNewArchitectureApp/AwesomeApp/android/../node_modules/react-native/ReactAndroid/build NODE_MODULES_DIR\u003d/Users/cipolleschi/Community/RNNewArchitectureApp/AwesomeApp/android/../node_modules APP_SHORT_COMMANDS\u003dfalse LOCAL_SHORT_COMMANDS\u003dfalse -B -n}\nAndroid NDK: ERROR:/Users/cipolleschi/Community/RNNewArchitectureApp/AwesomeApp/android/app/src/main/jni/Android.mk:fb: LOCAL_SRC_FILES points to a missing file    \nAndroid NDK: Check that /Users/cipolleschi/Community/RNNewArchitectureApp/AwesomeApp/android/app/build/react-ndk/exported/armeabi-v7a/libfb.so exists  or that its path is correct   \n\nfcntl(): Bad file descriptor\n/Users/cipolleschi/Library/Android/sdk/ndk/21.4.7075529/build/core/prebuilt-library.mk:45: *** Android NDK: Aborting    .  Stop.\n",
+    "file": "/Users/cipolleschi/Community/RNNewArchitectureApp/AwesomeApp/android/app/src/main/jni/Android.mk",
+    "tag": "debug|armeabi-v7a",
+    "diagnosticCode": "UNKNOWN"
+  }
+]
