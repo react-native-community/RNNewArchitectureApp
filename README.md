@@ -18,6 +18,7 @@ Please find a list of the branches below, with more information on which kind of
 | [`run/from-0.67-to-0.68`](https://github.com/react-native-community/RNNewArchitectureApp/tree/run/from-0.67-to-0.68) | A full migration from RN 0.67 to 0.68 | ✅ | ✅ |
 | [`run/ios/0.68.0-rc.4-typescript`](https://github.com/react-native-community/RNNewArchitectureApp/tree/run/ios/0.68.0-rc.4-typescript) | A migration from RN 0.67 to RN 0.68 with typescript suppport for iOS | | ✅ |
 | [`run/android/0.68.0-rc.4-typescript`](https://github.com/react-native-community/RNNewArchitectureApp/tree/run/android/0.68.0-rc.4-typescript) | A migration from RN 0.67 to RN 0.68 with typescript suppport for Android | ✅ | |
+| [`run/from-0.67-to-0.69`](https://github.com/react-native-community/RNNewArchitectureApp/tree/run/from-0.67-to-0.69) | A full migration from RN 0.67 to 0.68 | ✅ | ✅ |
 
 
 ## Sample Run
