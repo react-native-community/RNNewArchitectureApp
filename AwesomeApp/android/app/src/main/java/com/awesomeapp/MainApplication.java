@@ -1,5 +1,8 @@
 package com.awesomeapp;
 
+import androidx.annotation.NonNull;
+import com.facebook.react.ReactPackageTurboModuleManagerDelegate;
+
 import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;
@@ -32,6 +35,12 @@ public class MainApplication extends Application implements ReactApplication {
         @Override
         protected String getJSMainModuleName() {
           return "index";
+        }
+
+        @NonNull
+        @Override
+        protected ReactPackageTurboModuleManagerDelegate.Builder getReactPackageTurboModuleManagerDelegateBuilder() {
+            return new MainApplicationTurboModuleManagerDelegate.Builder();
         }
       };
 
