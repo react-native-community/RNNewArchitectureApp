@@ -14,6 +14,9 @@ This branch contains all the step executed to:
     * [[Migration] Upgrade to 0.69](#move-to-0.70)
     * [[iOS] Use Objective-C++ (.mm extension)](#configure-objcpp)
     * [[Android] Configure Gradle for CodeGen](#android-setup)
+* TurboModule Setup
+    * [[TurboModule Setup - iOS] Ensure your App Provides an `RCTCxxBridgeDelegate`](#ios-tm)
+
 
 ## Steps
 
@@ -181,3 +184,47 @@ This branch contains all the step executed to:
 1. Run `./gradlew clean`
 1. Go back to the `AwesomeApp` folder
 1. `npx react-native run-android` (Don't worry if it takes some time to complete.)
+
+### <a name="ios-tm" /> [[TurboModule Setup - iOS] Ensure your App Provides an `RCTCxxBridgeDelegate`]()
+
+1. Open the `AppDelegate.mm` file
+1. Add the following imports:
+    ```objc
+    #import <reacthermes/HermesExecutorFactory.h>
+    #import <React/RCTCxxBridgeDelegate.h>
+    #import <React/RCTJSIExecutorRuntimeInstaller.h>
+    ``
+1. Add the following `@interface`, right before the `@implementation` keyword
+    ```obj-c
+    @interface AppDelegate () <RCTCxxBridgeDelegate> {
+    // ...
+    }
+    @end
+    ```
+1. Add the following function at the end of the file, before the `@end` keyword:
+    ```obj-c
+    #pragma mark - RCTCxxBridgeDelegate
+
+    - (std::unique_ptr<facebook::react::JSExecutorFactory>)jsExecutorFactoryForBridge:(RCTBridge *)bridge
+    {
+    return std::make_unique<facebook::react::HermesExecutorFactory>(facebook::react::RCTJSIExecutorRuntimeInstaller([bridge](facebook::jsi::Runtime &runtime) {
+        if (!bridge) {
+            return;
+        }
+        })
+    );
+    }
+    ```
+1. Open the `AwesomeApp/ios/Podfile` and change the `hermes_enabled` from `false` to `true`
+1. Open the `Podfile` and update the pod configurations as it follows:
+    ```diff
+    use_react_native!(
+        :path => config[:reactNativePath],
+        # to enable hermes on iOS, change `false` to `true` and then install pods
+        :hermes_enabled => true,
+    +    :fabric_enabled => true,
+    +    :app_path => "#{Pod::Config.instance.installation_root}/.."
+    )
+    ```
+1. `cd ios && RCT_NEW_ARCH_ENABLED=1 bundle exec pod install`
+1. From the `AwesomeApp` folder, run the app: `npx react-native ru-ios`
