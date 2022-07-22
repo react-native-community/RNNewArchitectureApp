@@ -20,7 +20,7 @@ This branch contains all the step executed to:
     * [[TurboModule Setup - iOS] Install TurboModuleManager JavaScript Bindings](#ios-tm-js-bindings)
     * [[TurboModule Setup - iOS] Enable TurboModule System](#ios-enable-tm)
     * [[TurboModule Setup - Android] Enable NDK and the native build](#turbomodule-ndk)
-
+    * [[TurboModule Setup - Android] Provide a `ReactPackageTurboModuleManagerDelegate`](#java-tm-delegate)
 
 ## Steps
 
@@ -497,3 +497,34 @@ This branch contains all the step executed to:
 1. From the `AwesomeApp` folder, run `npx react-native run-android`
 
 **NOTE:** Make sure that the `targets` property in the `externalNativeBuild/ndkBuild` of the `gradle.build` file matches the `LOCAL_MODULE` property of the `Android.mk` file
+
+### <a name="java-tm-delegate" />[[TurboModule Setup - Android] Provide a `ReactPackageTurboModuleManagerDelegate`]()
+
+1. run this command:
+    ```
+    cp node_modules/react-native/template/android/app/src/main/java/com/helloworld/newarchitecture/modules/MainApplicationTurboModuleManagerDelegate.java android/app/src/main/java/com/awesomeapp/MainApplicationTurboModuleManagerDelegate.java
+    ```
+    This will copy the `MainApplicationTurboModuleManagerDelegate.java` from the template to the proper folder
+1. Open the `android/app/src/main/java/com/awesomeapp/MainApplicationTurboModuleManagerDelegate.java` and update it as follow:
+    ```diff
+    - package com.helloworld.newarchitecture.modules;
+    + package com.awesomeapp;
+
+    import com.facebook.jni.HybridData;
+    import com.facebook.react.ReactPackage;
+
+    // ...
+
+    @Override
+    protected synchronized void maybeLoadOtherSoLibraries() {
+        // Prevents issues with initializer interruptions.
+        if (!sIsSoLibraryLoaded) {
+    -        SoLoader.loadLibrary("helloworld_appmodules");
+    +        SoLoader.loadLibrary("awesomeapp_appmodules");
+            sIsSoLibraryLoaded = true;
+        }
+    }
+
+    ```
+    **Note:** Make sure that parameter of the `SoLoader.loadLibrary` function in the `maybeLoadOtherSoLibraries` is the same name used in the `LOCAL_MODULE` property of the `Android.mk` file.
+1. `npx react-native run-android`
