@@ -12,6 +12,8 @@ This branch contains all the step executed to:
 * App Setup
     * [[Setup] Run npx react-native init AwesomeApp --version 0.67.4](#setup)
     * [[Migration] Upgrade to 0.69](#move-to-0.70)
+    * [[iOS] Use Objective-C++ (.mm extension)](#configure-objcpp)
+
 
 ## Steps
 
@@ -88,3 +90,13 @@ This branch contains all the step executed to:
     ```
 1. Open the `android/gradle.properties` and add the `newArchEnabled=true` property to it.
 1. `npx react-native run-ios && npx react-native run-android`
+
+### <a name="configure-objcpp">[[iOS] Use Objective-C++ (.mm extension)]()
+
+1. Open the `AwesomeApp/ios/AwesomeApp.xcworkspace` in Xcode
+1. Rename all the `.m` files to `.mm`:
+    1. `main.m` will be renamed to `main.mm`
+    1. `AppDelegate.m` will be renamed to `AppDelegate.mm`
+1. Run `npx react-native run-ios`
+
+**Note:** Renaming files in Xcode also updates the `xcodeproj` file automatically.
