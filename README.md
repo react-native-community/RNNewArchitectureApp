@@ -32,6 +32,7 @@ This branch contains all the step executed to:
 * TurboModule
     * [[TurboModule - Shared] Setup calculator](#setup-calculator)
     * [[TurboModule - Shared] Create Flow Spec](#tm-flow-spec)
+    * [[TurboModule - iOS] Setup Codegen](#tm-codegen)
 
 ## Steps
 
@@ -891,4 +892,21 @@ Referring to [this step](https://reactnative.dev/docs/new-architecture-app-modul
     export default (TurboModuleRegistry.get<Spec>(
         'Calculator'
     ): ?Spec);
+    ```
+
+### <a name="tm-codegen">[[TurboModule - iOS] Setup Codegen]()
+
+1. Open the `calculator/package.json` file
+1. Add the following code at the end of the file:
+    ```json
+    ,
+    "codegenConfig": {
+        "libraries": [
+            {
+                "name": "RNCalculatorSpec",
+                "type": "modules",
+                "jsSrcsDir": "src"
+            }
+        ]
+    }
     ```
