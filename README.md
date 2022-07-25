@@ -31,6 +31,7 @@ This branch contains all the step executed to:
     * [[Fabric Setup - Android] Call `setIsFabric` on your Activity’s `ReactRootView`](#set-is-fabric)
 * TurboModule
     * [[TurboModule - Shared] Setup calculator](#setup-calculator)
+    * [[TurboModule - Shared] Create Flow Spec](#tm-flow-spec)
 
 ## Steps
 
@@ -872,4 +873,22 @@ Referring to [this step](https://reactnative.dev/docs/new-architecture-app-modul
             "react-native": "*"
         }
     }
+    ```
+
+### <a name="tm-flow-spec" />[[TurboModule - Shared] Create Flow Spec]()
+
+1. Create a new folder `calculator/src`
+1. Create a new file `calculator/src/NativeCalculator.js` with this code:
+    ```ts
+    // @flow
+    import type { TurboModule } from 'react-native/Libraries/TurboModule/RCTExport';
+    import { TurboModuleRegistry } from 'react-native';
+
+    export interface Spec extends TurboModule {
+        // your module methods go here, for example:
+        add(a: number, b: number): Promise<number>;
+    }
+    export default (TurboModuleRegistry.get<Spec>(
+        'Calculator'
+    ): ?Spec);
     ```
