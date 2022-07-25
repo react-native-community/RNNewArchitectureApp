@@ -22,6 +22,7 @@ This branch contains all the step executed to:
     * [[TurboModule Setup - Android] Enable NDK and the native build](#turbomodule-ndk)
     * [[TurboModule Setup - Android] Provide a `ReactPackageTurboModuleManagerDelegate`](#java-tm-delegate)
     * [[TurboModule Setup - Android] Adapt your ReactNativeHost to use the `ReactPackageTurboModuleManagerDelegate`](#java-tm-adapt-host)
+    * [[TurboModule Setup - Android] C++ Provide a native implementation for the methods in your *TurboModuleDelegate class](#cpp-tm-manager)
 
 ## Steps
 
@@ -547,3 +548,56 @@ This branch contains all the step executed to:
     }
     ```
 1. `npx react-native run-android`
+
+### <a name="cpp-tm-manager" />[[TurboModule Setup - Android] C++ Provide a native implementation for the methods in your *TurboModuleDelegate class]()
+
+Referring to [this step](https://reactnative.dev/docs/new-architecture-app-modules-android#5-c-provide-a-native-implementation-for-the-methods-in-your-turbomoduledelegate-class), we now have to add a few files in the `AwesomeApp/android/app/src/main/jni` folder:
+
+- `MainApplicationTurboModuleManagerDelegate.h`
+- `MainApplicationTurboModuleManagerDelegate.cpp`
+- `MainApplicationModuleProvider.h`
+- `MainApplicationModuleProvider.cpp`
+- `OnLoad.cpp`
+
+1. Run this command from the root of your app.
+    ```
+    cp node_modules/react-native/template/android/app/src/main/jni/MainApplicationTurboModuleManagerDelegate.h android/app/src/main/jni/MainApplicationTurboModuleManagerDelegate.h
+    cp node_modules/react-native/template/android/app/src/main/jni/MainApplicationTurboModuleManagerDelegate.cpp android/app/src/main/jni/MainApplicationTurboModuleManagerDelegate.cpp
+    cp node_modules/react-native/template/android/app/src/main/jni/MainApplicationModuleProvider.h android/app/src/main/jni/MainApplicationModuleProvider.h
+    cp node_modules/react-native/template/android/app/src/main/jni/MainApplicationModuleProvider.cpp android/app/src/main/jni/MainApplicationModuleProvider.cpp
+    cp node_modules/react-native/template/android/app/src/main/jni/OnLoad.cpp android/app/src/main/jni/OnLoad.cpp
+    ```
+    This command will copy these 5 files from the React Native template into your app.
+1. Open the `AwesomeApp/android/app/src/main/jni/MainApplicationTurboModuleManagerDelegate.h` and update it as follows:
+    ```diff
+    // ...
+    class MainApplicationTurboModuleManagerDelegate
+        : public jni::HybridClass<
+          MainApplicationTurboModuleManagerDelegate,
+          TurboModuleManagerDelegate> {
+    public:
+    // Adapt it to the package you used for your Java class.
+    static constexpr auto kJavaDescriptor =
+    -    "Lcom/helloworld/newarchitecture/modules/MainApplicationTurboModuleManagerDelegate;";
+    +    "Lcom/awesomeapp/MainApplicationTurboModuleManagerDelegate;";
+    ```
+1. Open the `AwesomeApp/android/app/src/main/jni/OnLoad.cpp` file and update it as follow:
+    ```diff
+    #include <fbjni/fbjni.h>
+    #include "MainApplicationTurboModuleManagerDelegate.h"
+
+    - #include "MainComponentsRegistry.h"
+    + // #include "MainComponentsRegistry.h"
+
+    JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *vm, void *) {
+        return facebook::jni::initialize(vm, [] {
+            facebook::react::MainApplicationTurboModuleManagerDelegate::
+                registerNatives();
+    -        facebook::react::MainComponentsRegistry::registerNatives();
+    +//        facebook::react::MainComponentsRegistry::registerNatives();
+        });
+    }
+
+    ```
+    Comment out Fabric-specific code, we will need it later.
+1. run `npx react-native run-android`
