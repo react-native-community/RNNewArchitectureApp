@@ -29,6 +29,8 @@ This branch contains all the step executed to:
     * [[Fabric Setup - Android] Provide a `JSIModulePackage` inside your `ReactNativeHost`](#jsimodpackage-in-rnhost)
     * [[Fabric Setup - Android] Provide a MainComponentsRegistry](#fc-setup-registry)
     * [[Fabric Setup - Android] Call `setIsFabric` on your Activity’s `ReactRootView`](#set-is-fabric)
+* TurboModule
+    * [[TurboModule - Shared] Setup calculator](#setup-calculator)
 
 ## Steps
 
@@ -833,3 +835,41 @@ Referring to [this step](https://reactnative.dev/docs/new-architecture-app-modul
     }
     ```
 1. Run  `npx react-native run-android`
+
+### <a name="setup-calculator" /> [[TurboModule - Shared] Setup calculator]()
+
+1. Create a folder at the same level of `AwesomeApp` and call it `calculator`.
+1. Create a `package.json` file and add the following code:
+    ```json
+    {
+        "name": "calculator",
+        "version": "0.0.1",
+        "description": "Calculator TurboModule",
+        "react-native": "src/index",
+        "source": "src/index",
+        "files": [
+            "src",
+            "android",
+            "ios",
+            "calculator.podspec",
+            "!android/build",
+            "!ios/build",
+            "!**/__tests__",
+            "!**/__fixtures__",
+            "!**/__mocks__"
+        ],
+        "keywords": ["react-native", "ios", "android"],
+        "repository": "https://github.com/<your_github_handle>/calculator",
+        "author": "<Your Name> <your_email@your_provider.com> (https://github.com/<your_github_handle>)",
+        "license": "MIT",
+        "bugs": {
+            "url": "https://github.com/<your_github_handle>/calculator/issues"
+        },
+        "homepage": "https://github.com/<your_github_handle>/claculator#readme",
+        "devDependencies": {},
+        "peerDependencies": {
+            "react": "*",
+            "react-native": "*"
+        }
+    }
+    ```
