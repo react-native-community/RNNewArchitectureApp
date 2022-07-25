@@ -23,6 +23,7 @@ This branch contains all the step executed to:
     * [[TurboModule Setup - Android] Provide a `ReactPackageTurboModuleManagerDelegate`](#java-tm-delegate)
     * [[TurboModule Setup - Android] Adapt your ReactNativeHost to use the `ReactPackageTurboModuleManagerDelegate`](#java-tm-adapt-host)
     * [[TurboModule Setup - Android] C++ Provide a native implementation for the methods in your *TurboModuleDelegate class](#cpp-tm-manager)
+    * [[TurboModule Setup - Android] Enable the useTurboModules flag in your Application onCreate](#enable-tm-android)
 
 ## Steps
 
@@ -601,3 +602,24 @@ Referring to [this step](https://reactnative.dev/docs/new-architecture-app-modul
     ```
     Comment out Fabric-specific code, we will need it later.
 1. run `npx react-native run-android`
+
+### <a name="enable-tm-android" />[[TurboModule Setup - Android] Enable the useTurboModules flag in your Application onCreate]()
+
+* Open the `AwesomeApp/android/app/src/main/java/com/awesomeapp/MainApplication.java` file
+* Add the import for the feature flags
+    ```diff
+    import com.facebook.react.ReactPackage;
+    + import com.facebook.react.config.ReactFeatureFlags;
+    import com.facebook.soloader.SoLoader;
+    ```
+* Modify the `OnCreate` file as it follows:
+    ```diff
+        @Override
+        public void onCreate() {
+            super.onCreate();
+    +        ReactFeatureFlags.useTurboModules = true;
+            SoLoader.init(this, /* native exopackage */ false);
+            initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
+        }
+    ```
+* Run `npx react-native run-android`
