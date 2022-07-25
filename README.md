@@ -34,6 +34,7 @@ This branch contains all the step executed to:
     * [[TurboModule - Shared] Create Flow Spec](#tm-flow-spec)
     * [[TurboModule - iOS] Setup Codegen](#tm-codegen)
     * [[TurboModule - iOS] Setup podspec file](#tm-podspec-ios)
+    * [[TurboModule - iOS] Create iOS Implementation](#tm-ios)
 
 ## Steps
 
@@ -949,4 +950,39 @@ Referring to [this step](https://reactnative.dev/docs/new-architecture-app-modul
         s.dependency "RCTTypeSafety"
         s.dependency "ReactCommon/turbomodule/core"
     end
+    ```
+
+### <a name="tm-ios"/>[[TurboModule - iOS] Create iOS Implementation]()
+
+1. Create a `calculator/ios` folder
+1. Create a new file named `RNCalculator.h`
+1. Create a new file named `RNCalculator.mm`
+1. Open the `RNCalculator.h` file and fill it with this code:
+    ```obj-c
+    #import <RNCalculatorSpec/RNCalculatorSpec.h>
+
+    @interface RNCalculator : NSObject <NativeCalculatorSpec>
+
+    @end
+    ```
+1. Replcase the `RNCalculator.mm` with the following code:
+    ```obj-c
+    #import "RNCalculator.h"
+    #import "RNCalculatorSpec.h"
+
+    @implementation RNCalculator
+
+    RCT_EXPORT_MODULE()
+
+    - (void)add:(double)a b:(double)b resolve:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject {
+        NSNumber *result = [[NSNumber alloc] initWithInteger:a+b];
+        resolve(result);
+    }
+
+    - (std::shared_ptr<facebook::react::TurboModule>)getTurboModule:
+        (const facebook::react::ObjCTurboModule::InitParams &)params
+    {
+        return std::make_shared<facebook::react::NativeCalculatorSpecJSI>(params);
+    }
+    @end
     ```
