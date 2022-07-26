@@ -11,7 +11,7 @@ This branch contains all the step executed to:
 
 * App Setup
     * [[Setup] Run npx react-native init AwesomeApp --version 0.67.4](#setup)
-    * [[Migration] Upgrade to 0.69](#move-to-0.70)
+    * [[Migration] Upgrade to 0.70](#move-to-0.70)
     * [[iOS] Use Objective-C++ (.mm extension)](#configure-objcpp)
     * [[Android] Configure Gradle for CodeGen](#android-setup)
 * TurboModule Setup
@@ -50,7 +50,7 @@ This branch contains all the step executed to:
 
 ## Steps
 
-### <a name="setup" />[[Setup] Run npx react-native init AwesomeApp --version 0.67.4]()
+### <a name="setup" />[[Setup] Run npx react-native init AwesomeApp --version 0.67.4](https://github.com/react-native-community/RNNewArchitectureApp/commit/2a0578c052b034d3ac230188e53c24c9a4126e00)
 
 1. `npx react-native init AwesomeApp --version 0.67.4`
 1. `cd AwesomeApp`
@@ -58,7 +58,7 @@ This branch contains all the step executed to:
 1. `npx react-native run-ios`
 1. `npx react-native run-android`
 
-### <a name="move-to-0.70" />[[Migration] Upgrade to 0.70]()
+### <a name="move-to-0.70" />[[Migration] Upgrade to 0.70](https://github.com/react-native-community/RNNewArchitectureApp/commit/bc963df218eb00d73442939231aa5b7057eea3c7)
 
 1. `cd AwesomeApp`
 1. `yarn add react@18.0.0` to upgrade to React18
@@ -124,7 +124,7 @@ This branch contains all the step executed to:
 1. Open the `android/gradle.properties` and add the `newArchEnabled=true` property to it.
 1. `npx react-native run-ios && npx react-native run-android`
 
-### <a name="configure-objcpp">[[iOS] Use Objective-C++ (.mm extension)]()
+### <a name="configure-objcpp">[[iOS] Use Objective-C++ (.mm extension)](https://github.com/react-native-community/RNNewArchitectureApp/commit/818161b084800385db56b95d8933a7aeb359628d)
 
 1. Open the `AwesomeApp/ios/AwesomeApp.xcworkspace` in Xcode
 1. Rename all the `.m` files to `.mm`:
@@ -134,7 +134,7 @@ This branch contains all the step executed to:
 
 **Note:** Renaming files in Xcode also updates the `xcodeproj` file automatically.
 
-### <a name="android-setup" />[[Android] Configure Gradle for CodeGen]()
+### <a name="android-setup" />[[Android] Configure Gradle for CodeGen](https://github.com/react-native-community/RNNewArchitectureApp/commit/71657268d90b42ce7e80f11fa8a595d4e834b5ce)
 
 1. Navigate to `AwesomeApp/android` folder
 1. Update Gradle running: `./gradlew wrapper --gradle-version 7.3.3 --distribution-type=all`
@@ -215,7 +215,7 @@ This branch contains all the step executed to:
 1. Go back to the `AwesomeApp` folder
 1. `npx react-native run-android` (Don't worry if it takes some time to complete.)
 
-### <a name="ios-tm" /> [[TurboModule Setup - iOS] Ensure your App Provides an `RCTCxxBridgeDelegate`]()
+### <a name="ios-tm" /> [[TurboModule Setup - iOS] Ensure your App Provides an `RCTCxxBridgeDelegate`](https://github.com/react-native-community/RNNewArchitectureApp/commit/34f9a9f820f3defd094dc9c86d68681e3f0a1941)
 
 1. Open the `AppDelegate.mm` file
 1. Add the following imports:
@@ -259,7 +259,7 @@ This branch contains all the step executed to:
 1. `cd ios && RCT_NEW_ARCH_ENABLED=1 bundle exec pod install`
 1. From the `AwesomeApp` folder, run the app: `npx react-native ru-ios`
 
-### <a name="ios-tm-manager-delegate" />[[TurboModule Setup - iOS] Provide a TurboModuleManager Delegate]()
+### <a name="ios-tm-manager-delegate" />[[TurboModule Setup - iOS] Provide a TurboModuleManager Delegate](https://github.com/react-native-community/RNNewArchitectureApp/commit/f813b52c88be1888b01ecd35f6f27d515fe8d289)
 
 1. Open the `AwesomeApp/ios/AwesomeApp/AppDelegate.mm`
 1. Add the following imports:
@@ -330,7 +330,7 @@ This branch contains all the step executed to:
     ```
 1. Run `npx react-native run-ios`
 
-### <a name="ios-tm-js-bindings" />[[TurboModule Setup - iOS] Install TurboModuleManager JavaScript Bindings]()
+### <a name="ios-tm-js-bindings" />[[TurboModule Setup - iOS] Install TurboModuleManager JavaScript Bindings](https://github.com/react-native-community/RNNewArchitectureApp/commit/c1eb7590bee13c7f755b4bf1c4f22232a6556781)
 
 1. Open the `AwesomeApp/ios/AwesomeApp/AppDelegate.mm`
 1. Update the `- (std::unique_ptr<facebook::react::JSExecutorFactory>)jsExecutorFactoryForBridge:(RCTBridge *)` method:
@@ -381,7 +381,7 @@ This branch contains all the step executed to:
     ```
 1. Run `npx react-native run-ios`
 
-### <a name="ios-enable-tm" />[[TurboModule Setup - iOS] Enable TurboModule System]()
+### <a name="ios-enable-tm" />[[TurboModule Setup - iOS] Enable TurboModule System](https://github.com/react-native-community/RNNewArchitectureApp/commit/fa6a438a9c94e68d078f7949a540ce22c2a0018d)
 
 1. Open the `AwesomeApp/ios/AwesomeApp/AppDelegate.mm`
 1. Update the `(BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions` method
@@ -395,7 +395,7 @@ This branch contains all the step executed to:
     ```
 1. Run `npx react-native run-ios`
 
-### <a name="turbomodule-ndk" />[[TurboModule Setup - Android] Enable NDK and the native build]()
+### <a name="turbomodule-ndk" />[[TurboModule Setup - Android] Enable NDK and the native build](https://github.com/react-native-community/RNNewArchitectureApp/commit/8929faae0fd4e6515df89b3a49db3a9df2bc4d43)
 
 1. Open the `AwesomeApp/android/app/build.gradle` file and update it as it follows:
     1. Add the following additional configurations:
@@ -524,7 +524,7 @@ This branch contains all the step executed to:
 
 **NOTE:** Make sure that the `targets` property in the `externalNativeBuild/ndkBuild` of the `gradle.build` file matches the `LOCAL_MODULE` property of the `Android.mk` file
 
-### <a name="java-tm-delegate" />[[TurboModule Setup - Android] Provide a `ReactPackageTurboModuleManagerDelegate`]()
+### <a name="java-tm-delegate" />[[TurboModule Setup - Android] Provide a `ReactPackageTurboModuleManagerDelegate`](https://github.com/react-native-community/RNNewArchitectureApp/commit/8929faae0fd4e6515df89b3a49db3a9df2bc4d43)
 
 1. run this command:
     ```
@@ -555,7 +555,7 @@ This branch contains all the step executed to:
     **Note:** Make sure that parameter of the `SoLoader.loadLibrary` function in the `maybeLoadOtherSoLibraries` is the same name used in the `LOCAL_MODULE` property of the `Android.mk` file.
 1. `npx react-native run-android`
 
-### <a name="java-tm-adapt-host" /> [[TurboModule Setup - Android] Adapt your ReactNativeHost to use the `ReactPackageTurboModuleManagerDelegate`]()
+### <a name="java-tm-adapt-host" /> [[TurboModule Setup - Android] Adapt your ReactNativeHost to use the `ReactPackageTurboModuleManagerDelegate`](https://github.com/react-native-community/RNNewArchitectureApp/commit/ac88ff4640dcbe5d31c6cc7ad63e5edaccbdfbcf)
 
 1. Open the `AwesomeApp/android/app/src/java/main/MainApplication.java` file
 1. Add the imports:
@@ -573,7 +573,7 @@ This branch contains all the step executed to:
     ```
 1. `npx react-native run-android`
 
-### <a name="cpp-tm-manager" />[[TurboModule Setup - Android] C++ Provide a native implementation for the methods in your *TurboModuleDelegate class]()
+### <a name="cpp-tm-manager" /> [[TurboModule Setup - Android] C++ Provide a native implementation for the methods in your *TurboModuleDelegate class](https://github.com/react-native-community/RNNewArchitectureApp/commit/c4825a5f70b77d40b179718974611adda8fa99ce)
 
 Referring to [this step](https://reactnative.dev/docs/new-architecture-app-modules-android#5-c-provide-a-native-implementation-for-the-methods-in-your-turbomoduledelegate-class), we now have to add a few files in the `AwesomeApp/android/app/src/main/jni` folder:
 
@@ -626,7 +626,7 @@ Referring to [this step](https://reactnative.dev/docs/new-architecture-app-modul
     Comment out Fabric-specific code, we will need it later.
 1. run `npx react-native run-android`
 
-### <a name="enable-tm-android" />[[TurboModule Setup - Android] Enable the useTurboModules flag in your Application onCreate]()
+### <a name="enable-tm-android" />[[TurboModule Setup - Android] Enable the useTurboModules flag in your Application onCreate](https://github.com/react-native-community/RNNewArchitectureApp/commit/742482884bb3765210f92382cf46ac16a81d08a7)
 
 * Open the `AwesomeApp/android/app/src/main/java/com/awesomeapp/MainApplication.java` file
 * Add the import for the feature flags
@@ -647,7 +647,7 @@ Referring to [this step](https://reactnative.dev/docs/new-architecture-app-modul
     ```
 * Run `npx react-native run-android`
 
-### <a name="fabric-root-view" />[[Fabric Setup - iOS] Update your root view]()
+### <a name="fabric-root-view" />[[Fabric Setup - iOS] Update your root view](https://github.com/react-native-community/RNNewArchitectureApp/commit/46b9b60a21337be564245dd7c5cec24d105dd436)
 
 1. Open the `AwesomeApp/ios/AwesomeApp/AppDelegate.mm` file.
 1. Add the following `imports`:
@@ -690,7 +690,7 @@ Referring to [this step](https://reactnative.dev/docs/new-architecture-app-modul
     ```
 1. From `AwesomeApp`, run `npx react-native run-ios`
 
-### <a name="jsimodpackage-in-rnhost" />[[Fabric Setup - Android] Provide a `JSIModulePackage` inside your `ReactNativeHost`]()
+### <a name="jsimodpackage-in-rnhost" />[[Fabric Setup - Android] Provide a `JSIModulePackage` inside your `ReactNativeHost`](https://github.com/react-native-community/RNNewArchitectureApp/commit/031654609e2aad9aa8de36760391fe81eefe6e94)
 
 1. Open `AwesomeApp/android/app/src/main/java/com/awesomeapp/MainApplication.java`
 1. Add the imports:
@@ -752,7 +752,7 @@ Referring to [this step](https://reactnative.dev/docs/new-architecture-app-modul
     ```
 1. Run `npx react-native run-android`
 
-### <a name="fc-setup-registry" /> [[Fabric Setup - Android] Provide a MainComponentsRegistry]()
+### <a name="fc-setup-registry" /> [[Fabric Setup - Android] Provide a MainComponentsRegistry](https://github.com/react-native-community/RNNewArchitectureApp/commit/5fa308bb8dadabc213560df6953b4a7c35384c6e)
 
 1. Run the following command to copy the `MainComponentsRegistry` files from the template to the app:
     ```sh
@@ -807,7 +807,7 @@ Referring to [this step](https://reactnative.dev/docs/new-architecture-app-modul
     ```
 1. Run `npx react-native run-android`
 
-### <a name="set-is-fabric">[[Fabric Setup - Android] Call `setIsFabric` on your Activity’s `ReactRootView`]()
+### <a name="set-is-fabric">[[Fabric Setup - Android] Call `setIsFabric` on your Activity’s `ReactRootView`](https://github.com/react-native-community/RNNewArchitectureApp/commit/31d64db4359f68defc65f69fe7a1b8c33792135c)
 
 1. Open `AwesomeApp/android/app/src/main/java/com/awesomeapp/MainActivity.java`
 1. Add the following imports:
@@ -852,7 +852,7 @@ Referring to [this step](https://reactnative.dev/docs/new-architecture-app-modul
     ```
 1. Run  `npx react-native run-android`
 
-### <a name="setup-calculator" /> [[TurboModule - Shared] Setup calculator]()
+### <a name="setup-calculator" /> [[TurboModule - Shared] Setup calculator](https://github.com/react-native-community/RNNewArchitectureApp/commit/d6a7713c1360176a96edad0ddb67ef8487760752)
 
 1. Create a folder at the same level of `AwesomeApp` and call it `calculator`.
 1. Create a `package.json` file and add the following code:
@@ -890,7 +890,7 @@ Referring to [this step](https://reactnative.dev/docs/new-architecture-app-modul
     }
     ```
 
-### <a name="tm-flow-spec" />[[TurboModule - Shared] Create Flow Spec]()
+### <a name="tm-flow-spec" />[[TurboModule - Shared] Create Flow Spec](https://github.com/react-native-community/RNNewArchitectureApp/commit/4306ea7230f8d1e46fd176b86bb81a7cdec04990)
 
 1. Create a new folder `calculator/src`
 1. Create a new file `calculator/src/NativeCalculator.js` with this code:
@@ -908,7 +908,7 @@ Referring to [this step](https://reactnative.dev/docs/new-architecture-app-modul
     ): ?Spec);
     ```
 
-### <a name="tm-codegen">[[TurboModule - iOS] Setup Codegen]()
+### <a name="tm-codegen">[[TurboModule - iOS] Setup Codegen](https://github.com/react-native-community/RNNewArchitectureApp/commit/cbf54a22561a811c818e994f2b1d4bb18af3f6ee)
 
 1. Open the `calculator/package.json` file
 1. Add the following code at the end of the file:
@@ -925,7 +925,7 @@ Referring to [this step](https://reactnative.dev/docs/new-architecture-app-modul
     }
     ```
 
-### <a name="tm-podspec-ios">[[TurboModule - iOS] Setup podspec file]()
+### <a name="tm-podspec-ios">[[TurboModule - iOS] Setup podspec file](https://github.com/react-native-community/RNNewArchitectureApp/commit/19a5f27167af83e30c544f24768faeadfb1ecbf2)
 
 1. Create a `calculator/calculator.podspec` file with this code:
     ```ruby
@@ -964,7 +964,7 @@ Referring to [this step](https://reactnative.dev/docs/new-architecture-app-modul
     end
     ```
 
-### <a name="tm-ios"/>[[TurboModule - iOS] Create iOS Implementation]()
+### <a name="tm-ios"/>[[TurboModule - iOS] Create iOS Implementation](https://github.com/react-native-community/RNNewArchitectureApp/commit/3eacbdb17265388ebe38ee38529d1fadd6c24037)
 
 1. Create a `calculator/ios` folder
 1. Create a new file named `RNCalculator.h`
@@ -1003,7 +1003,7 @@ Referring to [this step](https://reactnative.dev/docs/new-architecture-app-modul
     @end
     ```
 
-### <a name="tm-gradle" />[[TurboModule - Android] Setup build.gradle file]()
+### <a name="tm-gradle" />[[TurboModule - Android] Setup build.gradle file](https://github.com/react-native-community/RNNewArchitectureApp/commit/4a6f9996bb91656aeac4df638fcc75093bc428f9)
 
 1. In the `calculator/android` folder, create an `build.gradle` file and add the following code:
     ```js
@@ -1051,7 +1051,7 @@ Referring to [this step](https://reactnative.dev/docs/new-architecture-app-modul
         codegenJavaPackageName = "com.calculator"
     }
     ```
-### <a name="tm-android"/>[[TurboModule - Android] Create Android Implementation]()
+### <a name="tm-android"/>[[TurboModule - Android] Create Android Implementation](https://github.com/react-native-community/RNNewArchitectureApp/commit/98dce52018393ed2b71ddc1ce67688ee9be1b187)
 
 1. Create the following file `calculator/android/src/main/AndroidManifest.xml`:
     ```xml
@@ -1142,7 +1142,7 @@ Referring to [this step](https://reactnative.dev/docs/new-architecture-app-modul
     }
     ```
 
-### <a name="tm-test" />[[TurboModule - Shared] Test the TurboModule]()
+### <a name="tm-test" />[[TurboModule - Shared] Test the TurboModule](https://github.com/react-native-community/RNNewArchitectureApp/commit/0a090e3c28f06dbd5d76cc6ff047ddec066d86e2)
 
 1. Navigate to the `AwesomeApp` folder.
 1. Run `yarn add ../calculator`
@@ -1194,7 +1194,7 @@ Referring to [this step](https://reactnative.dev/docs/new-architecture-app-modul
     ```
 1. Press on `Compute`, to see the app working.
 
-### <a name="setup-fabric-comp" /> [[Fabric Components - Shared] Setup centered-text]()
+### <a name="setup-fabric-comp" /> [[Fabric Components - Shared] Setup centered-text](https://github.com/react-native-community/RNNewArchitectureApp/commit/2ebc78671b39fcebf27559f664fbb96fbec52d8f)
 
 1. Create a folder at the same level of `AwesomeApp` and call it `centered-text`.
 1. Create a `package.json` file and add the following code:
@@ -1232,7 +1232,7 @@ Referring to [this step](https://reactnative.dev/docs/new-architecture-app-modul
     }
     ```
 
-### <a name="fc-flow-spec" />[[Fabric Components - Shared] Create Flow Spec]()
+### <a name="fc-flow-spec" />[[Fabric Components - Shared] Create Flow Spec](https://github.com/react-native-community/RNNewArchitectureApp/commit/9ae75d6893daeabf2a4d864d4c259215c3ddfa48)
 
 1. Create a new folder `centered-text/src`
 1. Create a new file `centered-text/src/CenteredTextNativeComponent.js` with this code:
@@ -1251,7 +1251,7 @@ Referring to [this step](https://reactnative.dev/docs/new-architecture-app-modul
     ): HostComponent<NativeProps>);
     ```
 
-### <a name="fc-codegen-ios">[[Fabric Components - iOS] Setup Codegen]()
+### <a name="fc-codegen-ios">[[Fabric Components - iOS] Setup Codegen](https://github.com/react-native-community/RNNewArchitectureApp/commit/263010700e5aa789f3abbb139d8e3cc25482acc6)
 
 1. Open the `centered-text/package.json` file
 1. Add the following code at the end of the file:
@@ -1268,7 +1268,7 @@ Referring to [this step](https://reactnative.dev/docs/new-architecture-app-modul
     }
     ```
 
-### <a name="fc-podspec-ios">[[Fabric Components - iOS] Setup podspec file]()
+### <a name="fc-podspec-ios">[[Fabric Components - iOS] Setup podspec file](https://github.com/react-native-community/RNNewArchitectureApp/commit/aaaa5eea5b2be7721699be0ffdf0137af007bff8)
 
 1. Create a `centered-text/centered-text.podspec` file with this code:
     ```ruby
@@ -1306,7 +1306,7 @@ Referring to [this step](https://reactnative.dev/docs/new-architecture-app-modul
     end
     ```
 
-### <a name="fc-ios"/>[[Fabric Components - iOS] Create iOS Implementation]()
+### <a name="fc-ios"/>[[Fabric Components - iOS] Create iOS Implementation](https://github.com/react-native-community/RNNewArchitectureApp/commit/289124d43021489c2af6ed8009f801819afb8b33)
 
 1. Create a `centered-text/ios` folder
 1. Create a `RNCenteredTextManager.mm` file with this code:
@@ -1406,7 +1406,7 @@ Referring to [this step](https://reactnative.dev/docs/new-architecture-app-modul
     }
     ```
 
-### <a name="fc-gradle">[[Fabric Components - Android] Setup build.gradle file]()
+### <a name="fc-gradle">[[Fabric Components - Android] Setup build.gradle file](https://github.com/react-native-community/RNNewArchitectureApp/commit/6a0c00179362610ce3dff8a6b8c597791e33df81)
 
 1. In the `centered-text` folder, create an `android` folder
 1. Create an `build.gradle` file and add the following code:
@@ -1456,7 +1456,7 @@ Referring to [this step](https://reactnative.dev/docs/new-architecture-app-modul
     }
     ```
 
-### <a name="fc-android">[[Fabric Components - Android] Create Android Implementation]()
+### <a name="fc-android">[[Fabric Components - Android] Create Android Implementation](https://github.com/react-native-community/RNNewArchitectureApp/commit/e9669743285e324a3c7c443b741bad38eabc7648)
 
 1. Create an `AndroidManifest.xml` file in `centered-text/src/main` with the following content:
     ```xml
@@ -1566,7 +1566,7 @@ Referring to [this step](https://reactnative.dev/docs/new-architecture-app-modul
     }
     ```
 
-### <a name="fc-test" />[[Fabric Components] Test the Fabric Component]()
+### <a name="fc-test" />[[Fabric Components] Test the Fabric Component](https://github.com/react-native-community/RNNewArchitectureApp/commit/eb96f70592c22368fc10416fe51c73e99ce6d575)
 
 1. Navigate to the `AwesomeApp` folder.
 1. Run `yarn add ../centered-text`
