@@ -40,6 +40,7 @@ This branch contains all the step executed to:
     * [[TurboModule - Shared] Test the TurboModule](#tm-test)
 * Fabric Components
     * [[Fabric Components - Shared] Setup centered-text](#setup-fabric-comp)
+    * [[Fabric Components - Shared] Create Flow Spec](#fc-flow-spec)
 
 ## Steps
 
@@ -1219,4 +1220,23 @@ Referring to [this step](https://reactnative.dev/docs/new-architecture-app-modul
             "react-native": "*"
         }
     }
+    ```
+
+### <a name="fc-flow-spec" />[[Fabric Components - Shared] Create Flow Spec]()
+
+1. Create a new folder `centered-text/src`
+1. Create a new file `centered-text/src/CenteredTextNativeComponent.js` with this code:
+    ```ts
+    // @flow strict-local
+    import type {ViewProps} from 'react-native/Libraries/Components/View/ViewPropTypes';
+    import type {HostComponent} from 'react-native';
+    import codegenNativeComponent from 'react-native/Libraries/Utilities/codegenNativeComponent';
+    type NativeProps = $ReadOnly<{|
+    ...ViewProps,
+    text: ?string,
+    // add other props here
+    |}>;
+    export default (codegenNativeComponent<NativeProps>(
+    'RNCenteredText',
+    ): HostComponent<NativeProps>);
     ```
