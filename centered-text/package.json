@@ -27,5 +27,14 @@
     "peerDependencies": {
         "react": "*",
         "react-native": "*"
+    },
+    "codegenConfig": {
+        "libraries": [
+            {
+            "name": "RNCenteredTextSpec",
+            "type": "components",
+            "jsSrcsDir": "src"
+            }
+        ]
     }
 }
