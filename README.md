@@ -41,6 +41,7 @@ This branch contains all the step executed to:
 * Fabric Components
     * [[Fabric Components - Shared] Setup centered-text](#setup-fabric-comp)
     * [[Fabric Components - Shared] Create Flow Spec](#fc-flow-spec)
+    * [[Fabric Components - iOS] Setup Codegen](#fc-codegen-ios)
 
 ## Steps
 
@@ -1243,4 +1244,21 @@ Referring to [this step](https://reactnative.dev/docs/new-architecture-app-modul
     export default (codegenNativeComponent<NativeProps>(
     'RNCenteredText',
     ): HostComponent<NativeProps>);
+    ```
+
+### <a name="fc-codegen-ios">[[Fabric Components - iOS] Setup Codegen]()
+
+1. Open the `centered-text/package.json` file
+1. Add the following code at the end of the file:
+    ```json
+    ,
+    "codegenConfig": {
+        "libraries": [
+            {
+            "name": "RNCenteredTextSpec",
+            "type": "components",
+            "jsSrcsDir": "src"
+            }
+        ]
+    }
     ```
