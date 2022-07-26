@@ -44,6 +44,7 @@ This branch contains all the step executed to:
     * [[Fabric Components - iOS] Setup Codegen](#fc-codegen-ios)
     * [[Fabric Components - iOS] Setup podspec file](#fc-podspec-ios)
     * [[Fabric Components - iOS] Create iOS Implementation](#fc-ios)
+    * [[Fabric Components - Android] Setup build.gradle file](#fc-gradle)
 
 ## Steps
 
@@ -1396,5 +1397,55 @@ Referring to [this step](https://reactnative.dev/docs/new-architecture-app-modul
     Class<RCTComponentViewProtocol> RNCenteredTextCls(void)
     {
     return RNCenteredText.class;
+    }
+    ```
+
+### <a name="fc-codegen-android">[[Fabric Components - Android] Setup build.gradle file]()
+
+1. In the `centered-text` folder, create an `android` folder
+1. Create an `build.gradle` file and add the following code:
+    ```js
+    buildscript {
+        ext.safeExtGet = {prop, fallback ->
+            rootProject.ext.has(prop) ? rootProject.ext.get(prop) : fallback
+        }
+        repositories {
+            google()
+            gradlePluginPortal()
+        }
+        dependencies {
+            classpath("com.android.tools.build:gradle:7.2.0")
+        }
+    }
+
+    apply plugin: 'com.android.library'
+    apply plugin: 'com.facebook.react'
+
+    android {
+        compileSdkVersion safeExtGet('compileSdkVersion', 31)
+
+        defaultConfig {
+            minSdkVersion safeExtGet('minSdkVersion', 21)
+            targetSdkVersion safeExtGet('targetSdkVersion', 31)
+        }
+    }
+
+    repositories {
+        maven {
+            // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
+            url "$projectDir/../node_modules/react-native/android"
+        }
+        mavenCentral()
+        google()
+    }
+
+    dependencies {
+        implementation(project(":ReactAndroid"))
+    }
+
+    react {
+        jsRootDir = file("../src/")
+        libraryName = "centeredtext"
+        codegenJavaPackageName = "com.centeredtext"
     }
     ```
