@@ -46,6 +46,7 @@ This branch contains all the step executed to:
     * [[Fabric Components - iOS] Create iOS Implementation](#fc-ios)
     * [[Fabric Components - Android] Setup build.gradle file](#fc-gradle)
     * [[Fabric Components - Android] Create Android Implementation](#fc-android)
+    * [[Fabric Components - Shared] Test the Fabric Component](#fc-test)
 
 ## Steps
 
@@ -1559,4 +1560,54 @@ Referring to [this step](https://reactnative.dev/docs/new-architecture-app-modul
             return Collections.emptyList();
         }
     }
+    ```
+
+### <a name="fc-test" />[[Fabric Components] Test the Fabric Component]()
+
+1. Navigate to the `AwesomeApp` folder.
+1. Run `yarn add ../centered-text`
+1. Run `rm -rf ios/Pods ios/Podfile.lock ios/build`
+1. Open the `Podfile` and add the following line:
+    ```diff
+    require_relative '../node_modules/react-native/scripts/react_native_pods'
+    require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
+
+    platform :ios, '12.4'
+    + install! 'cocoapods', :deterministic_uuids => false
+    ```
+1. Run `cd ios && RCT_NEW_ARCH_ENABLED=1 pod install`
+1. Run `open AwesomeApp.xcworkspace`
+1. Clean the project with `cmd + shift + k` (This step is required to clean the cache from previous builds)
+1. Run `cd .. && npx react-native run-ios`
+1. Open the `AwesomeApp/android/app/src/main/jni/OnLoad.cpp`
+1. Run `npx react-native run-android`
+1. Update it removing the comments on the commented lines, actually enabling them:
+    ```diff
+    #include <fbjni/fbjni.h>
+    #include "MainApplicationTurboModuleManagerDelegate.h"
+    -// #include "MainComponentsRegistry.h"
+    + #include "MainComponentsRegistry.h"
+
+    JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *vm, void *) {
+    return facebook::jni::initialize(vm, [] {
+        facebook::react::MainApplicationTurboModuleManagerDelegate::
+            registerNatives();
+    -//    facebook::react::MainComponentsRegistry::registerNatives();
+    +    facebook::react::MainComponentsRegistry::registerNatives();
+    });
+    }
+    ```
+1. Open the `AwesomeApp/App.js` file and replace the content with:
+    ```diff
+    } from 'react-native';
+    import Calculator from 'calculator/src/NativeCalculator';
+    + import CenteredText from 'centered-text/src/CenteredTextNativeComponent';
+
+    // ...
+
+        <Text style={{ "margin":20 }}>3+7={result ?? "??"}</Text>
+        <Button title="Compute" onPress={onPress} />
+    +    <CenteredText text="Hello World" style={{width:"100%", height:"30"}} />
+        </SafeAreaView>
+    );
     ```
