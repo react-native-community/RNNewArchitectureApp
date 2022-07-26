@@ -27,6 +27,8 @@ This branch contains all the step executed to:
 * Fabric Setup
     * [[Fabric Setup - iOS] Update your root view](#fabric-root-view)
     * [[Fabric Setup - Android] Provide a `JSIModulePackage` inside your `ReactNativeHost`](#jsimodpackage-in-rnhost)
+    * [[Fabric Setup - Android] Provide a MainComponentsRegistry](#fc-setup-registry)
+
 
 ## Steps
 
@@ -729,5 +731,60 @@ Referring to [this step](https://reactnative.dev/docs/new-architecture-app-modul
             }
         };
     }
+    ```
+1. Run `npx react-native run-android`
+
+### <a name="fc-setup-registry" /> [[Fabric Setup - Android] Provide a MainComponentsRegistry]()
+
+1. Run the following command to copy the `MainComponentsRegistry` files from the template to the app:
+    ```sh
+    cp node_modules/react-native/template/android/app/src/main/jni/MainComponentsRegistry.h android/app/src/main/jni/MainComponentsRegistry.h
+    cp node_modules/react-native/template/android/app/src/main/jni/MainComponentsRegistry.cpp android/app/src/main/jni/MainComponentsRegistry.cpp
+    cp node_modules/react-native/template/android/app/src/main/java/com/helloworld/newarchitecture/components/MainComponentsRegistry.java android/app/src/main/java/com/awesomeapp/MainComponentsRegistry.java
+    ```
+1. Open the `android/app/src/main/java/com/awesomeapp/MainComponentsRegistry.java` file and update the `package`:
+    ```diff
+    - package com.helloworld.newarchitecture.components;
+    + package com.awesomeapp;
+
+    import com.facebook.jni.HybridData;
+    ```
+1. Open the `android/app/src/main/jni/MainComponentRegistry.h` and update it as it follows:
+    ```diff
+    class MainComponentsRegistry
+        : public facebook::jni::HybridClass<MainComponentsRegistry> {
+    public:
+    // Adapt it to the package you used for your Java class.
+    constexpr static auto kJavaDescriptor =
+    -    "Lcom/helloworld/newarchitecture/components/MainComponentsRegistry;";
+    +    "Lcom/awesomeapp/MainComponentsRegistry;";
+
+    static void registerNatives();
+    ```
+1. Open the `AwesomeApp/android/app/src/main/jni/OnLoad.cpp`
+1. Update it removing the comments on the commented lines, actually enabling them:
+    ```diff
+    #include <fbjni/fbjni.h>
+    #include "MainApplicationTurboModuleManagerDelegate.h"
+    -// #include "MainComponentsRegistry.h"
+    + #include "MainComponentsRegistry.h"
+
+    JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *vm, void *) {
+    return facebook::jni::initialize(vm, [] {
+        facebook::react::MainApplicationTurboModuleManagerDelegate::
+            registerNatives();
+    -//    facebook::react::MainComponentsRegistry::registerNatives();
+    +    facebook::react::MainComponentsRegistry::registerNatives();
+    });
+    }
+    ```
+1. Open the `AwesomeApp/android/app/src/main/java/com/awesomeapp/MainApplication.java` and add the following line:
+    ```diff
+    @Override
+    public JSIModuleProvider<UIManager> getJSIModuleProvider() {
+      final ComponentFactory componentFactory = new ComponentFactory();
+      CoreComponentsRegistry.register(componentFactory);
+    +  MainComponentsRegistry.register(componentFactory);
+      final ReactInstanceManager reactInstanceManager = getReactInstanceManager();
     ```
 1. Run `npx react-native run-android`

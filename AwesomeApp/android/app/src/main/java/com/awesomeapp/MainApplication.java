@@ -71,6 +71,7 @@ public class MainApplication extends Application implements ReactApplication {
                       public JSIModuleProvider<UIManager> getJSIModuleProvider() {
                       final ComponentFactory componentFactory = new ComponentFactory();
                       CoreComponentsRegistry.register(componentFactory);
+                      MainComponentsRegistry.register(componentFactory);
                       final ReactInstanceManager reactInstanceManager = getReactInstanceManager();
 
                       ViewManagerRegistry viewManagerRegistry =
