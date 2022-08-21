@@ -172,7 +172,7 @@ This branch contains all the step executed to:
 1. Open the `android/app/build.gradle` and add the following snippet:
     ```diff
     project.ext.react = [
-    -    enableHermes: true,  // clean and rebuild if changing
+    -    enableHermes: false,  // clean and rebuild if changing
     +    enableHermes: true,  // clean and rebuild if changing
     ]
     // ...
