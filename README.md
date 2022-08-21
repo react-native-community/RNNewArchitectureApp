@@ -257,7 +257,7 @@ This branch contains all the step executed to:
     )
     ```
 1. `cd ios && RCT_NEW_ARCH_ENABLED=1 bundle exec pod install`
-1. From the `AwesomeApp` folder, run the app: `npx react-native ru-ios`
+1. From the `AwesomeApp` folder, run the app: `npx react-native run-ios`
 
 ### <a name="ios-tm-manager-delegate" />[[TurboModule Setup - iOS] Provide a TurboModuleManager Delegate](https://github.com/react-native-community/RNNewArchitectureApp/commit/f813b52c88be1888b01ecd35f6f27d515fe8d289)
 
