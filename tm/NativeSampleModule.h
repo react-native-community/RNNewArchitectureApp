@@ -13,42 +13,13 @@
 
 namespace facebook::react {
 
-struct CustomType {
-  std::string key;
-  bool enabled;
-  std::optional<int32_t> time;
-
-  bool operator==(const CustomType &other) const {
-    return key == other.key && enabled == other.enabled && time == other.time;
-  }
-};
-
+#pragma mark Structs
+using CustomType = NativeSampleModuleBaseCustomType<std::string, bool, std::optional<int32_t>>;
 template <>
-struct Bridging<CustomType> {
-  static CustomType fromJs(
-      jsi::Runtime &rt,
-      const jsi::Object &value,
-      const std::shared_ptr<CallInvoker> &jsInvoker) {
-    return CustomType{
-        .key = bridging::fromJs<std::string>(
-            rt, value.getProperty(rt, "key"), jsInvoker),
-        .enabled = bridging::fromJs<bool>(
-            rt, value.getProperty(rt, "enabled"), jsInvoker),
-        .time = bridging::fromJs<std::optional<int32_t>>(
-            rt, value.getProperty(rt, "time"), jsInvoker)};
-  }
+struct Bridging<CustomType>
+    : NativeSampleModuleBaseCustomTypeBridging<std::string, bool, std::optional<int32_t>> {};
 
-  static jsi::Object toJs(jsi::Runtime &rt, const CustomType &value) {
-    auto result = facebook::jsi::Object(rt);
-    result.setProperty(rt, "key", bridging::toJs(rt, value.key));
-    result.setProperty(rt, "enabled", bridging::toJs(rt, value.enabled));
-    if (value.time) {
-      result.setProperty(rt, "time", bridging::toJs(rt, value.time.value()));
-    }
-    return result;
-  }
-};
-
+#pragma mark Implementation
 class NativeSampleModule : public NativeSampleModuleCxxSpec<NativeSampleModule> {
  public:
   NativeSampleModule(std::shared_ptr<CallInvoker> jsInvoker);
