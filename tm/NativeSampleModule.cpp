@@ -14,4 +14,11 @@ int32_t NativeSampleModule::passLargeNumber(jsi::Runtime& rt, int64_t input) {
     return std::cbrt(input);
 }
 
+CustomType NativeSampleModule::passCustomType(jsi::Runtime& rt, CustomType input) {
+  input.key = "1909";
+  input.enabled = !input.enabled;
+  input.time = 42;
+  return input;
+}
+
 } // namespace facebook::react
