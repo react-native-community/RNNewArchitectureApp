@@ -80,6 +80,9 @@ function App(): JSX.Element {
           <Section title="Cxx TurboModule">
             NativeSampleModule.reverseString(...) = {NativeSampleModule.reverseString("the quick brown fox jumps over the lazy dog")}
           </Section>
+          <Section title="Cxx TurboModule">
+              NativeSampleModule.passLargeNumber(...) = {NativeSampleModule.passLargeNumber("9223372036854775807")}
+          </Section>
           <Section title="Step One">
             Edit <Text style={styles.highlight}>App.tsx</Text> to change this
             screen and then come back to see your edits.
