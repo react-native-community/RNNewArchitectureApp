@@ -1,6 +1,7 @@
 {
   "name": "cxxtmsample",
   "version": "0.0.1",
+  "description": "React Native with Cxx Turbo Native Modules",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
@@ -9,6 +10,9 @@
     "start": "react-native start",
     "test": "jest"
   },
+  "author": "<Your Name> <your_email@your_provider.com> (https://github.com/<your_github_handle>)",
+  "license": "MIT",
+  "homepage": "https://github.com/<your_github_handle>/#readme",
   "dependencies": {
     "react": "18.2.0",
     "react-native": "0.71.0-rc.2"
@@ -34,5 +38,13 @@
   },
   "jest": {
     "preset": "react-native"
+  },
+  "codegenConfig": {
+    "name": "AppSpecs",
+    "type": "all",
+    "jsSrcsDir": "tm",
+    "android": {
+      "javaPackageName": "com.facebook.fbreact.specs"
+    }
   }
 }

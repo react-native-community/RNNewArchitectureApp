@@ -28,6 +28,10 @@ target 'cxxtmsample' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
+  if ENV['RCT_NEW_ARCH_ENABLED'] == '1'
+    pod 'TurboModules', :path => "./../tm"
+  end
+
   target 'cxxtmsampleTests' do
     inherit! :complete
     # Pods for testing
