@@ -1,59 +1,138 @@
-# React Native New Architecture Sample
+# View Flattening on iOS
 
-This repo contains several branches that will help you understand how to setup your project for the **React Native New Architecture**. This should considered as a support material of [the official migration guide](https://reactnative.dev/docs/next/new-architecture-intro).
+View Flattening is an optimisation by the new React Native renderer to avoid deep layout trees.
 
-Here you will find **runs of the migration guide** on empty projects. Every commit is **documented** and allows to follow over on every step.
+The React API is designed to be declarative and reusable through composition. This is great for 
+intuitive development but it leads to deep [React Element Trees](https://reactnative.dev/architecture/glossary#react-element-tree-and-react-element) 
+where component affect the layout but don’t paint anything on the screen. 
+We call these types of components *Layout-Only*. Flatter view hierarchy has lower memory usage and faster drawing times. 
 
-Some branches also have a `RUN.md` (example: [`ios/20220309`](https://github.com/cortinico/RNNewArchitectureApp/blob/ios/20220309/RUN.md)) file that can help you follow the commits with additional context.
+Some requirements for a component to be *Layout-Only*:
+- Pure `<View />`, not a subclass.
+- No event listeners.
+- [nativeID](https://reactnative.dev/docs/view#nativeid) is not defined.
+- Is not accessible element.
+- Full opacity.
+- No background colour.
+- No transform.
+- No shadow.
+- No zIndex.
 
-Please find a list of the branches below, with more information on which kind of setup they're addressing.
+## Common sources of *Layout-Only* components
 
-## Branches
+### Adding padding/margin to components
 
-| Branch name | Description | Android | iOS |
-| --- | --- | --- | --- |
-| [`run/from-0.67-to-0.69`](https://github.com/react-native-community/RNNewArchitectureApp/tree/run/from-0.67-to-0.69) | A full migration from RN 0.67 to 0.69 | ✅ | ✅ |
-| [`run/from-0.67-to-0.70`](https://github.com/react-native-community/RNNewArchitectureApp/tree/run/from-0.67-to-0.70) | A full migration from RN 0.67 to 0.70 | ✅ | ✅ |
-| [`run/pure-cxx-module`](https://github.com/react-native-community/RNNewArchitectureApp/tree/run/pure-cxx-module) | A step-by-step guide on how to integrate a Pure C++ module in a React Native 0.71.0-RC.2 app. Thanks to [@christophpurrer](https://github.com/christophpurrer) for the guide | ✅ | ✅ |
+Let's take an example of component that shows image with a title and call it `ImageWithTitle`. 
+We would like to add some space between the component and the surrounding content.
 
-## Sample Run
+```jsx
 
-A sample run will have commits marked as `[TurboModule]` or `[Fabric]` to clarify which aspect of the New Architecture is involved.
-For example, for the [`run/android/20220202`](https://github.com/cortinico/RNNewArchitectureApp/commits/run/android/20220202) branch will look like the following:
+function ImageWithTitle(props) {
+    return (
+        <View style={{padding: 10}}>
+            <Image source={{uri: props.image}} />
+            <Text>{props.title}</Text>
+        </View>
+    );
+}
+```
 
-* [582a8a7](https://github.com/cortinico/RNNewArchitectureApp/commit/582a8a7) `[Fabric] Use the new Fabric custom component`
-* [adeee8b](https://github.com/cortinico/RNNewArchitectureApp/commit/adeee8b) `[Fabric] Register the MainComponentsRegistry`
-* [5e7d88f](https://github.com/cortinico/RNNewArchitectureApp/commit/5e7d88f) `[Fabric] Add a MainComponentsRegistry for the application`
-* [8afa19e](https://github.com/cortinico/RNNewArchitectureApp/commit/8afa19e) `[Fabric] Add a React Package that will load the ViewManager`
-* [c893370](https://github.com/cortinico/RNNewArchitectureApp/commit/c893370) `[Fabric] Create the corresponding ViewManager`
-* [32885f5](https://github.com/cortinico/RNNewArchitectureApp/commit/32885f5) `[Fabric] Create a custom component spec file`
-* [5408f18](https://github.com/cortinico/RNNewArchitectureApp/commit/5408f18) `[Fabric] call setIsFabric(true) in the MainActivity`
-* [20a8378](https://github.com/cortinico/RNNewArchitectureApp/commit/20a8378) `[Fabric] Provide the JSI Module Package`
-* [cf1378e](https://github.com/cortinico/RNNewArchitectureApp/commit/cf1378e) `[TurboModule] Let's try to use this TurboModule`
-* [a80cea1](https://github.com/cortinico/RNNewArchitectureApp/commit/a80cea1) `[TurboModule] Enable TurboModule system in the Android App`
-* [d8884c2](https://github.com/cortinico/RNNewArchitectureApp/commit/d8884c2) `[TurboModule] Add the C++ implementation for MainApplicationTurboModuleManagerDelegate`
-* [f6d2e81](https://github.com/cortinico/RNNewArchitectureApp/commit/f6d2e81) `[TurboModule] Register a new TurboModulePackage`
-* [7ae59dd](https://github.com/cortinico/RNNewArchitectureApp/commit/7ae59dd) `[TurboModule] Install the ReactPackageTurboModuleManagerDelegateBuilder`
-* [4dfcfa6](https://github.com/cortinico/RNNewArchitectureApp/commit/4dfcfa6) `[TurboModule] Setup the NDK Build for the Android app`
-* [a0cf888](https://github.com/cortinico/RNNewArchitectureApp/commit/a0cf888) `[TurboModule] Implement the generated native spec interface`
-* [ba3f2a4](https://github.com/cortinico/RNNewArchitectureApp/commit/ba3f2a4) `[TurboModule] Configure the codegen with libraryname and Java package`
-* [7da902f](https://github.com/cortinico/RNNewArchitectureApp/commit/7da902f) `[TurboModule] Add a NativeModule Spec file`
-* [cb0eceb](https://github.com/cortinico/RNNewArchitectureApp/commit/cb0eceb) `Setup the React Gradle Plugin`
-* [66ca29b](https://github.com/cortinico/RNNewArchitectureApp/commit/66ca29b) `Build React Native from Source`
-* [be102a1](https://github.com/cortinico/RNNewArchitectureApp/commit/be102a1) `Enable Hermes`
-* [4357af9](https://github.com/cortinico/RNNewArchitectureApp/commit/4357af9) `Bump React Native to a nightly version`
-* [a3866a1](https://github.com/cortinico/RNNewArchitectureApp/commit/a3866a1) `Result of npx react-native init`
+The top most `<View />`, which adds padding, doesn't paint anything to the screen. If we delete [host view](https://reactnative.dev/architecture/glossary#host-view-tree-and-host-view) representing the top most `<View />`, it will not affect what is drawn on the screen. Framework applies padding to its children to make sure they are correctly positioned on the screen.
 
-## Older Branches
+### Components in row/column
+A common requirement is to place elements in a row or column. 
+For this example, we want to display names of two people with company name under the name.
+To group person's name with company name, it has to be wrapped in a `<View />` component to create new flex container.
 
-Here we collect older branches that are working, but no longer relevant.
+```JSX
+<View style={{flexDirection:'row'}}>
+    <View>
+        <Text>Alice</Text>
+        <Text>Company A</Text>
+    </View>
+    <View>
+        <Text>Bob</Text>
+        <Text>Company B</Text>
+    </View>
+</View>
+```
 
-| Branch name | Description | Android | iOS |
-| --- | --- | --- | --- |
-| [`run/android/0.68.0-rc2`](https://github.com/cortinico/RNNewArchitectureApp/commits/run/android/0.68.0-rc2) | A run from an empty project on RN 0.68.0-rc2 using the New Architecture template | ✅ | |
-| [`run/android/20220202`](https://github.com/cortinico/RNNewArchitectureApp/commits/run/android/20220202) | A run from an empty project on RN 0.67.2, migrated to run on a RN nightly version `0.0.0-20211205-2008-583471bc4`. Here you can see all the step-by-step migration needed for an app coming from RN 0.67 | ✅ | |
-| [`run/android/0.68.0-rc3`](https://github.com/cortinico/RNNewArchitectureApp/commits/run/android/0.68.0-rc3) | A run from an empty project on RN 0.68.0-rc3 using the New Architecture template | ✅ | |
-| [`ios/20220309`](https://github.com/cortinico/RNNewArchitectureApp/commits/ios/20220309) | A run from an empty project starting from 0.67.3 to an app with a Turbomodule and a Fabric component | | ✅ |
-| [`run/from-0.67-to-0.68`](https://github.com/react-native-community/RNNewArchitectureApp/tree/run/from-0.67-to-0.68) | A full migration from RN 0.67 to 0.68 | ✅ | ✅ |
-| [`run/ios/0.68.0-rc.4-typescript`](https://github.com/react-native-community/RNNewArchitectureApp/tree/run/ios/0.68.0-rc.4-typescript) | A migration from RN 0.67 to RN 0.68 with typescript suppport for iOS | | ✅ |
-| [`run/android/0.68.0-rc.4-typescript`](https://github.com/react-native-community/RNNewArchitectureApp/tree/run/android/0.68.0-rc.4-typescript) | A migration from RN 0.67 to RN 0.68 with typescript suppport for Android | ✅ | |
+There are three `<View />` components. One is setting `flexDirection: row` and the other two group components into separate flex containers. 
+Neither of them paint anything to the screen. 
+
+## Positioning components in a flat list item
+
+For a more complex example, we are going to build an item in flat list showing movie screening details. Our item will display name, genre, thumbnail, place and time of a screening. 
+
+<details>
+  <summary>Movie component</summary>
+
+```jsx
+import React from 'react';
+import {SafeAreaView, StyleSheet, Text, View, Image} from 'react-native';
+
+function Movie(props) {
+  return (
+    <View style={styles.wrapper}>
+      <View style={styles.movieInfo}>
+        <View style={styles.thumbnail} />
+        <View style={styles.movieNameAndGenre}>
+          <Text>{props.title}</Text>
+          <Text style={styles.subtitle}>{props.genre}</Text>
+        </View>
+      </View>
+      <View style={styles.eventInfo}>
+        <Text>{props.time}</Text>
+        <Text>{props.place}</Text>
+      </View>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+     wrapper: { 
+        padding: 10, 
+        flexDirection: 'row', 
+        alignItems: 'center',
+    },
+    subtitle: {
+        color: 'grey',
+    },
+    movieNameAndGenre: {
+        marginLeft: 10,
+    },
+    thumbnail: {
+        width: 60,
+        height: 60,
+        backgroundColor: 'blue',
+    },
+    eventInfo: {
+        marginLeft: 'auto',
+    }
+    movieInfo: {
+        flexDirection: 'row', 
+        alignItems:'center', 
+    }
+});
+```
+</details>
+
+The following screenshow shows what view hierarchy is painted without flattening. All views have red border to
+make "Layout-Only" components visible.
+
+![Item](./images/row-baseline.png)
+
+The second screenshot shows what view hierarchy is painted with with flattening enabled. Four *Layout-Only* views were removed without affecting visual appearance.
+
+![Item](./images/row-with-view-flattening.png)
+
+
+## RNTester
+
+Here are screenshots of what the view hierarchy looks like in [RNTester](https://github.com/facebook/react-native/tree/main/packages/rn-tester). 
+
+View hierarchy without flattening.
+![View hierarchy](./images/rn-tester-baseline.jpg)
+
+View hierarchy with flattening.
+![View hierarchy with view flattening](./images/rn-tester-with-flattening.jpg)

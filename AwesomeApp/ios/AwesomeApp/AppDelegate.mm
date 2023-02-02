@@ -33,4 +33,8 @@
   return true;
 }
 
+- (BOOL)fabricEnabled {
+  return YES;
+}
+
 @end
