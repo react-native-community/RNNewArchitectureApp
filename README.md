@@ -1,11 +1,12 @@
 # View Flattening on iOS
 
-View Flattening is an optimisation by the new React Native renderer to avoid deep layout trees.
+View Flattening on iOS is an optimisation by the new React Native renderer to avoid deep layout trees.
 
 The React API is designed to be declarative and reusable through composition. This is great for 
 intuitive development but it leads to deep [React Element Trees](https://reactnative.dev/architecture/glossary#react-element-tree-and-react-element) 
 where component affect the layout but don’t paint anything on the screen. 
 We call these types of components *Layout-Only*. Flatter view hierarchy has lower memory usage and faster drawing times. 
+
 
 Some requirements for a component to be *Layout-Only*:
 - Pure `<View />`, not a subclass.
@@ -22,11 +23,10 @@ Some requirements for a component to be *Layout-Only*:
 
 ### Adding padding/margin to components
 
-Let's take an example of component that shows image with a title and call it `ImageWithTitle`. 
+Let's take an example of component that shows image with a title and call it [ImageWithTitle](./AwesomeApp/ImageWithTitle.tsx). 
 We would like to add some space between the component and the surrounding content.
 
 ```jsx
-
 function ImageWithTitle(props) {
     return (
         <View style={{padding: 10}}>
@@ -39,9 +39,9 @@ function ImageWithTitle(props) {
 
 The top most `<View />`, which adds padding, doesn't paint anything to the screen. If we delete [host view](https://reactnative.dev/architecture/glossary#host-view-tree-and-host-view) representing the top most `<View />`, it will not affect what is drawn on the screen. Framework applies padding to its children to make sure they are correctly positioned on the screen.
 
-### Components in row/column
+### Components in a row
 A common requirement is to place elements in a row or column. 
-For this example, we want to display names of two people with company name under the name.
+For this example, we want to display names of two people with company name under the name, [NameList](./AwesomeApp/NameList.tsx).
 To group person's name with company name, it has to be wrapped in a `<View />` component to create new flex container.
 
 ```JSX
@@ -62,10 +62,11 @@ Neither of them paint anything to the screen.
 
 ## Positioning components in a flat list item
 
-For a more complex example, we are going to build an item in flat list showing movie screening details. Our item will display name, genre, thumbnail, place and time of a screening. 
+For a more complex example, we are going to build an item in a flat list showing movie screening details. 
+The component, called [MovieDetails](./AwesomeApp/MovieDetails.tsx), will display name, genre, thumbnail, place and time of a screening. 
 
 <details>
-  <summary>Movie component</summary>
+  <summary>MovieDetails component</summary>
 
 ```jsx
 import React from 'react';
@@ -90,7 +91,7 @@ function Movie(props) {
 }
 
 const styles = StyleSheet.create({
-     wrapper: { 
+    wrapper: { 
         padding: 10, 
         flexDirection: 'row', 
         alignItems: 'center',
@@ -108,7 +109,7 @@ const styles = StyleSheet.create({
     },
     eventInfo: {
         marginLeft: 'auto',
-    }
+    },
     movieInfo: {
         flexDirection: 'row', 
         alignItems:'center', 
@@ -117,7 +118,7 @@ const styles = StyleSheet.create({
 ```
 </details>
 
-The following screenshow shows what view hierarchy is painted without flattening. All views have red border to
+The following screenshot show what view hierarchy is painted without flattening. All views have red border to
 make "Layout-Only" components visible.
 
 ![Item](./images/row-baseline.png)
