@@ -21,6 +21,7 @@ Please find a list of the branches below, with more information on which kind of
 | [`run/from-0.67-to-0.69`](https://github.com/react-native-community/RNNewArchitectureApp/tree/run/from-0.67-to-0.69) | A full migration from RN 0.67 to 0.69 | ✅ | ✅ |
 | [`run/from-0.67-to-0.70`](https://github.com/react-native-community/RNNewArchitectureApp/tree/run/from-0.67-to-0.70) | A full migration from RN 0.67 to 0.70 | ✅ | ✅ |
 | [`run/pure-cxx-module`](https://github.com/react-native-community/RNNewArchitectureApp/tree/run/pure-cxx-module) | A step-by-step guide on how to integrate a Pure C++ module in a React Native 0.71.0-RC.2 app. Thanks to [@christophpurrer](https://github.com/christophpurrer) for the guide | ✅ | ✅ |
+| [`view-flattening-ios`](https://github.com/sammy-SC/RNNewArchitectureApp/tree/view-flattening-ios) | Examples of View Flattening on iOS  | | ✅ |
 
 ## Sample Run
 
