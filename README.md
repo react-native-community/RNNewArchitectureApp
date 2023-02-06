@@ -5,8 +5,7 @@ View Flattening on iOS is an optimisation by the new React Native renderer to av
 The React API is designed to be declarative and reusable through composition. This is great for 
 intuitive development but it leads to deep [React Element Trees](https://reactnative.dev/architecture/glossary#react-element-tree-and-react-element) 
 where component affect the layout but don’t paint anything on the screen. 
-We call these types of components *Layout-Only*. Flatter view hierarchy has lower memory usage and faster drawing times. 
-
+We call these types of components *Layout-Only*. Flatter view hierarchy has lower memory usage and faster drawing times.
 
 Some requirements for a component to be *Layout-Only*:
 - Pure `<View />`, not a subclass.
@@ -15,9 +14,7 @@ Some requirements for a component to be *Layout-Only*:
 - Is not accessible element.
 - Full opacity.
 - No background colour.
-- No transform.
-- No shadow.
-- No zIndex.
+- [Rest of the requirements](https://github.com/facebook/react-native/blob/main/ReactCommon/react/renderer/components/view/ViewShadowNode.cpp#L45-L67)
 
 ## Common sources of *Layout-Only* components
 
@@ -130,7 +127,8 @@ The second screenshot shows what view hierarchy is painted with with flattening 
 
 ## RNTester
 
-Here are screenshots of what the view hierarchy looks like in [RNTester](https://github.com/facebook/react-native/tree/main/packages/rn-tester). 
+Here are screenshots of what the view hierarchy looks like in [RNTester](https://github.com/facebook/react-native/tree/main/packages/rn-tester) with and without view flattening.
+This is closer to a real world app.
 
 View hierarchy without flattening.
 ![View hierarchy](./images/rn-tester-baseline.jpg)
