@@ -1,6 +1,9 @@
 # View Flattening on iOS
 
-View Flattening on iOS is an optimisation by the new React Native renderer to avoid deep layout trees.
+View Flattening was Android only optimisation to avoid deep layout trees.
+The new React Native renderer, with shared C++ core, brings this feature to iOS.
+This optimisation is automatic and does not require a setup.
+Understanding of this article is not needed to make use of View Flattening.
 
 The React API is designed to be declarative and reusable through composition. This is great for 
 intuitive development but it leads to deep [React Element Trees](https://reactnative.dev/architecture/glossary#react-element-tree-and-react-element) 
