@@ -8,7 +8,7 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 
-function MovieDetails(props: {
+function Movie(props: {
   title: string;
   genre: string;
   time: string;
@@ -57,4 +57,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MovieDetails;
+export default Movie;

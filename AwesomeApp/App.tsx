@@ -9,7 +9,7 @@ import React from 'react';
 import { StyleSheet, Text, View, Image, ScrollView, SafeAreaView } from 'react-native';
 import ImageWithTitle from './ImageWithTitle';
 import NameList from './NameList';
-import MovieDetails from './Movie';
+import Movie from './Movie';
 
 function App(): JSX.Element {
   return (
@@ -26,8 +26,8 @@ function App(): JSX.Element {
       <View style={styles.sectionBreak} />
 
       <Text style={styles.sectionTitle}>Positioning components in a flat list item</Text>
-      <MovieDetails title="Movie 1" genre="Drama" time="17:00" place="Theater A" />
-      <MovieDetails title="Movie 2" genre="Comedy" time="19:00" place="Theater B" />
+      <Movie title="Movie 1" genre="Drama" time="17:00" place="Theater A" />
+      <Movie title="Movie 2" genre="Comedy" time="19:00" place="Theater B" />
 
     </SafeAreaView>
   );
