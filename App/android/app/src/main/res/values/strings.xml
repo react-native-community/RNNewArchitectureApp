@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">RN Benchmark App</string>
+    <string name="title_activity_main_navigation">Benchmarks</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="new_architecture_fragment_label">New Architecture</string>
+    <string name="old_architecture_fragment_label">Old Architecture</string>
+    <string name="new_architecture_fragment">New Architecture</string>
+    <string name="old_architecture_fragment">Old Architecture: %1$s</string>
+</resources>
