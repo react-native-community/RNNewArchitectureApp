@@ -15,7 +15,7 @@ The update starts when the “Touch ended” event is triggered. “Touch ended�
 The update is finished when the results are painted on the screen. React Native does not provide a timestamp for when the results are painted on the screen out of the box. We will have to write a small native component that will do it for us. The native component has “marker name” as its prop. Using host platform APIs, we can precisely capture when the component was painted. Now we subtract the timestamp of when the update was initiated, stored in `RTNTimeToRender`*,* and we know how long it took to paint the result.
 
 ![Render diagram](./images/render-diagram-light.png#gh-light-mode-only)
-![Render diagram](./images/render-diagram-dark.png#gh-light-mode-only)
+![Render diagram](./images/render-diagram-dark.png#gh-dark-mode-only)
 
 ## Results
 
@@ -47,7 +47,11 @@ Each value presented here is an average of five measurements. The measurements w
 
 If you're interested in comparing the performance of your own components between the old and New Architectures, you can easily do so by heading to App.tsx. Simply add your own code, compile the app with optimisations, and run your tests. The app will display the time it took to render your components. You can switch between the old and New Architectures using the buttons at the bottom. Happy testing!
 
-|![Exampel App 1](./images/example-app-1.jpg)|![Exampel App 2](./images/example-app-2.jpg)|
+
+<p float="left">
+  <img src="./images/example-app-1.jpg" width="350" />
+  <img src="./images/example-app-2.jpg" width="350" /> 
+</p>
 
 ## Performance gaps
 
