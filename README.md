@@ -1,60 +1,61 @@
-# React Native New Architecture Sample
+## New Architecture Benchmarks
 
-This repo contains several branches that will help you understand how to setup your project for the **React Native New Architecture**. This should considered as a support material of [the official migration guide](https://reactnative.dev/docs/next/new-architecture-intro).
+Thanks to everyone who created benchmarks to compare the old and New Architectures. These benchmarks have helped us to identify [performance gaps](#performance-gaps) in the New Architecture. I want to reassure our users that the React Native team is fully committed to rolling out the New Architecture without introducing any regressions. 
 
-Here you will find **runs of the migration guide** on empty projects. Every commit is **documented** and allows to follow over on every step.
+We have prepared an app that consolidates several performance scenarios into a single place. The source code is available in Github repo with instructions how to install it and run the benchmarks. It has a way to switch between old and the New Architecture without the need to rebuild, making it easy to compare the two. It measures the time it takes to render results of an update on screen and display it on screen. Section [How we measured time to render for the benchmarks](#how-we-measured-time-to-render-for-the-benchmarks) covers this more in depth. The results are listed in [Results](#results) section.
 
-Some branches also have a `RUN.md` (example: [`ios/20220309`](https://github.com/cortinico/RNNewArchitectureApp/blob/ios/20220309/RUN.md)) file that can help you follow the commits with additional context.
+However, it is important to note that synthetic benchmarks like the ones used in these comparisons are not always representative of real-world scenarios. Therefore, we do not expect significant performance gains as a result of the migration to the New Architecture. Nonetheless, we believe in [the benefits of the New Architecture](https://reactnative.dev/architecture/fabric-renderer#motivations-and-benefits-of-the-new-renderer) and we are excited to bring it to our users.
 
-Please find a list of the branches below, with more information on which kind of setup they're addressing.
+## How we measured time to render for the benchmarks
 
-## Branches
+To measure how long an update takes, we need to have timestamps for two events: when the update is initiated and when the result is painted on the screen. 
 
-| Branch name | Description | Android | iOS |
-| --- | --- | --- | --- |
-| [`run/from-0.67-to-0.69`](https://github.com/react-native-community/RNNewArchitectureApp/tree/run/from-0.67-to-0.69) | A full migration from RN 0.67 to 0.69 | ✅ | ✅ |
-| [`run/from-0.67-to-0.70`](https://github.com/react-native-community/RNNewArchitectureApp/tree/run/from-0.67-to-0.70) | A full migration from RN 0.67 to 0.70 | ✅ | ✅ |
-| [`run/pure-cxx-module`](https://github.com/react-native-community/RNNewArchitectureApp/tree/run/pure-cxx-module) | A step-by-step guide on how to integrate a Pure C++ module in a React Native 0.71.0-RC.2 app. Thanks to [@christophpurrer](https://github.com/christophpurrer) for the guide | ✅ | ✅ |
-| [`view-flattening-ios`](https://github.com/react-native-community/RNNewArchitectureApp/tree/view-flattening-ios) | Examples of View Flattening on iOS | | ✅ |
+The update starts when the “Touch ended” event is triggered. “Touch ended” is triggered by the host platform on the UI thread when user lifts their finger off the screen. The event object passed to [`Pressable.onPress`](https://reactnative.dev/docs/pressable#onpress) has this information under the [timestamp](https://reactnative.dev/docs/pressevent#timestamp) key. We pass the timestamp together with a marker name to the native module `RTNTimeToRender` ** to store when the update was initiated. We can’t use the current time in JavaScript because the touch event happened earlier on UI thread.
 
-## Sample Run
+The update is finished when the results are painted on the screen. React Native does not provide a timestamp for when the results are painted on the screen out of the box. We will have to write a small native component that will do it for us. The native component has “marker name” as its prop. Using host platform APIs, we can precisely capture when the component was painted. Now we subtract the timestamp of when the update was initiated, stored in `RTNTimeToRender`*,* and we know how long it took to paint the result.
 
-A sample run will have commits marked as `[TurboModule]` or `[Fabric]` to clarify which aspect of the New Architecture is involved.
-For example, for the [`run/android/20220202`](https://github.com/cortinico/RNNewArchitectureApp/commits/run/android/20220202) branch will look like the following:
+![Render diagram](./images/render-diagram-light.png#gh-light-mode-only)
+![Render diagram](./images/render-diagram-dark.png#gh-light-mode-only)
 
-* [582a8a7](https://github.com/cortinico/RNNewArchitectureApp/commit/582a8a7) `[Fabric] Use the new Fabric custom component`
-* [adeee8b](https://github.com/cortinico/RNNewArchitectureApp/commit/adeee8b) `[Fabric] Register the MainComponentsRegistry`
-* [5e7d88f](https://github.com/cortinico/RNNewArchitectureApp/commit/5e7d88f) `[Fabric] Add a MainComponentsRegistry for the application`
-* [8afa19e](https://github.com/cortinico/RNNewArchitectureApp/commit/8afa19e) `[Fabric] Add a React Package that will load the ViewManager`
-* [c893370](https://github.com/cortinico/RNNewArchitectureApp/commit/c893370) `[Fabric] Create the corresponding ViewManager`
-* [32885f5](https://github.com/cortinico/RNNewArchitectureApp/commit/32885f5) `[Fabric] Create a custom component spec file`
-* [5408f18](https://github.com/cortinico/RNNewArchitectureApp/commit/5408f18) `[Fabric] call setIsFabric(true) in the MainActivity`
-* [20a8378](https://github.com/cortinico/RNNewArchitectureApp/commit/20a8378) `[Fabric] Provide the JSI Module Package`
-* [cf1378e](https://github.com/cortinico/RNNewArchitectureApp/commit/cf1378e) `[TurboModule] Let's try to use this TurboModule`
-* [a80cea1](https://github.com/cortinico/RNNewArchitectureApp/commit/a80cea1) `[TurboModule] Enable TurboModule system in the Android App`
-* [d8884c2](https://github.com/cortinico/RNNewArchitectureApp/commit/d8884c2) `[TurboModule] Add the C++ implementation for MainApplicationTurboModuleManagerDelegate`
-* [f6d2e81](https://github.com/cortinico/RNNewArchitectureApp/commit/f6d2e81) `[TurboModule] Register a new TurboModulePackage`
-* [7ae59dd](https://github.com/cortinico/RNNewArchitectureApp/commit/7ae59dd) `[TurboModule] Install the ReactPackageTurboModuleManagerDelegateBuilder`
-* [4dfcfa6](https://github.com/cortinico/RNNewArchitectureApp/commit/4dfcfa6) `[TurboModule] Setup the NDK Build for the Android app`
-* [a0cf888](https://github.com/cortinico/RNNewArchitectureApp/commit/a0cf888) `[TurboModule] Implement the generated native spec interface`
-* [ba3f2a4](https://github.com/cortinico/RNNewArchitectureApp/commit/ba3f2a4) `[TurboModule] Configure the codegen with libraryname and Java package`
-* [7da902f](https://github.com/cortinico/RNNewArchitectureApp/commit/7da902f) `[TurboModule] Add a NativeModule Spec file`
-* [cb0eceb](https://github.com/cortinico/RNNewArchitectureApp/commit/cb0eceb) `Setup the React Gradle Plugin`
-* [66ca29b](https://github.com/cortinico/RNNewArchitectureApp/commit/66ca29b) `Build React Native from Source`
-* [be102a1](https://github.com/cortinico/RNNewArchitectureApp/commit/be102a1) `Enable Hermes`
-* [4357af9](https://github.com/cortinico/RNNewArchitectureApp/commit/4357af9) `Bump React Native to a nightly version`
-* [a3866a1](https://github.com/cortinico/RNNewArchitectureApp/commit/a3866a1) `Result of npx react-native init`
+## Results
 
-## Older Branches
+Each value presented here is an average of five measurements. The measurements were collected on physical devices running React Native 0.72.0-RC.1. It's important to note that these are synthetic benchmarks and may not reflect real-world usage of React Native. It's possible that migrating to the New Architecture may not result in performance improvements for your specific app. 
 
-Here we collect older branches that are working, but no longer relevant.
+### Physical Device: Google Pixel 4
 
-| Branch name | Description | Android | iOS |
-| --- | --- | --- | --- |
-| [`run/android/0.68.0-rc2`](https://github.com/cortinico/RNNewArchitectureApp/commits/run/android/0.68.0-rc2) | A run from an empty project on RN 0.68.0-rc2 using the New Architecture template | ✅ | |
-| [`run/android/20220202`](https://github.com/cortinico/RNNewArchitectureApp/commits/run/android/20220202) | A run from an empty project on RN 0.67.2, migrated to run on a RN nightly version `0.0.0-20211205-2008-583471bc4`. Here you can see all the step-by-step migration needed for an app coming from RN 0.67 | ✅ | |
-| [`run/android/0.68.0-rc3`](https://github.com/cortinico/RNNewArchitectureApp/commits/run/android/0.68.0-rc3) | A run from an empty project on RN 0.68.0-rc3 using the New Architecture template | ✅ | |
-| [`ios/20220309`](https://github.com/cortinico/RNNewArchitectureApp/commits/ios/20220309) | A run from an empty project starting from 0.67.3 to an app with a Turbomodule and a Fabric component | | ✅ |
-| [`run/from-0.67-to-0.68`](https://github.com/react-native-community/RNNewArchitectureApp/tree/run/from-0.67-to-0.68) | A full migration from RN 0.67 to 0.68 | ✅ | ✅ |
-| [`run/ios/0.68.0-rc.4-typescript`](https://github.com/react-native-community/RNNewArchitectureApp/tree/run/ios/0.68.0-rc.4-typescript) | A migration from RN 0.67 to RN 0.68 with typescript suppport for iOS | | ✅ |
-| [`run/android/0.68.0-rc.4-typescript`](https://github.com/react-native-community/RNNewArchitectureApp/tree/run/android/0.68.0-rc.4-typescript) | A migration from RN 0.67 to RN 0.68 with typescript suppport for Android | ✅ | |
+|Scenario	|Old Architecture	|New Architecture	|Difference	|
+|---	|---	|---	|---	|
+|1500 <View />	|282ms	|258ms	|New Architecture is ~8% faster	|
+|5000 <View />	|1088ms	|1045ms	|New Architecture is ~4% faster	|
+|1500 <Text />	|512ms	|505ms	|New Architecture is ~1% faster	|
+|5000 <Text />	|2156ms	|2089ms	|New Architecture is ~3% faster	|
+|1500 <Image />	|406ms	|404ms	|New Architecture is neutral with Old Architecture	|
+|5000 <Image />	|1414ms	|1370ms	|New Architecture is ~3% faster	|
+
+### Physical Device: iPhone 12 Pro
+
+|Scenario	|Old Architecture	|New Architecture	|Difference	|
+|---	|---	|---	|---	|
+|1500 <View />	|137ms	|117ms	|New Architecture is ~15% faster	|
+|5000 <View />	|435ms	|266ms	|New Architecture is ~39% faster	|
+|1500 <Text />	|324ms	|284ms	|New Architecture is ~13% faster	|
+|5000 <Text />	|1009ms	|808ms	|New Architecture is ~20% faster	|
+|1500 <Image />	|212ms	|172ms	|New Architecture is ~19% faster	|
+|5000 <Image />	|673ms	|451ms	|New Architecture is ~33% faster	|
+
+## Write your own performance scenario
+
+If you're interested in comparing the performance of your own components between the old and New Architectures, you can easily do so by heading to App.tsx. Simply add your own code, compile the app with optimisations, and run your tests. The app will display the time it took to render your components. You can switch between the old and New Architectures using the buttons at the bottom. Happy testing!
+
+|![Exampel App 1](./images/example-app-1.jpg)|![Exampel App 2](./images/example-app-2.jpg)|
+
+## Performance gaps
+
+We discovered three performance problems in the New Architecture. One affecting both Android and iOS. One that is specific to Android and and one that is specific to iOS. These issues have been fixed in the 0.72.0-RC.1 release candidate.
+
+The biggest deficit was caused by the missing `NDEBUG` compiler flag in optimized builds. The `NDEBUG` compiler flag is used to disable debugging features in C++ programs. Core of the New Architecture is written in C++, and without the `NDEBUG` flag in optimized builds, the code performs debug only checks. The fix for this issue ([Android](https://github.com/facebook/react-native/commit/8486e191a170d9eae4d1d628a7539dc9e3d13ea4), [iOS](https://github.com/facebook/react-native/commit/421df9ffd58092b1a2dec455a048edb6db1739de)) is available in the 0.72.0-RC.1. These checks are for debugging only and must be removed in optimized builds for optimal performance.
+
+Additionally, we discovered redundant work in our text rendering infrastructure on both platforms. 
+On iOS, we were creating `NSTextStorage` twice for every `<Text />` element: once to measure the size of the text for Yoga to layout other parts of the UI, and a second time to paint the text on the screen. `NSTextStorage` is expensive to create and can be cached. This issue has been [fixed](https://github.com/facebook/react-native/commit/d41e95fb1a75514a10434b9dc39ba14979faf8bd) and now rendering of 5,000 `<Text />` elements is 20% faster in the New Architecture. This is available in the 0.72.RC.1.
+
+On Android, we found that React Native was re-measuring the same text multiple times with the same constraints. Measuring text in Android is expensive because it requires transferring text data from C++ to Java through JNI, creating `Spannable` objects, and finally calculating the layout. This logic has been optimized in this [commit](https://github.com/facebook/react-native/commit/8c01b56f1209285e3687d6c259bc05a478225985). Additionally, we added a second layer of caching in Android to avoid recreating `Spannable` `Text` objects during rendering.
