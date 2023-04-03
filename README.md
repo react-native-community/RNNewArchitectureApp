@@ -45,13 +45,40 @@ Each value presented here is an average of five measurements. The measurements w
 
 ## Write your own performance scenario
 
-If you're interested in comparing the performance of your own components between the old and New Architectures, you can easily do so by heading to App.tsx. Simply add your own code, compile the app with optimisations, and run your tests. The app will display the time it took to render your components. You can switch between the old and New Architectures using the buttons at the bottom. Happy testing!
-
+If you're interested in comparing the performance of your own components between the old and New Architectures, go to [App.tsx](./App/App.tsx#L55), add your code and follow the instructions in [How to run the app](#how-to-run-the-app). When you run the app, it will display the time it took to render your components. You can switch between the old and New Architectures using the buttons at the bottom. Happy testing!
 
 <p float="left">
   <img src="./images/example-app-1.jpg" width="350" />
   <img src="./images/example-app-2.jpg" width="350" /> 
 </p>
+
+## How to run the app
+To build and run the benchmarks, please install the necessary dependencies. Please follow the instructions on [reactnative.dev](https://reactnative.dev/docs/next/environment-setup)
+
+<details>
+
+<summary>Instructions for iOS</summary>
+
+1. `git clone --branch new-architecture-benchmarks https://github.com/react-native-community/RNNewArchitectureApp`
+2. `cd RNNewArchitectureApp` 
+3. `yarn install`
+4. `cd ios`
+5. `bundle install && RCT_NEW_ARCH_ENABLED=1 bundle exec pod install` 
+6. `open MeasurePerformance.xcworkspace`
+7. Press CMD⌘+R to run the app in debug mode. Press CMD⌘+I to build the app with optimisations.
+</details>
+
+<details>
+
+<summary>Instructions for Android</summary>
+
+1. `git clone --branch new-architecture-benchmarks https://github.com/react-native-community/RNNewArchitectureApp`
+2. `cd RNNewArchitectureApp` 
+3. `yarn install`
+4. `yarn android` to build the app in debug mode.
+5. `./android/gradlew installAndroidRelease` to build the app with optimisations.
+</details>
+
 
 ## Performance gaps
 
