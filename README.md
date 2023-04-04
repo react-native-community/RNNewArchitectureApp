@@ -76,7 +76,7 @@ To build and run the benchmarks, please install the necessary dependencies. Plea
 2. `cd RNNewArchitectureApp` 
 3. `yarn install`
 4. `yarn android` to build the app in debug mode.
-5. `./android/gradlew installAndroidRelease` to build the app with optimisations.
+5. `cd android && ./gradlew installAndroidRelease` to build the app with optimisations.
 </details>
 
 
