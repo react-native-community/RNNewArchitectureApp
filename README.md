@@ -1,4 +1,4 @@
-## New Architecture Benchmarks
+# New Architecture Benchmarks
 
 Thanks to everyone who created benchmarks to compare the old and New Architectures. These benchmarks have helped us to identify [performance gaps](#performance-gaps) in the New Architecture. I want to reassure our users that the React Native team is fully committed to rolling out the New Architecture without introducing any regressions. 
 
@@ -62,11 +62,10 @@ To build and run the benchmarks, please install the necessary dependencies. Plea
 1. `git clone --branch new-architecture-benchmarks https://github.com/react-native-community/RNNewArchitectureApp`
 2. `cd RNNewArchitectureApp/App` 
 3. `yarn install`
-4. `cd ios`
-5. `bundle install && RCT_NEW_ARCH_ENABLED=1 bundle exec pod install` 
-6. `cd ..`
-7. `yarn ios --configuration Release` to build the app with optimisations.
-8. `yarn ios` to build the app in debug mode.
+4. `RCT_NEW_ARCH_ENABLED=1 npx pod-install` 
+5. `cd ios`
+6. Open MeasurePerformance.xcworkspace. Press `CMD + I` for optimised build, `CMD + R` for debug build.
+
 </details>
 
 <details>
@@ -83,11 +82,11 @@ To build and run the benchmarks, please install the necessary dependencies. Plea
 
 ## Performance gaps
 
-We discovered three performance problems in the New Architecture. One affecting both Android and iOS. One that is specific to Android and and one that is specific to iOS. These issues have been fixed in the 0.72.0-RC.1 release candidate.
+We discovered three performance problems in the New Architecture. One affecting both Android and iOS. One that is specific to Android and and one that is specific to iOS. These issues have been fixed in [0.72.0-RC.1](https://github.com/facebook/react-native/releases/tag/v0.72.0-rc.1) release candidate.
 
-The biggest deficit was caused by the missing `NDEBUG` compiler flag in optimized builds. The `NDEBUG` compiler flag is used to disable debugging features in C++ programs. Core of the New Architecture is written in C++, and without the `NDEBUG` flag in optimized builds, the code performs debug only checks. The fix for this issue ([Android](https://github.com/facebook/react-native/commit/8486e191a170d9eae4d1d628a7539dc9e3d13ea4), [iOS](https://github.com/facebook/react-native/commit/421df9ffd58092b1a2dec455a048edb6db1739de)) is available in the 0.72.0-RC.1. These checks are for debugging only and must be removed in optimized builds for optimal performance.
+The biggest deficit was caused by the missing `NDEBUG` compiler flag in optimized builds. The `NDEBUG` compiler flag is used to disable debugging features in C++ programs. Core of the New Architecture is written in C++, and without the `NDEBUG` flag in optimized builds, the code performs debug only checks. The fix for this issue ([Android](https://github.com/facebook/react-native/commit/8486e191a170d9eae4d1d628a7539dc9e3d13ea4), [iOS](https://github.com/facebook/react-native/commit/421df9ffd58092b1a2dec455a048edb6db1739de)) is available in [0.72.0-RC.1](https://github.com/facebook/react-native/releases/tag/v0.72.0-rc.1). These checks are for debugging only and must be removed in optimized builds for optimal performance.
 
 Additionally, we discovered redundant work in our text rendering infrastructure on both platforms. 
-On iOS, we were creating `NSTextStorage` twice for every `<Text />` element: once to measure the size of the text for Yoga to layout other parts of the UI, and a second time to paint the text on the screen. `NSTextStorage` is expensive to create and can be cached. This issue has been [fixed](https://github.com/facebook/react-native/commit/d41e95fb1a75514a10434b9dc39ba14979faf8bd) and now rendering of 5,000 `<Text />` elements is 20% faster in the New Architecture. This is available in the 0.72.RC.1.
+On iOS, we were creating `NSTextStorage` twice for every `<Text />` element: once to measure the size of the text for Yoga to layout other parts of the UI, and a second time to paint the text on the screen. `NSTextStorage` is expensive to create and can be cached. This issue has been [fixed](https://github.com/facebook/react-native/commit/d41e95fb1a75514a10434b9dc39ba14979faf8bd) and now rendering of 5,000 `<Text />` elements is 20% faster in the New Architecture.
 
 On Android, we found that React Native was re-measuring the same text multiple times with the same constraints. Measuring text in Android is expensive because it requires transferring text data from C++ to Java through JNI, creating `Spannable` objects, and finally calculating the layout. This logic has been optimized in this [commit](https://github.com/facebook/react-native/commit/8c01b56f1209285e3687d6c259bc05a478225985). Additionally, we added a second layer of caching in Android to avoid recreating `Spannable` `Text` objects during rendering.
