@@ -60,12 +60,13 @@ To build and run the benchmarks, please install the necessary dependencies. Plea
 <summary>Instructions for iOS</summary>
 
 1. `git clone --branch new-architecture-benchmarks https://github.com/react-native-community/RNNewArchitectureApp`
-2. `cd RNNewArchitectureApp` 
+2. `cd RNNewArchitectureApp/App` 
 3. `yarn install`
 4. `cd ios`
 5. `bundle install && RCT_NEW_ARCH_ENABLED=1 bundle exec pod install` 
-6. `open MeasurePerformance.xcworkspace`
-7. Press CMD⌘+R to run the app in debug mode. Press CMD⌘+I to build the app with optimisations.
+6. `cd ..`
+7. `yarn ios --configuration Release` to build the app with optimisations.
+8. `yarn ios` to build the app in debug mode.
 </details>
 
 <details>
@@ -73,10 +74,10 @@ To build and run the benchmarks, please install the necessary dependencies. Plea
 <summary>Instructions for Android</summary>
 
 1. `git clone --branch new-architecture-benchmarks https://github.com/react-native-community/RNNewArchitectureApp`
-2. `cd RNNewArchitectureApp` 
+2. `cd RNNewArchitectureApp/App` 
 3. `yarn install`
-4. `yarn android` to build the app in debug mode.
-5. `cd android && ./gradlew installAndroidRelease` to build the app with optimisations.
+4. `yarn android --mode release` to build the app with optimisations.
+5. `yarn android` to build the app in debug mode.
 </details>
 
 
