@@ -52,7 +52,7 @@ This branch contains all the step executed to:
 
 ### <a name="setup" />[[Setup] Run npx react-native init AwesomeApp --version 0.67.4](https://github.com/react-native-community/RNNewArchitectureApp/commit/2a0578c052b034d3ac230188e53c24c9a4126e00)
 
-1. `npx react-native init AwesomeApp --version 0.67.4`
+1. `npx react-native@0.67.4 init AwesomeApp --version 0.67.4`
 1. `cd AwesomeApp`
 1. `npx react-native start (in another terminal)`
 1. `npx react-native run-ios`
