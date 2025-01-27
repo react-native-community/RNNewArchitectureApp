@@ -30,7 +30,7 @@ class TimeToRenderView  : View {
         // do nothing
     }
 
-    override protected fun onDraw(canvas: Canvas?) {
+    override protected fun onDraw(canvas: Canvas) {
         if (getParent() != null && !_alreadyLogged) {
             _alreadyLogged = true
             val paintTime = MarkerStore.mainStore.endMarker(_markerName!!)

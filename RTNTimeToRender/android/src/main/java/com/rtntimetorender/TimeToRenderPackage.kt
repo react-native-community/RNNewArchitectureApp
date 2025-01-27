@@ -13,7 +13,7 @@ class TimeToRenderPackage : TurboReactPackage() {
     override fun createViewManagers(reactContext: ReactApplicationContext): List<ViewManager<*, *>> =
             listOf(TimeToRenderViewManager(reactContext))
 
-    override fun getModule(name: String?, reactContext: ReactApplicationContext): NativeModule? =
+    override fun getModule(name: String, reactContext: ReactApplicationContext): NativeModule? =
             if (name == TimeToRenderModule.NAME) {
                 TimeToRenderModule(reactContext)
             } else {
